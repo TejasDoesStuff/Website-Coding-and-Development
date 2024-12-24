@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Light Mode */
+    --text: #000000; /* 21:1 */
+    --background: #ffffff; /* 21:1 */
+    --primary: #33b7e8; /* 9.19:1 */
+    --secondary: #f6e63a; /* 16.38:1 */
+    --accent: #ff7a6b; /* 8.29:1 */
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Dark Mode */
+        --text: #fff1d1; /* 16.88:1 */
+        --background: #011637; /* 16.88:1 */
+        --primary: #2ec7ff; /* 9.72:1 */
+        --secondary: #FFED27; /* 15.66:1 */
+        --accent: #fb8f83; /* 8.48:1 */
+        font-family: "Inter", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+      }
+}
