@@ -18,8 +18,8 @@
 @media (prefers-color-scheme: dark) {
     :root {
         /* Dark Mode */
-        --text: #fff1d1; /* 16.88:1 */
-        --background: #011637; /* 16.88:1 */
+        --text: #ffffff; /* 16.88:1 */
+        --background: #000000; /* 16.88:1 */
         --primary: #2ec7ff; /* 9.72:1 */
         --secondary: #FFED27; /* 15.66:1 */
         --accent: #fb8f83; /* 8.48:1 */
