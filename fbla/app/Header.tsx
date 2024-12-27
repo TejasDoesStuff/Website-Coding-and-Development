@@ -6,9 +6,9 @@ const Header = () => {
         <h1 className = "text-text font-bold absolute max-sm:pb-8 max-sm:relative">Conext</h1>
         <div className = "flex-grow"></div>
         <div className = "flex flex-row items-center gap-16 w-full mx-auto justify-center [&>*]:w-16 text-md">
-            <div className = "text-text">Home</div>
-            <div className = "text-text">Browse</div>
-            <div className = "text-text">Dashboard</div>
+            <div className = "text-text"><a href="/home">Home</a></div>
+            <div className = "text-text"><a href="/browse">Browse</a></div>
+            <div className = "text-text"><a href="/dashboard">Dashboard</a></div>
         </div>
         <div className = "flex-grow"></div>
         <div className = "rounded-full bg-text aspect-square h-[5%] absolute right-5"></div>

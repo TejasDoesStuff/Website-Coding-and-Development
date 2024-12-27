@@ -3,7 +3,9 @@ import Row from './Hand'
 
 const Deck = () => {
   return (
-    <div className = "w-screen h-screen bg-background gap-4">
+    <div className = "w-screen h-auto bg-background ">
+        <Row />
+        <Row />
         <Row />
     </div>
   )
