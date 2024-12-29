@@ -5,10 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f47beed1-e601-4e9c-bad2-c9ac560b796d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/fbla/app/classes/Posting.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fbla/app/classes/User.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/fbla/app/components/JobCard.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbla/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/page.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/fbla/app/classes/Post.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fbla/app/classes/Posting.ts" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,15 +24,54 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="2qfz370sC1EgsD7D7zsHIP5g1FG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "anirudh",
+    "last_opened_file_path": "C:/Users/olafm/OneDrive/Documents/code/stock-tracker",
+    "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "ts.external.directory.path": "C:\\Users\\olafm\\OneDrive\\Documents\\code\\Website-Programming-and-Development\\fbla\\node_modules\\typescript\\lib"
+    "nodejs_package_manager_path": "npm",
+    "ts.external.directory.path": "C:\\Users\\olafm\\OneDrive\\Documents\\code\\Website-Programming-and-Development\\fbla\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-WS-243.21565.180" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="f47beed1-e601-4e9c-bad2-c9ac560b796d" name="Changes" comment="" />
+      <created>1735068219500</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1735068219500</updated>
+      <workItem from="1735068221351" duration="2187000" />
+      <workItem from="1735089868165" duration="3297000" />
+      <workItem from="1735247207336" duration="2515000" />
+      <workItem from="1735329353794" duration="668000" />
+      <workItem from="1735368440471" duration="31000" />
+    </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
