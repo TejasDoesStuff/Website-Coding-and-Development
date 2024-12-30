@@ -5,7 +5,8 @@
 
 :root {
   /* Light Mode */
-    --text: #000000; /* 21:1 */ /* 21:1 */
+    --text: #000000; /* 21:1 */ 
+    --background: #FFFFFF; /* 21:1 */
     --primary: #33b7e8; /* 9.19:1 */
     --secondary: #f6e63a; /* 16.38:1 */
     --accent: #ff7a6b; /* 8.29:1 */
@@ -15,16 +16,17 @@
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        /* Dark Mode */
-        --text: #ffffff; /* 16.88:1 */ /* 16.88:1 */
-        --primary: #2ec7ff; /* 9.72:1 */
-        --secondary: #FFED27; /* 15.66:1 */
-        --accent: #fb8f83; /* 8.48:1 */
-        font-family: "Inter", serif;
-        font-optical-sizing: auto;
-        font-style: normal;
-      }
+  :root {
+      /* Dark Mode */
+      --text: #ffffff; /* 16.88:1 */ 
+      --background: #000000; /* 16.88:1 */
+      --primary: #2ec7ff; /* 9.72:1 */
+      --secondary: #FFED27; /* 15.66:1 */
+      --accent: #fb8f83; /* 8.48:1 */
+      font-family: "Inter", serif;
+      font-optical-sizing: auto;
+      font-style: normal;
+    }
 }
 
 @layer base {
