@@ -7,9 +7,20 @@ import {
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { MessageSquareMore, Star } from 'lucide-react'
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
 
 interface Post {
     jobName: string
+    jobDescription: string
     companyName: string
     image: string
     hours: string
@@ -22,7 +33,25 @@ const JobCard = ({post}: {post: Post}) => {
         <div>
             <Card>
                 <CardHeader>
-                    <h1 className='text-2xl'>{post.jobName}</h1>
+                    <Drawer>
+                        <DrawerTrigger className='text-left hover:underline'>
+                            <h1 className='text-2xl'>{post.jobName}</h1>
+                        </DrawerTrigger>
+                        <DrawerContent className='px-40'>
+                            <DrawerHeader>
+                                <DrawerTitle className='text-3xl'>{post.jobName}</DrawerTitle>
+                                <p className="text-xl">{post.companyName}</p>
+                                <DrawerDescription className='text-lg'>{post.jobDescription}</DrawerDescription>
+                            </DrawerHeader>
+                            <DrawerFooter>
+                                <Button>Submit</Button>
+                                <DrawerClose asChild>
+                                    <Button variant="outline">Cancel</Button>
+                                </DrawerClose>
+                            </DrawerFooter>
+                        </DrawerContent>
+                    </Drawer>
+                    
                     <h1>{post.companyName}</h1>
                 </CardHeader>
                 <CardContent className='p-0'>

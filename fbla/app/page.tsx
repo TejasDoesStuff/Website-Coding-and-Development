@@ -15,6 +15,7 @@ export default function Home() {
                         hours: "24 hrs/day",
                         pay: "Free",
                         duration: "Forever",
+                        jobDescription: "Eat the balls of lebron james for free and do even more. the goat has turned 40 years old"
                     }}
                 />
             </div>
