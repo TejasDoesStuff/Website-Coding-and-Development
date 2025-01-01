@@ -17,15 +17,26 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+    CarouselNext,
+    CarouselPrevious,
+  } from "@/components/ui/carousel"
+  
 
 interface Post {
     jobName: string
     jobDescription: string
     companyName: string
-    image: string
+    thumbnailImage: string
+    expandedImages: Array<string>
     hours: string
     pay: string
     duration: string
+    // requirements: Array<string>
+    // tags: Array<string>
 }
 
 const JobCard = ({post}: {post: Post}) => {
@@ -39,12 +50,32 @@ const JobCard = ({post}: {post: Post}) => {
                         </DrawerTrigger>
                         <DrawerContent className='px-40'>
                             <DrawerHeader>
-                                <DrawerTitle className='text-3xl'>{post.jobName}</DrawerTitle>
-                                <p className="text-xl">{post.companyName}</p>
-                                <DrawerDescription className='text-lg'>{post.jobDescription}</DrawerDescription>
+                                <div className='grid grid-cols-2 gap-6'>
+                                    <div>
+                                        <DrawerTitle className='text-3xl'>{post.jobName}</DrawerTitle>
+                                        <br />
+                                        <p className="text-xl">{post.companyName}</p>
+                                        <br />
+                                        <DrawerDescription className='text-lg'>{post.jobDescription}</DrawerDescription>
+                                    </div>
+                                    <Carousel>
+                                    <CarouselContent>
+                                        <CarouselItem>
+                                            <Image src={post.expandedImages[0]} alt={post.jobName} width={1000} height={500} className='h-full overflow-hidden' />
+                                        </CarouselItem>
+                                        <CarouselItem>
+                                            <Image src={post.expandedImages[1]} alt={post.jobName} width={500} height={500} className='h-full overflow-hidden' />
+                                        </CarouselItem>
+                                        <CarouselItem>
+                                            <Image src={post.expandedImages[2]} alt={post.jobName} width={500} height={500} className='h-full overflow-hidden' />
+                                        </CarouselItem>
+                                    </CarouselContent>
+                                    <CarouselPrevious />
+                                    <CarouselNext />
+                                    </Carousel>
+                                </div>
                             </DrawerHeader>
                             <DrawerFooter>
-                                <Button>Submit</Button>
                                 <DrawerClose asChild>
                                     <Button variant="outline">Cancel</Button>
                                 </DrawerClose>
@@ -55,7 +86,7 @@ const JobCard = ({post}: {post: Post}) => {
                     <h1>{post.companyName}</h1>
                 </CardHeader>
                 <CardContent className='p-0'>
-                    <Image src={post.image} alt={post.jobName} width={500} height={500} className='w-full' />
+                    <Image src={post.thumbnailImage} alt={post.jobName} width={500} height={500} className='w-full' />
                     <div className="flex items-center justify-between p-5">
                         <div className="flex items-center">
                             <div>
