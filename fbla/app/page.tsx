@@ -8,14 +8,14 @@ export default function Home() {
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <JobCard
                     post={{
-                        jobName: "Ball Eater",
-                        companyName: "NBA",
+                        jobName: "Land Surveyor",
+                        companyName: "Puget Sound",
                         image:
-                            "https://cdn.discordapp.com/attachments/1232371268762865775/1323215484887371787/IMG_1541.png?ex=6773b3f3&is=67726273&hm=727abffcd6b559d25ad8afc80d7b596893902f6a46c05c4ee9a4940a9e8077ea&",
-                        hours: "24 hrs/day",
-                        pay: "Free",
-                        duration: "Forever",
-                        jobDescription: "Eat the balls of lebron james for free and do even more. the goat has turned 40 years old"
+                            "/static/Land Surveyor.jpeg",
+                        hours: "40 hrs/week",
+                        pay: "$45/hr",
+                        duration: "6 months",
+                        jobDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut vel pellentesque enim, id facilisis tellus. Donec a pharetra tortor. Sed varius, nunc quis consectetur convallis, dui lacus accumsan urna, vel semper quam urna at sem. Nulla lacinia nisl at dui scelerisque rhoncus. In nec sapien id nisl aliquam vehicula eu vel augue. Etiam interdum, arcu nec mattis commodo, nisl sapien lacinia augue, sed commodo mi erat quis magna. Quisque lectus nulla, varius elementum quam et, luctus lobortis arcu. Cras a vulputate purus. Sed ornare commodo lacus condimentum tincidunt. Pellentesque erat erat, ullamcorper sit amet sagittis non, egestas consectetur lacus. Integer"
                     }}
                 />
             </div>
