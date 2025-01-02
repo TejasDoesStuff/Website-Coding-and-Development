@@ -1,5 +1,7 @@
 import JobCard from "./components/JobCard";
+import JobPage from "./components/JobPage";
 import Header from "./Header";
+
 
 // interface Review {
 //     user: string
@@ -18,7 +20,7 @@ const reviews = [
 
 export default function Home() {
     return (
-        <div className="w-screen h-screen p-5">
+        <div className="overflow-x-hidden w-screen h-screen p-5">
             <Header />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 <JobCard
@@ -32,7 +34,7 @@ export default function Home() {
                         hours: "40 hrs/week",
                         pay: "$45/hr",
                         duration: "6 months",
-                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porta arcu sed elit varius, non tempus urna eleifend. Aliquam id mattis massa. Phasellus lobortis ac dui nec congue. Aliquam eget augue dui. Etiam euismod consequat tortor, at venenatis nisl luctus et. Ut quis nibh ut orci ornare convallis. Nam et augue augue. Pellentesque augue neque, vehicula a nisl non, consequat consequat neque. Donec finibus enim eget lobortis cursus. Integer venenatis, risus at condimentum rhoncus, neque mi pla",
+                        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porta arcu sed elit varius, non tempus urna eleifend. Aliquam id mattis massa. Phasellus lobortis ac dui nec congue. Aliquam eget augue dui. Etiam euismod consequat tortor, at venenatis nisl luctus et. Ut quis nibh ut orci ornare convallis. Nam et augue augue. Pellentesque augue neque, vehicula a nisl non, consequat consequat neque. Donec finibus enim eget lobortis cursus. Integer venenatis, risus at condimentum rhoncus, neque mi pla Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin porta arcu sed elit varius, non tempus urna eleifend. Aliquam id mattis massa. Phasellus lobortis ac dui nec congue. Aliquam eget augue dui. Etiam euismod consequat tortor, at venenatis nisl luctus et. Ut quis nibh ut orci ornare convallis. Nam et augue augue. Pellentesque augue neque, vehicula a nisl non, consequat consequat neque. Donec finibus enim eget lobortis cursus. Integer venenatis, risus at condimentum rhoncus, neque mi pla ",
                         requirements: ["Must be at least 25 years old", "Bachelor's Degree in Civil Engineering"],
                         tags: ["strong", "big", "physical", "rough"],
                         reviews: reviews

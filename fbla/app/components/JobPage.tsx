@@ -1,7 +1,4 @@
-"use client"
-
 import React from 'react'
-import { useState } from 'react'
 import {
     Card,
     CardTitle,
@@ -10,10 +7,8 @@ import {
 } from "@/components/ui/card"
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { MessageSquareMore, Star } from 'lucide-react'
+import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
-import JobPage from './JobPage'
-
 
 interface Review {
     user: string
@@ -35,7 +30,7 @@ interface Post {
     reviews: Array<Review>
 }
 
-const JobCard = ({post}: {post: Post}) => {
+const JobPage = ({post}: {post: Post}) => {
     const images = []
     for (let i = 0; i < post.expandedImages.length; i++) {
         images.push(
@@ -77,47 +72,44 @@ const JobCard = ({post}: {post: Post}) => {
             </Card>   
         )
     }
-    const [isOpen, setIsOpen] = useState(false);
 
-    // Function to toggle the component
-    const handleToggle = () => {
-      setIsOpen((prev) => !prev);
-    };
     return (
-        <div>      
-            {isOpen && (
-            <JobPage post={post} />
-            )}
-
-            <Card>
-                <CardHeader>
-                    <Button variant="link" className='text-2xl hover:underline text-left' onClick={handleToggle}>{post.title}</Button>
-                    <h1>{post.company}</h1>
-                </CardHeader>
-                <CardContent className='p-0'>
-                    <Image src={post.thumbnailImage} alt={post.title} width={500} height={500} className='w-full' />
-                    <div className="flex items-center justify-between p-5">
-                        <div className="flex items-center">
-                            <div>
-                                <p>{post.hours}</p>
-                                <p>{post.pay}</p>
-                                <p>{post.duration}</p>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-1">
-                            <Button variant="outline" size="icon">
-                                <MessageSquareMore />
-                            </Button>
-                            <Button variant="outline" size="icon">
-                                <Star />
-                            </Button>
-                        </div>
+        <div>
+            <div className='px-48 grid grid-cols-2 gap-16 overflow-y-auto h-full p-4'>
+                <div>
+                    <h1 className='text-3xl'>{post.title}</h1>
+                    <div className="pt-2">
+                        {tags}
                     </div>
-                </CardContent>
-        </Card>
+                    <br />
+                    <p className="text-xl">{post.company}</p>
+                    <br />
+                    <h1 className='text-lg'>{post.description}</h1>
+                    <br />
+                    <h1 className='text-xl'>Requirements:</h1>
+                    <ul>
+                        {requirements}
+                    </ul>
+                    <br />
+                    <Button className='w-full' variant="outline">Apply</Button> 
+                </div>
+                <div>
+                    <Marquee speed={100} pauseOnHover={true} className='rounded-3xl'>{images}</Marquee>                             
+                </div>
+
+            </div>
+            <br />
+            <div className='px-48'>
+                <h1 className='text-xl'>Reviews:</h1>
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    {reviews}     
+                </div>
+                <br />
+                <Button className='w-full mt-1' variant="destructive">Back</Button>
+            </div>
 
         </div>
     )
 }
 
-export default JobCard
+export default JobPage
