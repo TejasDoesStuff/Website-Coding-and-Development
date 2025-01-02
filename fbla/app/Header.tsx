@@ -2,7 +2,7 @@ import React from 'react'
 
 const Header = () => {
   return (
-    <div className = "w-screen min-h-24 bg-background p-5 text-xl flex items-center max-sm:flex-col">
+    <div className = "w-screen min-h-24 bg-background p-5 text-xl flex items-center max-sm:flex-col border-b border-gray-600 dropshadow-2xl">
         <h1 className = "text-text font-bold absolute max-sm:pb-8 max-sm:relative">Conext</h1>
         <div className = "flex-grow"></div>
         <div className = "flex flex-row items-center gap-16 w-full mx-auto justify-center [&>*]:w-16 text-md">
