@@ -1,7 +1,4 @@
-"use client"
-
 import React from 'react'
-import { useState } from 'react'
 import {
     Card,
     CardTitle,
@@ -12,7 +9,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { MessageSquareMore, Star } from 'lucide-react'
 import { Badge } from "@/components/ui/badge"
-import JobPage from './JobPage'
+import Link from 'next/link'
 
 
 interface Review {
@@ -22,6 +19,7 @@ interface Review {
 }
 
 interface Post {
+    id: string
     title: string
     description: string
     company: string
@@ -36,6 +34,7 @@ interface Post {
 }
 
 const JobCard = ({post}: {post: Post}) => {
+    const link = `/job?id=${post.id}`
     const images = []
     for (let i = 0; i < post.expandedImages.length; i++) {
         images.push(
@@ -77,21 +76,16 @@ const JobCard = ({post}: {post: Post}) => {
             </Card>   
         )
     }
-    const [isOpen, setIsOpen] = useState(false);
-
-    // Function to toggle the component
-    const handleToggle = () => {
-      setIsOpen((prev) => !prev);
-    };
     return (
-        <div>      
-            {isOpen && (
-            <JobPage post={post} />
-            )}
-
+        <div> 
             <Card>
-                <CardHeader>
-                    <Button variant="link" className='text-2xl hover:underline text-left' onClick={handleToggle}>{post.title}</Button>
+                <CardHeader className='text-left'>
+                    {/* <Button variant="link" >{post.title}</Button> */}
+                    {/* <Link className={buttonVariants({ variant: "link" })}>{post.title}</Link> */}
+                    {/* <Button className='text-left'> */}
+                    <Link href={link} className='text-2xl hover:underline text-left'>{post.title}</Link>
+                    {/* </Button> */}
+
                     <h1>{post.company}</h1>
                 </CardHeader>
                 <CardContent className='p-0'>

@@ -1,3 +1,5 @@
+"use client"
+
 import React from 'react'
 import {
     Card,
@@ -9,6 +11,10 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
+import { useSearchParams } from 'next/navigation';
+import posts from "../../posts.json"
+import Header from '../Header'
+import Link from 'next/link'
 
 interface Review {
     user: string
@@ -23,18 +29,27 @@ interface Post {
     thumbnailImage: string
     expandedImages: Array<string>
     hours: string
-    pay: string
+    pay: string 
     duration: string
     requirements: Array<string>
     tags: Array<string>
     reviews: Array<Review>
 }
 
-const JobPage = ({post}: {post: Post}) => {
+const JobPage = () => {
+    const searchParams = useSearchParams();
+    const id: string = searchParams.get('id')
+
+    if (typeof id !== 'string') {
+        return <div>Loading...</div>; // or handle error
+    }
+
+    const post: Post = posts[id]
+
     const images = []
     for (let i = 0; i < post.expandedImages.length; i++) {
         images.push(
-            <Image key={i} src={post.expandedImages[i]} alt={post.title} width={500} height={500} className='h-full overflow-hidden px-3' />
+            <Image key={i} src={post.expandedImages[i]} alt={post.title} width={500} height={500} className='object-cover h-[500px] overflow-hidden px-3' />
         )
     }
 
@@ -74,7 +89,8 @@ const JobPage = ({post}: {post: Post}) => {
     }
 
     return (
-        <div>
+        <div className='p-5 overflow-x-hidden'>
+            <Header />
             <div className='px-48 grid grid-cols-2 gap-16 overflow-y-auto h-full p-4'>
                 <div>
                     <h1 className='text-3xl'>{post.title}</h1>
@@ -105,7 +121,9 @@ const JobPage = ({post}: {post: Post}) => {
                     {reviews}     
                 </div>
                 <br />
-                <Button className='w-full mt-1' variant="destructive">Back</Button>
+                <Button className='w-full mt-1' variant="destructive" asChild>
+                    <Link href="/">Back</Link>
+                </Button>
             </div>
 
         </div>
