@@ -16,13 +16,16 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-export default function Options() {
+export default function OptionsUser() {
   const formSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
     }),
-    password: z.string().min(2, {
+    password: z.string().min(6, {
       message: "Password must be at least 6 characters.",
+    }),
+    email: z.string().email({
+      message: "Email must be valid",
     }),
   });
 
@@ -30,6 +33,8 @@ export default function Options() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       username: "",
+      password: "",
+      email: "",
     },
   });
 
@@ -47,7 +52,7 @@ export default function Options() {
       </div>
       <div className="m-16 flex flex-col" id="profile">
         <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6">Profile</h3>
-        <div className="m-6 text-md">
+        <div className="m-6 text-md w-1/2">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
               <FormField
