@@ -3,11 +3,15 @@ import Card from "./Card"
 
 const Hand = () => {
     return (
-        <div className="w-full h-auto flex items-center p-12 flex-wrap">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 justify-items-center mx-16">
             <Card />
             <Card />
             <Card />
             <Card />
+            <Card />
+            <Card />
+            <Card />
+
         </div>
     )
 }

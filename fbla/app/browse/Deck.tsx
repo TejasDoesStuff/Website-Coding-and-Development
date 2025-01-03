@@ -1,12 +1,10 @@
 import React from 'react'
-import Row from './Hand'
+import Hand from './Hand'
 
 const Deck = () => {
     return (
-        <div className = "w-screen h-auto bg-background ">
-            <Row />
-            <Row />
-            <Row />
+        <div className = "w-screen h-auto bg-background flex justify-center items-center">
+                <Hand />
         </div>
     )
 }
