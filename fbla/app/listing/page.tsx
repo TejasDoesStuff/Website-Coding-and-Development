@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Card,
     CardTitle,
@@ -12,7 +12,6 @@ import { Button } from '@/components/ui/button'
 import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
 import { useSearchParams } from 'next/navigation';
-import posts from "../../posts.json"
 import Header from '../Header'
 import Link from 'next/link'
 
@@ -40,56 +39,75 @@ const JobPage = () => {
     const searchParams = useSearchParams();
     const id: string = searchParams.get('id')
 
-    if (typeof id !== 'string') {
-        return <div>Loading...</div>; // or handle error
-    }
+    const [post, setPost] = useState<Post | null>(null);
+    const [loading, setLoading] = useState(true);
 
-    const post: Post = posts[id]
+    useEffect(() => {
+        const fetchPost = async () => {
+            try {
+                const response = await fetch(`https://fbla.ineshd.com/listings`);
+                const posts = await response.json();
 
-    const images = []
-    for (let i = 0; i < post.expandedImages.length; i++) {
-        images.push(
-            <Image key={i} src={post.expandedImages[i]} alt={post.title} width={500} height={500} className='object-cover h-[500px] overflow-hidden px-3' />
-        )
-    }
+                // Assuming the API response contains posts as a dictionary or object with an id
+                if (id && posts[id]) {
+                    setPost(posts[id]);
+                } else {
+                    throw new Error('Post not found');
+                }
+            } catch (error) {
+                console.error("Failed to fetch post data:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
 
-    const requirements = []
-    for (let i = 0; i < post.requirements.length; i++) {
-        requirements.push(
-            <li key={i}>• {post.requirements[i]}</li>
-        )
-    }
-
-    const tags = []
-    for (let i = 0; i < post.tags.length; i++) {
-        tags.push(
-            <Badge key={i} variant="secondary" className='text-md mx-0.5'>{post.tags[i]}</Badge>
-        )
-    }
-
-    const reviews = []
-    for (let i = 0; i < post.reviews.length; i++) {
-        let stars = "⭐ "
-        for (let j = post.reviews[i].stars; j > 1; j--) {
-            stars += "⭐ "
+        if (id) {
+            fetchPost();
         }
-        reviews.push(
-            <Card key={i}>
+    }, [id]);
+
+    if (loading) {
+        return <div>Loading...</div>;
+    }
+
+    if (!post) {
+        return <div>Post not found</div>; // Handle error if post is not found
+    }
+
+    const images = post.expandedImages.map((image, index) => (
+        <Image key={index} src={image} alt={post.title} width={500} height={500} className='object-cover h-[500px] overflow-hidden px-3' />
+    ));
+
+    const requirements = post.requirements.map((req, index) => (
+        <li key={index}>• {req}</li>
+    ));
+
+    const tags = post.tags.map((tag, index) => (
+        <Badge key={index} variant="secondary" className='text-md mx-0.5'>{tag}</Badge>
+    ));
+
+    const reviews = post.reviews.map((review, index) => {
+        let stars = "⭐ ";
+        for (let i = 1; i < review.stars; i++) {
+            stars += "⭐ ";
+        }
+        return (
+            <Card key={index}>
                 <CardHeader>
                     <div className='flex items-center justify-between'>
-                        <CardTitle>{post.reviews[i].user}</CardTitle>
+                        <CardTitle>{review.user}</CardTitle>
                         <p>{stars}</p>
                     </div>
                 </CardHeader>
                 <CardContent>
-                    <p>{post.reviews[i].text}</p>
+                    <p>{review.text}</p>
                 </CardContent>
-            </Card>   
-        )
-    }
+            </Card>
+        );
+    });
 
     return (
-        <div className='p-5 overflow-x-hidden'>
+        <div className='overflow-x-hidden'>
             <Header />
             <div className='px-48 grid grid-cols-2 gap-16 overflow-y-auto h-full p-4'>
                 <div>
@@ -107,27 +125,25 @@ const JobPage = () => {
                         {requirements}
                     </ul>
                     <br />
-                    <Button className='w-full' variant="outline">Apply</Button> 
+                    <Button className='w-full' variant="outline">Apply</Button>
                 </div>
                 <div>
-                    <Marquee speed={100} pauseOnHover={true} className='rounded-3xl'>{images}</Marquee>                             
+                    <Marquee speed={100} pauseOnHover={true} className='rounded-3xl'>{images}</Marquee>
                 </div>
-
             </div>
             <br />
             <div className='px-48'>
                 <h1 className='text-xl'>Reviews:</h1>
                 <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {reviews}     
+                    {reviews}
                 </div>
                 <br />
                 <Button className='w-full mt-1' variant="destructive" asChild>
                     <Link href="/">Back</Link>
                 </Button>
             </div>
-
         </div>
     )
 }
 
-export default JobPage
+export default JobPage;

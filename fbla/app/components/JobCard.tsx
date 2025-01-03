@@ -34,7 +34,7 @@ interface Post {
 }
 
 const JobCard = ({post}: {post: Post}) => {
-    const link = `/job?id=${post.id}`
+    const link = `/listing?id=${post.id}`
     const images = []
     for (let i = 0; i < post.expandedImages.length; i++) {
         images.push(
@@ -56,7 +56,7 @@ const JobCard = ({post}: {post: Post}) => {
         )
     }
 
-    const reviews = []
+    const reviews = [<Star key={0} />]
     for (let i = 0; i < post.reviews.length; i++) {
         let stars = "⭐ "
         for (let j = post.reviews[i].stars; j > 1; j--) {
@@ -88,7 +88,7 @@ const JobCard = ({post}: {post: Post}) => {
 
                     <h1>{post.company}</h1>
                 </CardHeader>
-                <CardContent className='p-0'>
+                <CardContent>
                     <Image src={post.thumbnailImage} alt={post.title} width={500} height={500} className='w-full' />
                     <div className="flex items-center justify-between p-5">
                         <div className="flex items-center">
