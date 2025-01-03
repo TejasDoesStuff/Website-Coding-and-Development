@@ -13,30 +13,33 @@ const applicationSchema = new mongoose.Schema({
 });
 
 const listingSchema = new mongoose.Schema({
-    id: {
-        type: Number,
-        required: true,
-        unique: true,
-    },
     name: {
         type: String,
         required: true,
     },
-    tags: {
-        type: [String],
-        required: true,
-    },
-    qualifications: {
-        type: [String],
-        required: true,
-    },
-    age: {
+    hours: {
         type: Number,
         required: true,
     },
+    pay: {
+        type: Number,
+        required: true,
+    },
+    tags: {
+        type: [String],
+        required: false,
+    },
+    qualifications: {
+        type: [String],
+        required: false,
+    },
+    age: {
+        type: Number,
+        required: false,
+    },
     photos: {
         type: [String],
-        required: true,
+        required: false,
     },
     desc: {
         type: String,

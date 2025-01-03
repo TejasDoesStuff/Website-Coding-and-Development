@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import { Listing } from './listingConfig.js';
 const oAuthConnectionSchema = new mongoose.Schema({
     id: {
         type: String,
@@ -20,17 +20,20 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    username: {
+    name: {
         type: String,
         required: true,
-        unique: true,
+        unique: false,
     },
     role: {
         type: String,
         enum: ['student', 'recruiter'],
         required: true,
     },
-    oAuthConnections: [oAuthConnectionSchema],
+    oAuthConnection: {
+        type: oAuthConnectionSchema,
+        required: true,
+    },
     createdAt: {
         type: Date,
         default: Date.now,
@@ -68,7 +71,11 @@ const studentSchema = new mongoose.Schema({
 });
 
 const recruiterSchema = new mongoose.Schema({
-    // Additional fields for recruiter can be added here later
+    listings: {
+        type: [Listing.schema],
+        required: true,
+        default: [],
+    },
 });
 
 const Student = User.discriminator('student', studentSchema);
