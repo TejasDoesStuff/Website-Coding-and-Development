@@ -1,4 +1,4 @@
-export default function Selector() {
+export default function SelectorUser() {
   return (
     <div className="w-1/5 h-full border-r border-gray-600 flex sticky">
         <ul className="text-text text-lg my-6 [&>*]:my-2 ml-16 [&>*]:transition-all">

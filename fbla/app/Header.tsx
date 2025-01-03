@@ -7,9 +7,9 @@ const Header = () => {
         <h1 className = "text-text font-bold absolute max-sm:pb-8 max-sm:relative"><Link href="/">Conext</Link></h1>
         <div className = "flex-grow"></div>
         <div className = "flex flex-row items-center gap-16 w-full mx-auto justify-center [&>*]:w-16 text-md">
-            <div className = "text-text"><Link href="/">Home</Link></div>
-            <div className = "text-text"><Link href="/browse">Browse</Link></div>
-            <div className = "text-text"><Link href="/dashboard">Dashboard</Link></div>
+        <div className = "text-text"><Link href="/">Home</Link></div>
+        <div className = "text-text"><Link href="/browse">Browse</Link></div>
+        <div className = "text-text"><Link href="/dashboard">Dashboard</Link></div>
         </div>
         <div className = "flex-grow"></div>
         <div className = "rounded-full bg-accent aspect-square h-2/3 absolute right-0 m-10"></div>
