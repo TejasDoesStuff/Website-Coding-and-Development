@@ -11,9 +11,10 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
-import { useSearchParams } from 'next/navigation';
+// import { useSearchParams } from 'next/navigation';
 import Header from '../Header'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 interface Review {
     user: string
@@ -36,8 +37,13 @@ interface Post {
 }
 
 const JobPage = () => {
-    const searchParams = useSearchParams();
-    const id: string = searchParams.get('id')
+    // const searchParams = useSearchParams();
+    // const id: string = searchParams.get('id')
+    const router = useRouter();
+    const { id } = router.query;
+    console.log(id)
+    console.log("e")
+
 
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
