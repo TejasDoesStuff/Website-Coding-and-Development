@@ -11,10 +11,8 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
-// import { useSearchParams } from 'next/navigation';
 import Header from '../../Header'
 import Link from 'next/link'
-// import ReactLoading from "react-loading";
 
 interface Review {
     user: string

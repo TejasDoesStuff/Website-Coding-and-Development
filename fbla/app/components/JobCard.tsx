@@ -34,7 +34,7 @@ interface Post {
 }
 
 const JobCard = ({post}: {post: Post}) => {
-    const link = `/listing?id=${post.id}`
+    const link = `/listing/${post.id}`
     const images = []
     for (let i = 0; i < post.expandedImages.length; i++) {
         images.push(
