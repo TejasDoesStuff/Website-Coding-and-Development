@@ -11,8 +11,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
-import { useSearchParams } from 'next/navigation';
-import Header from '../Header'
+import Header from '../../Header'
 import Link from 'next/link'
 
 interface Review {
@@ -35,22 +34,19 @@ interface Post {
     reviews: Array<Review>
 }
 
-const JobPage = () => {
-    const searchParams = useSearchParams();
-    const id: string = searchParams.get('id')
-
+const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
+
+    const unwrappedParams = React.use(params);
 
     useEffect(() => {
         const fetchPost = async () => {
             try {
                 const response = await fetch(`https://fbla.ineshd.com/listings`);
                 const posts = await response.json();
-
-                // Assuming the API response contains posts as a dictionary or object with an id
-                if (id && posts[id]) {
-                    setPost(posts[id]);
+                if (unwrappedParams.id && posts[unwrappedParams.id]) {
+                    setPost(posts[unwrappedParams.id]);
                 } else {
                     throw new Error('Post not found');
                 }
@@ -61,10 +57,10 @@ const JobPage = () => {
             }
         };
 
-        if (id) {
+        if (unwrappedParams.id) {
             fetchPost();
         }
-    }, [id]);
+    }, [unwrappedParams.id]);
 
     if (loading) {
         return <div>Loading...</div>;
