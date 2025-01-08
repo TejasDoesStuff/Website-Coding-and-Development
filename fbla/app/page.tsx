@@ -1,5 +1,5 @@
 import JobCard from "./components/JobCard";
-import Header from "./Header";
+import Header from "./components/Header";
 
 // This function fetches the data from the API on the server side
 async function fetchPosts() {
