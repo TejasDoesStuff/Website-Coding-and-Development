@@ -1,16 +1,14 @@
 import React from 'react'
 import Header from '../Header'
-import Search from './Search'
-import Deck from './Deck'
+import Holder from './Holder'
 
-const BrowsePage = () => {
+const Dashboard = () => {
     return (
         <div className="overflow-x-hidden">
             <Header />
-            <Search />
-            <Deck />
+            <Holder />
         </div>
     )
 }
 
-export default BrowsePage
+export default Dashboard

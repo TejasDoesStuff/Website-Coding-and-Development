@@ -1,17 +1,18 @@
 import React from 'react'
+import Link from 'next/link'
 
 const Header = () => {
   return (
-    <div className = "w-screen min-h-24 bg-background p-5 text-xl flex items-center max-sm:flex-col">
-        <h1 className = "text-text font-bold absolute max-sm:pb-8 max-sm:relative">Conext</h1>
+    <div className = "relative w-screen min-h-24 bg-background p-6 text-xl flex items-center max-sm:flex-col border-b border-gray-600 dropshadow-2xl">
+        <h1 className = "text-text font-bold absolute max-sm:pb-8 max-sm:relative"><Link href="/">Conext</Link></h1>
         <div className = "flex-grow"></div>
         <div className = "flex flex-row items-center gap-16 w-full mx-auto justify-center [&>*]:w-16 text-md">
-            <div className = "text-text"><a href="/home">Home</a></div>
-            <div className = "text-text"><a href="/browse">Browse</a></div>
-            <div className = "text-text"><a href="/dashboard">Dashboard</a></div>
+        <div className = "text-text"><Link href="/">Home</Link></div>
+        <div className = "text-text"><Link href="/browse">Browse</Link></div>
+        <div className = "text-text"><Link href="/dashboard">Dashboard</Link></div>
         </div>
         <div className = "flex-grow"></div>
-        <div className = "rounded-full bg-text aspect-square h-[5%] absolute right-5"></div>
+        <div className = "rounded-full bg-accent aspect-square h-2/3 absolute right-0 m-10"></div>
     </div>
   )
 }

@@ -13,7 +13,7 @@ export default {
   			text: 'var(--text)',
   			background: 'hsl(var(--background))',
   			primary: {
-  				DEFAULT: 'hsl(var(--primary))',
+  				DEFAULT: 'var(--primary)',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
