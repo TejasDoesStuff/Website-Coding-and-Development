@@ -34,6 +34,8 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
 
 const industries = [
   {
@@ -101,6 +103,8 @@ const industries = [
 export default function OptionsCompany() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+  const [location, setLocation] = React.useState<string | null>(null);
+
 
   const formSchema = z.object({
     title: z.string().min(2, {
@@ -318,6 +322,48 @@ export default function OptionsCompany() {
                   </FormItem>
                 )}
               />
+<FormField
+  control={listingForm.control}
+  name="mean"
+  render={({ field }) => (
+    <FormItem className="space-y-3">
+      <FormLabel>Location</FormLabel>
+      <FormControl>
+        <RadioGroup
+          onValueChange={(value) => setLocation(value)}
+          value={location}
+          className="flex flex-col space-y-1"
+        >
+          <FormItem className="flex items-center space-x-3">
+            <FormControl>
+              <RadioGroupItem value="inperson" />
+            </FormControl>
+            <FormLabel className="font-normal">In-person</FormLabel>
+          </FormItem>
+          <FormItem className="flex items-center space-x-3">
+            <FormControl>
+              <RadioGroupItem value="online" />
+            </FormControl>
+            <FormLabel className="font-normal">Online</FormLabel>
+          </FormItem>
+        </RadioGroup>
+        {/* Conditional rendering for 'online' */}
+        {location === "online" && (
+          <div className="mt-4">
+            <h1 className="text-lg font-semibold">Additional Information</h1>
+            <input
+              type="text"
+              className="mt-2 block w-full px-3 py-2 border rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              placeholder="Enter details for online location"
+            />
+          </div>
+        )}
+      </FormControl>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
               <p>add radio selector for online/inperson</p>
               <li>if in person, show the location</li>
               <p>add radio selector for fulltime/parttime/internship</p>
