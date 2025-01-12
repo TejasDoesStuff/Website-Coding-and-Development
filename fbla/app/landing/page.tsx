@@ -5,8 +5,8 @@ const page = () => {
   return (
     <div>
         <Header />
-        <div className='p-36'>
-            <h1>sigma</h1>
+        <div className='px-72 py-10 text-center'>
+            <h1 className='text-3xl'>Where High Schoolers Expand Horizons</h1>
         </div>
     </div>
   )
