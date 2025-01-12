@@ -186,20 +186,7 @@ export default function OptionsCompany() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input placeholder="*********" {...field} />
-                    </FormControl>
-                    <FormDescription>This is your password.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="email"

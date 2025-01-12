@@ -15,8 +15,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import UserInfo from "./forms/user/UserInfo";
 
-export default function OptionsUser() {
+const OptionsUser = () => {
   const formSchema = z.object({
     username: z.string().min(2, {
       message: "Username must be at least 2 characters.",
@@ -53,61 +54,11 @@ export default function OptionsUser() {
       <div className="m-16 flex flex-col" id="profile">
         <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6">Profile</h3>
         <div className="m-6 text-md w-1/2">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input placeholder="username" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      This is your public display name.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input placeholder="*********" {...field} />
-                    </FormControl>
-                    <FormDescription>This is your password.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="conext@gmail.com" {...field} />
-                    </FormControl>
-                    <FormDescription>This is your email.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <p>Change profile picture here: File upload/Remove pfp</p>
-                <Button type="submit" variant="secondary">
-                  Submit
-                </Button>
-                <Button className="ml-4 bg-red-600 text-white hover:bg-red-700">
-                  Cancel
-                </Button>
-            </form>
-          </Form>
+            <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                    <UserInfo />
+                </form>
+            </Form>
         </div>
       </div>
       <div className="m-16 flex flex-col" id="preferences">
@@ -143,3 +94,5 @@ export default function OptionsUser() {
     </div>
   );
 }
+
+export default OptionsUser;
