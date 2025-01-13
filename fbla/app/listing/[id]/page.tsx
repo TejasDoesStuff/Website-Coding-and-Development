@@ -11,7 +11,7 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import Marquee from "react-fast-marquee";
 import { Badge } from "@/components/ui/badge"
-import Header from '../../Header'
+import Header from '../../components/Header'
 import Link from 'next/link'
 
 interface Review {

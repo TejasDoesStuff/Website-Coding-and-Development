@@ -13,22 +13,22 @@ export default {
                 text: 'var(--brand-text)',
                 background: {
                     DEFAULT: 'hsl(var(--background))',
-                    brand: 'hsl(var(--brand-background))',
+                    brand: 'var(--brand-background)',
                 },
                 primary: {
                     DEFAULT: 'var(--primary)',
                     foreground: 'hsl(var(--primary-foreground))',
-                    brand: 'hsl(var(--brand-primary))',
+                    brand: 'var(--brand-primary)',
                 },
                 secondary: {
                     DEFAULT: 'hsl(var(--secondary))',
                     foreground: 'hsl(var(--secondary-foreground))',
-                    brand: 'hsl(var(--brand-secondary))',
+                    brand: 'var(--brand-secondary)',
                 },
                 accent: {
                     DEFAULT: 'hsl(var(--accent))',
                     foreground: 'hsl(var(--accent-foreground))',
-                    brand: 'hsl(var(--brand-accent))',
+                    brand: 'var(--brand-accent)',
                 },
                 foreground: 'hsl(var(--foreground))',
                 card: {

@@ -110,7 +110,7 @@ export default function OptionsUser() {
       </div>
       {/* Profile Section */}
       <div className="m-16 flex flex-col" id="profile">
-        <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6">
+        <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6 z-10">
           Profile
         </h3>
         <div className="m-6 text-md w-1/2">
@@ -143,6 +143,7 @@ export default function OptionsUser() {
               </form>
             </Form>
           </FormProvider>
+
           {/* Password Form */}
           <Form {...passwordMethod}>
             <form
@@ -246,10 +247,15 @@ export default function OptionsUser() {
 
       {/* Resume Section */}
       <div className="m-16 flex flex-col" id="resume">
-        <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500">
+        <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500 z-10">
           Resume
         </h3>
         <div className="m-6 text-md">
+          {/* Need to add
+          - GPA Selector
+          - Coursework Selector
+          - Previous Work Experience
+          */}
           <p>Resume goes here.</p>
           <p>They can upload a file of their resume here</p>
         </div>
