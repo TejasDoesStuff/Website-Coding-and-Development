@@ -3,34 +3,43 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
-    --primary: 197 76% 56%; /* Cyan */
-    --primary-foreground: 0 0% 100%; /* White for contrast */
-    --secondary: 54 87% 60%; /* Yellow */
-    --secondary-foreground: 0 0% 0%; /* Black for contrast */
-    --accent: 6 100% 68%; /* Red */
-    --accent-foreground: 0 0% 100%; /* White for contrast */
-    --muted: 54 87% 95%; /* Lightened secondary */
-    --muted-foreground: 54 87% 40%; /* Darker secondary */
-    --destructive: 0 100% 60%; /* Bright red for destructive actions */
-    --destructive-foreground: 0 0% 100%; /* White for contrast */
-    --border: 0 0% 90%; /* Light gray */
-    --input: 0 0% 90%;
-    --ring: 0 0% 0%; /* Black for focus ring */
-    --chart-1: 6 100% 68%; /* Accent */
-    --chart-2: 197 76% 56%; /* Primary */
-    --chart-3: 197 50% 45%; /* Darker Primary */
-    --chart-4: 54 87% 60%; /* Secondary */
-    --chart-5: 54 87% 80%; /* Lightened secondary */
-    --radius: 0.5rem;
-  }
+    :root {
+        --brand-text: #000000; /* 21:1 */
+        --brand-background: #FFFFFF; /* 21:1 */
+        --brand-primary: #33b7e8; /* 9.19:1 */
+        --brand-secondary: #f6e63a; /* 16.38:1 */
+        --brand-accent: #ff7a6b; /* 8.29:1 */
+        --background: 0 0% 100%;
+        --foreground: 240 10% 3.9%;
+        --card: 0 0% 100%;
+        --card-foreground: 240 10% 3.9%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 240 10% 3.9%;
+        --primary: 240 5.9% 10%;
+        --primary-foreground: 0 0% 98%;
+        --secondary: 240 4.8% 95.9%;
+        --secondary-foreground: 240 5.9% 10%;
+        --muted: 240 4.8% 95.9%;
+        --muted-foreground: 240 3.8% 46.1%;
+        --accent: 240 4.8% 95.9%;
+        --accent-foreground: 240 5.9% 10%;
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 0 0% 98%;
+        --border: 240 5.9% 90%;
+        --input: 240 5.9% 90%;
+        --ring: 240 10% 3.9%;
+        --chart-1: 12 76% 61%;
+        --chart-2: 173 58% 39%;
+        --chart-3: 197 37% 24%;
+        --chart-4: 43 74% 66%;
+        --chart-5: 27 87% 67%;
+        --radius: 0.5rem;
+        font-family: "Inter", serif;
+        font-optical-sizing: auto;
+        font-style: normal;
+    }
 }
 
 @layer base {
@@ -44,31 +53,37 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    /*!* Dark Mode *!*/
-    --background: 0 0% 0%; /* Black */
-    --foreground: 0 0% 100%; /* White */
-    --card: 0 0% 7%; /* Dark gray for cards */
-    --card-foreground: 0 0% 90%; /* Off-white for contrast */
-    --popover: 0 0% 7%; /* Match card background */
-    --popover-foreground: 0 0% 90%; /* Match card-foreground */
-    --primary: 197 100% 60%; /* Bright cyan */
-    --primary-foreground: 0 0% 100%; /* White for text */
-    --secondary: 54 100% 59%; /* Vibrant yellow */
-    --secondary-foreground: 0 0% 0%; /* Black for contrast */
-    --muted: 54 40% 20%; /* Muted yellow-green */
-    --muted-foreground: 54 87% 70%; /* Lightened muted */
-    --accent: 6 93% 73%; /* Warm coral */
-    --accent-foreground: 0 0% 0%; /* Black for contrast */
-    --destructive: 0 84% 50%; /* Bright red for warnings */
-    --destructive-foreground: 0 0% 100%; /* White for text */
-    --border: 0 0% 20%; /* Dark gray for borders */
-    --input: 0 0% 20%; /* Match border for input fields */
-    --ring: 197 100% 60%; /* Cyan for focus ring */
-    --chart-1: 197 90% 55%; /* Cyan (Primary tone) */
-    --chart-2: 160 60% 45%; /* Teal */
-    --chart-3: 54 80% 50%; /* Muted yellow-green */
-    --chart-4: 280 65% 60%; /* Soft purple */
-    --chart-5: 6 93% 73%; /* Coral (Accent tone) */
+      /* Dark Mode */
+      --brand-text: #ffffff; /* 16.88:1 */
+      --brand-background: #000000; /* 16.88:1 */
+      --brand-primary: #2ec7ff; /* 9.72:1 */
+      --brand-secondary: #FFED27; /* 15.66:1 */
+      --brand-accent: #fb8f83; /* 8.48:1 */
+      --background: 240 10% 3.9%;
+      --foreground: 0 0% 98%;
+      --card: 240 10% 3.9%;
+      --card-foreground: 0 0% 98%;
+      --popover: 240 10% 3.9%;
+      --popover-foreground: 0 0% 98%;
+      --primary: 0 0% 98%;
+      --primary-foreground: 240 5.9% 10%;
+      --secondary: 240 3.7% 15.9%;
+      --secondary-foreground: 0 0% 98%;
+      --muted: 240 3.7% 15.9%;
+      --muted-foreground: 240 5% 64.9%;
+      --accent: 240 3.7% 15.9%;
+      --accent-foreground: 0 0% 98%;
+      --destructive: 0 62.8% 30.6%;
+      --destructive-foreground: 0 0% 98%;
+      --border: 240 3.7% 15.9%;
+      --input: 240 3.7% 15.9%;
+      --ring: 240 4.9% 83.9%;
+      --chart-1: 220 70% 50%;
+      --chart-2: 160 60% 45%;
+      --chart-3: 30 80% 55%;
+      --chart-4: 280 65% 60%;
+      --chart-5: 340 75% 55%;
+    }
   }
 }
 
