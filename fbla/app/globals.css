@@ -1,74 +1,77 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-    :root {
-        --background: 0 0% 100%;
-        --foreground: 0 0% 0%;
-        --card: 0 0% 100%;
-        --card-foreground: 0 0% 0%;
-        --popover: 0 0% 100%;
-        --popover-foreground: 0 0% 0%;
-        --primary: 197 76% 56%;
-        --primary-foreground: 0 0% 100%; /* White for contrast */
-        --secondary: 54 87% 60%;
-        --secondary-foreground: 0 0% 0%; /* Black for contrast */
-        --accent: 6 100% 68%;
-        --accent-foreground: 0 0% 100%; /* White for contrast */
-        --muted: 54 87% 95%; /* Lightened secondary */
-        --muted-foreground: 54 87% 40%; /* Darker secondary */
-        --destructive: 0 100% 60%; /* Bright red for destructive actions */
-        --destructive-foreground: 0 0% 100%; /* White for contrast */
-        --border: 0 0% 90%; /* Light gray */
-        --input: 0 0% 90%;
-        --ring: 0 0% 0%; /* Black for focus ring */
-        --chart-1: 6 100% 68%; /* Accent */
-        --chart-2: 197 76% 56%; /* Primary */
-        --chart-3: 197 50% 45%; /* Darker Primary */
-        --chart-4: 54 87% 60%; /* Secondary */
-        --chart-5: 54 87% 80%; /* Lightened secondary */
-        --radius: 0.5rem;
-    }
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 0%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 0%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 0%;
+    --primary: 197 76% 56%; /* Cyan */
+    --primary-foreground: 0 0% 100%; /* White for contrast */
+    --secondary: 54 87% 60%; /* Yellow */
+    --secondary-foreground: 0 0% 0%; /* Black for contrast */
+    --accent: 6 100% 68%; /* Red */
+    --accent-foreground: 0 0% 100%; /* White for contrast */
+    --muted: 54 87% 95%; /* Lightened secondary */
+    --muted-foreground: 54 87% 40%; /* Darker secondary */
+    --destructive: 0 100% 60%; /* Bright red for destructive actions */
+    --destructive-foreground: 0 0% 100%; /* White for contrast */
+    --border: 0 0% 90%; /* Light gray */
+    --input: 0 0% 90%;
+    --ring: 0 0% 0%; /* Black for focus ring */
+    --chart-1: 6 100% 68%; /* Accent */
+    --chart-2: 197 76% 56%; /* Primary */
+    --chart-3: 197 50% 45%; /* Darker Primary */
+    --chart-4: 54 87% 60%; /* Secondary */
+    --chart-5: 54 87% 80%; /* Lightened secondary */
+    --radius: 0.5rem;
+  }
 }
 
 @layer base {
-    * {
-        @apply border-border;
-    }
-    body {
-        @apply bg-background text-foreground;
-    }
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
-    :root {
-        /*!* Dark Mode *!*/
-        --background: 0 0% 0%; /* Black */
-        --foreground: 0 0% 100%; /* White */
-        --card: 0 0% 7%; /* Dark gray for cards */
-        --card-foreground: 0 0% 90%; /* Off-white for contrast */
-        --popover: 0 0% 7%; /* Match card background */
-        --popover-foreground: 0 0% 90%; /* Match card-foreground */
-        --primary: 197 100% 60%; /* Bright cyan */
-        --primary-foreground: 0 0% 100%; /* White for text */
-        --secondary: 54 100% 59%; /* Vibrant yellow */
-        --secondary-foreground: 0 0% 0%; /* Black for contrast */
-        --muted: 54 40% 20%; /* Muted yellow-green */
-        --muted-foreground: 54 87% 70%; /* Lightened muted */
-        --accent: 6 93% 73%; /* Warm coral */
-        --accent-foreground: 0 0% 0%; /* Black for contrast */
-        --destructive: 0 84% 50%; /* Bright red for warnings */
-        --destructive-foreground: 0 0% 100%; /* White for text */
-        --border: 0 0% 20%; /* Dark gray for borders */
-        --input: 0 0% 20%; /* Match border for input fields */
-        --ring: 197 100% 60%; /* Cyan for focus ring */
-        --chart-1: 197 90% 55%; /* Cyan (Primary tone) */
-        --chart-2: 160 60% 45%; /* Teal */
-        --chart-3: 54 80% 50%; /* Muted yellow-green */
-        --chart-4: 280 65% 60%; /* Soft purple */
-        --chart-5: 6 93% 73%; /* Coral (Accent tone) */
-    }
+  :root {
+    /*!* Dark Mode *!*/
+    --background: 0 0% 0%; /* Black */
+    --foreground: 0 0% 100%; /* White */
+    --card: 0 0% 7%; /* Dark gray for cards */
+    --card-foreground: 0 0% 90%; /* Off-white for contrast */
+    --popover: 0 0% 7%; /* Match card background */
+    --popover-foreground: 0 0% 90%; /* Match card-foreground */
+    --primary: 197 100% 60%; /* Bright cyan */
+    --primary-foreground: 0 0% 100%; /* White for text */
+    --secondary: 54 100% 59%; /* Vibrant yellow */
+    --secondary-foreground: 0 0% 0%; /* Black for contrast */
+    --muted: 54 40% 20%; /* Muted yellow-green */
+    --muted-foreground: 54 87% 70%; /* Lightened muted */
+    --accent: 6 93% 73%; /* Warm coral */
+    --accent-foreground: 0 0% 0%; /* Black for contrast */
+    --destructive: 0 84% 50%; /* Bright red for warnings */
+    --destructive-foreground: 0 0% 100%; /* White for text */
+    --border: 0 0% 20%; /* Dark gray for borders */
+    --input: 0 0% 20%; /* Match border for input fields */
+    --ring: 197 100% 60%; /* Cyan for focus ring */
+    --chart-1: 197 90% 55%; /* Cyan (Primary tone) */
+    --chart-2: 160 60% 45%; /* Teal */
+    --chart-3: 54 80% 50%; /* Muted yellow-green */
+    --chart-4: 280 65% 60%; /* Soft purple */
+    --chart-5: 6 93% 73%; /* Coral (Accent tone) */
+  }
+}
 
+.plus {
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.58'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
 }

@@ -13,7 +13,7 @@ export default {
   			text: 'var(--text)',
   			background: 'hsl(var(--background))',
   			primary: {
-  				DEFAULT: 'var(--primary)',
+  				DEFAULT: 'hsl(var(--primary))',
   				foreground: 'hsl(var(--primary-foreground))'
   			},
   			secondary: {
@@ -59,5 +59,5 @@ export default {
   		}
   	}
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require('tailwindcss-patterns'),],
 } satisfies Config;
