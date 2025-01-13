@@ -44,7 +44,7 @@ const OptionsUser = () => {
   }
 
   return (
-    <div className="w-4/5 h-full flex flex-col absolute right-0 overflow-y-scroll scroll-smooth">
+    <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth">
       <div className="mx-16 mt-8">
         <h1 className="text-5xl font-bold">
           Welcome{" "}

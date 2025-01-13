@@ -12,7 +12,7 @@ const Header = () => {
             <div className = "text-text"><Link href="/dashboard">Dashboard</Link></div>
         </div>
         <div className = "flex-grow"></div>
-        <div className = "rounded-full bg-accent aspect-square h-2/3 absolute right-0 m-10"></div>
+        <div className = "rounded-full bg-accent aspect-square h-2/3 absolute right-0 m-10 max-sm:hidden"></div>
     </div>
   )
 }

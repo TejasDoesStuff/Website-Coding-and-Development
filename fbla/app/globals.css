@@ -86,4 +86,40 @@
       --chart-4: 280 65% 60%;
       --chart-5: 340 75% 55%;
     }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: 240 10% 3.9%;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: 0 0% 98%;
+        border-radius: 5px;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+    }
+}
+
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
 }
