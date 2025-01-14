@@ -48,7 +48,6 @@ const signupSchema = z.object({
 });
 
 const Page = () => {
-  // Move `useForm` hooks inside the component
   const loginForm = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -78,8 +77,8 @@ const Page = () => {
   return (
     <div className="w-screen h-screen overflow-y-hidden">
       <Header />
-      <div className="w-screen h-screen overflow-hidden flex justify-center items-center">
-        <div className="border border-gray-600 w-1/3 h-auto rounded-xl p-6 shadow-inner shadow-gray-500/50 flex flex-col">
+      <div className="w-full flex justify-center">
+        <div className="border border-gray-600 w-1/3 h-auto rounded-xl p-6 shadow-inner shadow-gray-500/50 flex flex-col mt-12">
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="w-full flex">
               <TabsTrigger className="w-1/2" value="login">
@@ -89,7 +88,7 @@ const Page = () => {
                 Sign Up
               </TabsTrigger>
             </TabsList>
-            <TabsContent value="login" className="w-full mt-4 p-4 flex flex-col">
+            <TabsContent value="login" className="w-full p-4 flex flex-col">
               <FormProvider {...loginForm}>
                 <form
                   onSubmit={loginForm.handleSubmit(loginSubmit)}
@@ -127,7 +126,7 @@ const Page = () => {
                 </form>
               </FormProvider>
             </TabsContent>
-            <TabsContent value="signup" className="w-full mt-4 p-4 flex flex-col">
+            <TabsContent value="signup" className="w-full p-4 pt-0">
               <FormProvider {...signupForm}>
                 <form
                   onSubmit={signupForm.handleSubmit(signupSubmit)}
