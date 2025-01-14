@@ -25,7 +25,10 @@ const loginSchema = z.object({
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
-    .regex(passwordRegex, "Password must contain at least one capital letter, one number, and one special character"),
+    .regex(
+      passwordRegex,
+      "Password must contain at least one capital letter, one number, and one special character"
+    ),
 });
 
 const signupSchema = z.object({
@@ -34,65 +37,63 @@ const signupSchema = z.object({
   password: z
     .string()
     .min(8, "Password must be at least 8 characters")
-    .regex(passwordRegex, "Password must contain at least one capital letter, one number, and one special character"),
-  confirmPassword: z
-    .string()
-    .min(8, "Password must be at least 8 characters")
-    .regex(passwordRegex, "Password must contain at least one capital letter, one number, and one special character"),
+    .regex(
+      passwordRegex,
+      "Password must contain at least one capital letter, one number, and one special character"
+    ),
+  confirmPassword: z.string(),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
 
-const loginForm = useForm<z.infer<typeof loginSchema>>({
-  resolver: zodResolver(loginSchema),
-  defaultValues: {
-    username: "",
-    password: "",
-  },
-});
-
-const signupForm = useForm<z.infer<typeof signupSchema>>({
-  resolver: zodResolver(signupSchema),
-  defaultValues: {
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  },
-});
-
-function loginSubmit(values: z.infer<typeof loginSchema>) {
-  console.log(values);
-}
-
-function signupSubmit(values: z.infer<typeof signupSchema>) {
-  console.log(values);
-}
-
 const Page = () => {
+  // Move `useForm` hooks inside the component
+  const loginForm = useForm<z.infer<typeof loginSchema>>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  });
+
+  const signupForm = useForm<z.infer<typeof signupSchema>>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
+
+  function loginSubmit(values: z.infer<typeof loginSchema>) {
+    console.log(values);
+  }
+
+  function signupSubmit(values: z.infer<typeof signupSchema>) {
+    console.log(values);
+  }
+
   return (
     <div className="w-screen h-screen overflow-y-hidden">
       <Header />
-      <div className="w-screen h-screen overflow-hidden flex justify-center">
-        <div className="border border-gray-600 w-1/4 h-auto rounded-xl m-12 shadow-inner shadow-gray-500/50 flex justify-center">
-          <Tabs
-            defaultValue="login"
-            className="w-full flex items-center flex-col"
-          >
-            <TabsList className="w-full">
+      <div className="w-screen h-screen overflow-hidden flex justify-center items-center">
+        <div className="border border-gray-600 w-1/3 h-auto rounded-xl p-6 shadow-inner shadow-gray-500/50 flex flex-col">
+          <Tabs defaultValue="login" className="w-full">
+            <TabsList className="w-full flex">
               <TabsTrigger className="w-1/2" value="login">
                 Log In
               </TabsTrigger>
               <TabsTrigger className="w-1/2" value="signup">
                 Sign Up
-            </TabsTrigger>
-              </TabsList>
-            <TabsContent value="login" className="w-full m-2 p-4 flex flex-col">
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="login" className="w-full mt-4 p-4 flex flex-col">
               <FormProvider {...loginForm}>
                 <form
                   onSubmit={loginForm.handleSubmit(loginSubmit)}
-                  className="space-y-8 flex flex-col justify-center"
+                  className="space-y-6 flex flex-col"
                 >
                   <FormField
                     control={loginForm.control}
@@ -126,11 +127,11 @@ const Page = () => {
                 </form>
               </FormProvider>
             </TabsContent>
-            <TabsContent value="signup" className="w-full m-2 p-4 flex flex-col">
+            <TabsContent value="signup" className="w-full mt-4 p-4 flex flex-col">
               <FormProvider {...signupForm}>
                 <form
                   onSubmit={signupForm.handleSubmit(signupSubmit)}
-                  className="space-y-8 flex flex-col justify-center"
+                  className="space-y-6 flex flex-col"
                 >
                   <FormField
                     control={signupForm.control}
@@ -178,7 +179,11 @@ const Page = () => {
                       <FormItem>
                         <FormLabel>Confirm Password</FormLabel>
                         <FormControl>
-                          <Input type="password" placeholder="Confirm Password" {...field} />
+                          <Input
+                            type="password"
+                            placeholder="Confirm Password"
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
