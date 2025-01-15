@@ -78,7 +78,7 @@ const Page = () => {
     <div className="w-screen h-screen overflow-y-hidden">
       <Header />
       <div className="w-full flex justify-center">
-        <div className="border border-gray-600 w-1/3 h-auto rounded-xl p-6 shadow-inner shadow-gray-500/50 flex flex-col mt-12">
+        <div className="w-1/3 h-auto rounded-xl p-6 shadow-lg shadow-gray-500/50 flex flex-col mt-12">
           <Tabs defaultValue="login" className="w-full">
             <TabsList className="w-full flex">
               <TabsTrigger className="w-1/2" value="login">
