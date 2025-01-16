@@ -35,10 +35,10 @@ import {
     PopoverTrigger,
 } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Password from "./forms/Password";
+import Password from "../../dashboard/forms/Password";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { Textarea } from "@/components/ui/textarea"
-
+import Header from "@/app/components/Header";
 
 const libraries = ["places"];
 
@@ -189,114 +189,15 @@ export default function OptionsCompany() {
     }
 
     return (
-        <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth">
+        <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth overflow-x-hidden">
+            <Header />
             <div className="mx-16 mt-8">
                 <h1 className="text-5xl font-bold">
-                    Welcome <span className="underline underline-offset-4">company.</span>
+                    Create Listing
                 </h1>
             </div>
-            <div className="m-16 flex flex-col" id="company">
-                <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6">
-                    Company Overview
-                </h3>
-                <div className="m-6 text-md w-1/2">
-                    <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                            <FormField
-                                control={form.control}
-                                name="title"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Company Name</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="title" {...field} />
-                                        </FormControl>
-                                        <FormDescription>
-                                            This is your company's name.
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="conext@gmail.com" {...field} />
-                                        </FormControl>
-                                        <FormDescription>This is your email.</FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <Password />
-                            <Popover open={open} onOpenChange={setOpen}>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={open}
-                                        className="w-[200px] justify-between"
-                                    >
-                                        {value
-                                            ? industries.find((industry) => industry.value === value)
-                                                ?.label
-                                            : "Select industry..."}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-[200px] p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Search industry..." />
-                                        <CommandList>
-                                            <CommandEmpty>No industry found.</CommandEmpty>
-                                            <CommandGroup>
-                                                {industries.map((industry) => (
-                                                    <CommandItem
-                                                        key={industry.value}
-                                                        value={industry.value}
-                                                        onSelect={(currentValue) => {
-                                                            setValue(
-                                                                currentValue === value ? "" : currentValue
-                                                            );
-                                                            setOpen(false);
-                                                        }}
-                                                    >
-                                                        <Check
-                                                            className={cn(
-                                                                "mr-2 h-4 w-4",
-                                                                value === industry.value
-                                                                    ? "opacity-100"
-                                                                    : "opacity-0"
-                                                            )}
-                                                        />
-                                                        {industry.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover>
-                            <p>Change profile picture here: File upload/Remove pfp</p>
-                            <Button type="submit" variant="secondary">
-                                Submit
-                            </Button>
-                            <Button className="ml-4 bg-red-600 text-white hover:bg-red-700">
-                                Cancel
-                            </Button>
-                        </form>
-                    </Form>
-                </div>
-            </div>
+              
             <div className="m-16 flex flex-col" id="listings">
-                <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500">
-                    Listings
-                </h3>
                 <div className="m-6 text-md w-1/2">
                     <Form {...listingForm}>
                         <form
@@ -445,23 +346,6 @@ export default function OptionsCompany() {
                             </Button>
                         </form>
                     </Form>
-                </div>
-            </div>
-            <div className="m-16 flex flex-col" id="applications">
-                <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500">
-                    Applications
-                </h3>
-                <div className="m-6 text-md">
-                    <p>You have no pending applications.</p>
-                    <p>
-                        This is where the user can see/adjust any applications they have
-                        currently sent out
-                    </p>
-                    <p>They can</p>
-                    <li>View the job details</li>
-                    <li>View/Change their application details</li>
-                    <li>View the status of their application</li>
-                    <li>Cancel their application</li>
                 </div>
             </div>
         </div>

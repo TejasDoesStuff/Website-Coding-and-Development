@@ -48,7 +48,7 @@ const OptionsUser = () => {
       <div className="mx-16 mt-8">
         <h1 className="text-5xl font-bold">
           Welcome{" "}
-          <span className="underline underline-offset-4">username.</span>
+          <span className="underline underline-offset-4">Shravan.</span>
         </h1>
       </div>
       <div className="m-16 flex flex-col" id="profile">

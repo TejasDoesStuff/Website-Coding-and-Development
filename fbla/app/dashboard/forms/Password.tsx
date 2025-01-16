@@ -30,9 +30,6 @@ const Password = () => {
             },
           });
         
-          function onSubmit(values: z.infer<typeof formSchema>) {
-            console.log(values);
-          }
   return (
     <div>
                       <FormField
