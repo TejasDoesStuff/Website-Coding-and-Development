@@ -1,7 +1,7 @@
 // Step 1: Install cookie-parser
 // npm install cookie-parser
 
-// Step 2: Import and use cookie-parser middleware in backend/index.js
+// Step 2: Import and use cookie-parser middleware in apiapi/index.js
 
 import express from 'express';
 import mongoose from 'mongoose';
@@ -71,18 +71,31 @@ app.get('/logout', (req, res) => {
 });
 
 const authenticateUser = async (req, res, next) => {
-    const token = req.cookies?.authToken; // Retrieve the token from cookies
-    console.log(token);
+    // Check for the token in cookies first
+    let token = req.cookies?.authToken;
+
+    // If not found, check the Authorization header
+    if (!token && req.headers.authorization) {
+        const authHeader = req.headers.authorization;
+        if (authHeader.startsWith('Bearer ')) {
+            token = authHeader.split(' ')[1]; // Extract token after 'Bearer '
+        }
+    }
+
+    console.log(token); // Debug log for the retrieved token
+
     if (!token) {
         return res.status(401).json({ message: 'Not authenticated' });
     }
 
     try {
+        // Query the database to verify the user by token
         const user = await User.findOne({ 'oAuthConnection.accessToken': token });
         if (!user) {
             return res.status(401).json({ message: 'Not authenticated' });
         }
 
+        // Attach the user to the request object and move to the next middleware
         req.user = user;
         next();
     } catch (error) {
@@ -112,21 +125,33 @@ app.post('/listings', authenticateUser, isRecruiter, async (req, res) => {
     }
 });
 
-app.get('/listings', authenticateUser, async (req, res) => {
+app.get('/listings', async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
+
         if (limit > 16) {
             return res.status(400).json({ message: 'Limit too high' });
         }
         if (page < 1) {
             return res.status(400).json({ message: 'Invalid page number' });
         }
+
         const startIndex = (page - 1) * limit;
         const listings = await Listing.find().limit(limit).skip(startIndex);
-        res.json(listings);
+
+        // Construct response with id inside and outside
+        const response = {};
+        listings.forEach((listing) => {
+            response[listing.id] = {
+                id: listing.id,
+                ...listing.toObject()
+            };
+        });
+
+        res.json(response);
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
 });

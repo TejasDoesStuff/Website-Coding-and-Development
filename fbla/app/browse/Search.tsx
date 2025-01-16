@@ -18,7 +18,7 @@ const Search = () => {
 //   };
 
   return (
-    <div className = "w-screen bg-text flex flex-col items-center">
+    <div className = "w-screen bg-background flex flex-col items-center">
       <div className="w-full p-8 flex flex-col items-center justify-center">
         <div className = "rounded-xl w-1/3 p-2 text-2xl flex justify-center items-center">
             <input
