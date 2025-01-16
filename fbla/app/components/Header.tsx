@@ -5,7 +5,7 @@ const Header = () => {
   return (
     <div className="relative w-screen min-h-24 bg-background p-6 text-xl flex items-center max-sm:flex-col border-b border-gray-600 dropshadow-2xl">
       <h1 className="text-text font-bold absolute max-sm:pb-8 max-sm:relative">
-        <Link href="/">Conext</Link>
+        <Link href="/">Connext</Link>
       </h1>
       <div className="flex-grow"></div>
       <div className="flex flex-row items-center w-full mx-auto justify-center [&>*]:w-auto gap-16 text-md">

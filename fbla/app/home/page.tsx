@@ -22,7 +22,7 @@ export default async function Home() {
       <div className="p-5">
         <div className="w-full h-auto flex flex-col items-center">
           <div className="text-5xl font-bold text-text-brand pt-8">
-            Welcome to Conext!
+            Welcome to Connext!
           </div>
           <div className="text-lg text-text-brand w-full mt-12 flex flex-col justify-center items-center mb-0 px-12">
             <div className="w-full px-16 m-2">

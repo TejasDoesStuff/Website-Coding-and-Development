@@ -11,7 +11,7 @@ const page = () => {
         <div className="pt-16 w-full h-full p-10 flex flex-row gap-8 justify-center items-center">
           <div className="w-1/2 h-full flex flex-col justify-center items-center">
             <h1 className="text-7xl font-bold text-center m-10 p-[5px] rounded-sm backdrop-blur-lg">
-              Conext
+              Connext
             </h1>
             {/* Replace this with logo later */}
             <h2 className="text-5xl font-bold text-center p-12 rounded-full w-full bg-gradient-to-r from-blue-500 to-primary-brand drop-shadow-lg mr-2 hover:scale-[101%] transition-all text-white">
