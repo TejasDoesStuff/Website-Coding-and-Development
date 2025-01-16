@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import UserInfo from "./forms/user/UserInfo";
 
 export default function OptionsUser() {
   const [preview, setPreview] = useState<string | null>(null);
@@ -105,7 +106,7 @@ export default function OptionsUser() {
       <div className="mx-16 mt-8">
         <h1 className="text-5xl font-bold">
           Welcome{" "}
-          <span className="underline underline-offset-4">username.</span>
+          <span className="underline underline-offset-4">Shravan.</span>
         </h1>
       </div>
       {/* Profile Section */}
@@ -303,3 +304,5 @@ export default function OptionsUser() {
     </div>
   );
 }
+
+export default OptionsUser;
