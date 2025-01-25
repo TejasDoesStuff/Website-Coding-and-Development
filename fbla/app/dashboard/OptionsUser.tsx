@@ -106,7 +106,7 @@ export default function OptionsUser() {
       <div className="mx-16 mt-8">
         <h1 className="text-5xl font-bold">
           Welcome{" "}
-          <span className="underline underline-offset-4">Shravan.</span>
+          <span className="underline underline-offset-4">username.</span>
         </h1>
       </div>
       {/* Profile Section */}
@@ -304,5 +304,3 @@ export default function OptionsUser() {
     </div>
   );
 }
-
-export default OptionsUser;
