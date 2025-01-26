@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import UserInfo from "./forms/user/UserInfo";
 
 export default function OptionsUser() {
   const [preview, setPreview] = useState<string | null>(null);
