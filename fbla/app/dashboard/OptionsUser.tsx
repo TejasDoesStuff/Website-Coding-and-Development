@@ -18,11 +18,18 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import UserInfo from "./forms/user/UserInfo";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 export default function OptionsUser() {
   const [preview, setPreview] = useState<string | null>(null);
 
-  // The requirements for the form fields
+  // Form schemas
   const usernameSchema = z.object({
     username: z
       .string()
@@ -45,7 +52,39 @@ export default function OptionsUser() {
     ),
   });
 
-  // The default values for the form fields
+  const gpaSchema = z.object({
+    gpa: z
+      .string()
+      .regex(
+        /^\d(\.\d{1,2})?$/,
+        "GPA must be a valid number with up to two decimal places"
+      )
+      .optional(),
+  });
+
+  const courseworkSchema = z.object({
+    coursework: z
+      .string()
+      .min(5, "Coursework should be at least 5 characters")
+      .optional(),
+  });
+
+  const experienceSchema = z.object({
+    experience: z
+      .string()
+      .min(10, "Experience description should be at least 10 characters")
+      .optional(),
+  });
+
+  const resumeSchema = z.object({
+    resume: z
+      .instanceof(File)
+      .refine((file) => file?.type === "application/pdf", {
+        message: "Only PDF files are allowed.",
+      }),
+  });
+
+  // Form instances
   const usernameMethod = useForm<z.infer<typeof usernameSchema>>({
     resolver: zodResolver(usernameSchema),
     defaultValues: {},
@@ -53,23 +92,37 @@ export default function OptionsUser() {
 
   const passwordMethod = useForm<z.infer<typeof passwordSchema>>({
     resolver: zodResolver(passwordSchema),
-    defaultValues: {
-      password: "",
-    },
+    defaultValues: { password: "" },
   });
 
   const emailMethod = useForm<z.infer<typeof emailSchema>>({
     resolver: zodResolver(emailSchema),
-    defaultValues: {
-      email: "",
-    },
+    defaultValues: { email: "" },
   });
 
   const profilePictureMethod = useForm<z.infer<typeof profilePictureSchema>>({
     resolver: zodResolver(profilePictureSchema),
-    defaultValues: {
-      profilePicture: null,
-    },
+    defaultValues: { profilePicture: null },
+  });
+
+  const gpaForm = useForm<z.infer<typeof gpaSchema>>({
+    resolver: zodResolver(gpaSchema),
+    defaultValues: { gpa: "" },
+  });
+
+  const courseworkForm = useForm<z.infer<typeof courseworkSchema>>({
+    resolver: zodResolver(courseworkSchema),
+    defaultValues: { coursework: "" },
+  });
+
+  const experienceForm = useForm<z.infer<typeof experienceSchema>>({
+    resolver: zodResolver(experienceSchema),
+    defaultValues: { experience: "" },
+  });
+
+  const resumeUploadForm = useForm<z.infer<typeof resumeSchema>>({
+    resolver: zodResolver(resumeSchema),
+    defaultValues: { resume: null },
   });
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -81,23 +134,8 @@ export default function OptionsUser() {
     }
   }
 
-  // Separate submit handlers for each form section
-  function handleUsernameSubmit(values: { username: string }) {
-    console.log("Username Values:", values);
-  }
-
-  function handlePasswordSubmit(values: { password: string }) {
-    console.log("Password Values:", values);
-  }
-
-  function handleEmailSubmit(values: { email: string }) {
-    console.log("Email Values:", values);
-  }
-
-  function handleProfilePictureSubmit(values: {
-    profilePicture: FileList | null;
-  }) {
-    console.log("Profile Picture Values:", values);
+  function handleSubmit(formName: string, data: any) {
+    console.log(`${formName} form submitted:`, data);
   }
 
   return (
@@ -109,6 +147,7 @@ export default function OptionsUser() {
           <span className="underline underline-offset-4">username.</span>
         </h1>
       </div>
+
       {/* Profile Section */}
       <div className="m-16 flex flex-col" id="profile">
         <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6 z-10">
@@ -117,38 +156,40 @@ export default function OptionsUser() {
         <div className="m-6 text-md w-1/2">
           {/* Username Form */}
           <FormProvider {...usernameMethod}>
-            <Form {...usernameMethod}>
-              <form
-                onSubmit={usernameMethod.handleSubmit(handleUsernameSubmit)}
-                className="space-y-4 my-4"
-              >
-                <FormField
-                  control={usernameMethod.control}
-                  name="username"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Username</FormLabel>
-                      <FormControl>
-                        <Input placeholder="username" {...field} />
-                      </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <Button type="submit" variant="secondary" className="mt-4 mb-6">
-                  Update Username
-                </Button>
-              </form>
-            </Form>
+            <form
+              onSubmit={usernameMethod.handleSubmit((data) =>
+                handleSubmit("Username", data)
+              )}
+              className="space-y-4 my-4"
+            >
+              <FormField
+                control={usernameMethod.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="username" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      This is your public display name.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant="secondary" className="mt-4 mb-6">
+                Update Username
+              </Button>
+            </form>
           </FormProvider>
 
           {/* Password Form */}
-          <Form {...passwordMethod}>
+          <FormProvider {...passwordMethod}>
             <form
-              onSubmit={passwordMethod.handleSubmit(handlePasswordSubmit)}
+              onSubmit={passwordMethod.handleSubmit((data) =>
+                handleSubmit("Password", data)
+              )}
               className="space-y-4 my-4"
             >
               <FormField
@@ -169,12 +210,14 @@ export default function OptionsUser() {
                 Update Password
               </Button>
             </form>
-          </Form>
+          </FormProvider>
 
           {/* Email Form */}
-          <Form {...emailMethod}>
+          <FormProvider {...emailMethod}>
             <form
-              onSubmit={emailMethod.handleSubmit(handleEmailSubmit)}
+              onSubmit={emailMethod.handleSubmit((data) =>
+                handleSubmit("Email", data)
+              )}
               className="space-y-4 my-4"
             >
               <FormField
@@ -195,13 +238,13 @@ export default function OptionsUser() {
                 Update Email
               </Button>
             </form>
-          </Form>
+          </FormProvider>
 
           {/* Profile Picture Form */}
-          <Form {...profilePictureMethod}>
+          <FormProvider {...profilePictureMethod}>
             <form
-              onSubmit={profilePictureMethod.handleSubmit(
-                handleProfilePictureSubmit
+              onSubmit={profilePictureMethod.handleSubmit((data) =>
+                handleSubmit("Profile Picture", data)
               )}
               className="space-y-4 my-4"
             >
@@ -242,63 +285,129 @@ export default function OptionsUser() {
                 Update Profile Picture
               </Button>
             </form>
-          </Form>
+          </FormProvider>
         </div>
       </div>
 
       {/* Resume Section */}
-      <div className="m-16 flex flex-col" id="resume">
+      <div className="m-16 flex w-1/2 flex-col" id="resume">
         <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500 z-10">
           Resume
         </h3>
-        <div className="m-6 text-md">
-          {/* Need to add
-          - GPA Selector
-          - Coursework Selector
-          - Previous Work Experience
-          */}
-          <p>Resume goes here.</p>
-          <p>They can upload a file of their resume here</p>
-        </div>
-      </div>
+        <div className="m-6 text-md space-y-6">
+          {/* Resume Upload Form */}
+          <FormProvider {...resumeUploadForm}>
+            <form
+              onSubmit={resumeUploadForm.handleSubmit((data) =>
+                handleSubmit("Resume", data)
+              )}
+              className="space-y-4"
+            >
+              <FormField
+                control={resumeUploadForm.control}
+                name="resume"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Resume</FormLabel>
+                    <FormControl>
+                      <Input type="file" accept="application/pdf" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Upload your resume (PDF only).
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant="secondary">
+                Upload Resume
+              </Button>
+            </form>
+          </FormProvider>
 
-      {/* Preferences Section */}
-      <div className="m-16 flex flex-col" id="preferences">
-        <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500">
-          Preferences
-        </h3>
-        <div className="m-6 text-md">
-          <p>Preferences go here.</p>
-          <p>They can select preferences for the following</p>
-          <ul>
-            <li>
-              Location (Online/In Person - Certain radius from the user's home)
-            </li>
-            <li>Industry (Tags: CS, Med, Engineering, Fast food, etc)</li>
-            <li>Role (Intern, Paid Intern, employee, etc)</li>
-            <li>Salary (Range)</li>
-          </ul>
-        </div>
-      </div>
+          {/* GPA Form */}
+          <FormProvider {...gpaForm}>
+            <form
+              onSubmit={gpaForm.handleSubmit((data) =>
+                handleSubmit("GPA", data)
+              )}
+              className="space-y-4"
+            >
+              <FormField
+                control={gpaForm.control}
+                name="gpa"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>GPA</FormLabel>
+                    <FormControl>
+                      <Input placeholder="4.0" {...field} />
+                    </FormControl>
+                    <FormDescription>Your current GPA.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant="secondary">
+                Save GPA
+              </Button>
+            </form>
+          </FormProvider>
 
-      {/* Applications Section */}
-      <div className="m-16 flex flex-col" id="applications">
-        <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500">
-          Applications
-        </h3>
-        <div className="m-6 text-md">
-          <p>You have no pending applications.</p>
-          <p>
-            This is where the user can see/adjust any applications they have
-            currently sent out
-          </p>
-          <p>They can</p>
-          <ul>
-            <li>View the job details</li>
-            <li>View/Change their application details</li>
-            <li>View the status of their application</li>
-            <li>Cancel their application</li>
-          </ul>
+          {/* Coursework Form */}
+          <FormProvider {...courseworkForm}>
+            <form
+              onSubmit={courseworkForm.handleSubmit((data) =>
+                handleSubmit("Coursework", data)
+              )}
+              className="space-y-4"
+            >
+              <FormField
+                control={courseworkForm.control}
+                name="coursework"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Coursework</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Coursework" {...field} />
+                    </FormControl>
+                    <FormDescription>Relevant coursework.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant="secondary">
+                Save Coursework
+              </Button>
+            </form>
+          </FormProvider>
+
+          {/* Experience Form */}
+          <FormProvider {...experienceForm}>
+            <form
+              onSubmit={experienceForm.handleSubmit((data) =>
+                handleSubmit("Experience", data)
+              )}
+              className="space-y-4"
+            >
+              <FormField
+                control={experienceForm.control}
+                name="experience"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Experience</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Experience" {...field} />
+                    </FormControl>
+                    <FormDescription>Work experience.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" variant="secondary">
+                Save Experience
+              </Button>
+            </form>
+          </FormProvider>
         </div>
       </div>
     </div>
