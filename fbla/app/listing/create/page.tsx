@@ -108,7 +108,6 @@ const industries = [
 export default function OptionsCompany() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
-    const [setting, setSetting] = React.useState<string | null>(null);
     const [type, setType] = React.useState<string | null>(null);
 
 
@@ -123,7 +122,6 @@ export default function OptionsCompany() {
             //   console.log("Selected Place:", place);
         }
     };
-
 
     const formSchema = z.object({
         title: z.string().min(2, {
@@ -155,17 +153,11 @@ export default function OptionsCompany() {
         }),
         type: z.enum(["fulltime", "parttime", "internship"], {
             message: "You need to select a type of job.",
-        })
+        }),
+        address: z.string().optional()
     });
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            password: "",
-            email: "",
-        },
-    });
+
 
     const listingForm = useForm<z.infer<typeof listingFormSchema>>({
         resolver: zodResolver(listingFormSchema),
@@ -176,17 +168,17 @@ export default function OptionsCompany() {
             hours: "",
             setting: "online",
             type: "fulltime",
-        },
+            address: "",
+        }
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-    }
 
     function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
         // console.log("New Listing:", values);
         console.log("e")
     }
+
+    const setting = listingForm.watch("setting");
 
     return (
         <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth overflow-x-hidden">
@@ -276,17 +268,26 @@ export default function OptionsCompany() {
                                                 </FormItem>
                                             </RadioGroup>
                                         </FormControl>
-                                        {/* Conditional rendering for 'online' */}
+                                        
                                         {setting === "inperson" && isLoaded && (
-                                            <FormItem>
-                                                <FormLabel>Address</FormLabel>
-                                                <FormControl>
-                                                    <Autocomplete onLoad={(ref) => (autocompleteRef.current = ref)} onPlaceChanged={handlePlaceChanged}>
-                                                        <Input placeholder="Enter address" {...field} />
-                                                    </Autocomplete>
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
+                                            <FormField
+                                                control={listingForm.control}
+                                                name="address"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Address</FormLabel>
+                                                        <FormControl>
+                                                            <Autocomplete 
+                                                                onLoad={(ref) => (autocompleteRef.current = ref)} 
+                                                                onPlaceChanged={handlePlaceChanged}
+                                                            >
+                                                                <Input placeholder="Enter address" {...field} />
+                                                            </Autocomplete>
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         )}
                                         <FormMessage />
                                     </FormItem>

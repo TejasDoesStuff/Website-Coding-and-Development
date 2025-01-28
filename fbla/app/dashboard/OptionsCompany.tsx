@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react"; 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
@@ -107,7 +107,6 @@ const industries = [
 export default function OptionsCompany() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
-    const [setting, setSetting] = React.useState<string | null>(null);
     // const [type, setType] = React.useState<string | null>(null);
 
 
@@ -154,7 +153,8 @@ export default function OptionsCompany() {
         }),
         type: z.enum(["fulltime", "parttime", "internship"], {
             message: "You need to select a type of job.",
-        })
+        }),
+        address: z.string().optional()
     });
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -175,6 +175,7 @@ export default function OptionsCompany() {
             hours: "",
             setting: "online",
             type: "fulltime",
+            address: ""
         },
     });
 
@@ -187,6 +188,8 @@ export default function OptionsCompany() {
         console.log("e")
     }
 
+
+
     return (
         <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth">
             <div className="mx-16 mt-8">
@@ -194,7 +197,8 @@ export default function OptionsCompany() {
                     <div>Welcome <span className="underline underline-offset-4">company.</span></div>
                     
                     <Button variant="secondary">
-                    <Plus /> <Link href="/listing/create">Add Listing</Link>
+                        
+                    <Link href="/listing/create"><Plus /><span>Add Listing</span></Link>
                     </Button>
                 </h1>
             </div>
