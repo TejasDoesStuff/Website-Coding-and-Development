@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react"; 
+import React, {useEffect, useState} from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import { z } from "zod";
@@ -36,6 +36,8 @@ import Password from "./forms/Password";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { Plus } from "lucide-react"
 import Link from "next/link";
+import axios from "axios";
+import CheckLogIn from "@/app/components/CheckLogIn";
 
 
 
@@ -109,7 +111,17 @@ export default function OptionsCompany() {
     const [value, setValue] = React.useState("");
     const [setting, setSetting] = React.useState<string | null>(null);
     // const [type, setType] = React.useState<string | null>(null);
+    const [name, setName] = React.useState<string | null>("Company");
 
+    useEffect(() => {
+        axios.get("https://fbla.ineshd.com/user", { withCredentials: true })
+            .then(response => {
+                setName(response.data.name);
+            })
+            .catch(error => {
+                setName("Company");
+            });
+    }, []);
 
     const autocompleteRef = React.useRef(null);
     const { isLoaded } = useLoadScript({
@@ -127,12 +139,6 @@ export default function OptionsCompany() {
     const formSchema = z.object({
         title: z.string().min(2, {
             message: "Title must be at least 3 characters.",
-        }),
-        password: z.string().min(6, {
-            message: "Password must be at least 6 characters.",
-        }),
-        email: z.string().email({
-            message: "Email must be valid",
         }),
     });
 
@@ -161,8 +167,6 @@ export default function OptionsCompany() {
         resolver: zodResolver(formSchema),
         defaultValues: {
             title: "",
-            password: "",
-            email: "",
         },
     });
 
@@ -179,7 +183,20 @@ export default function OptionsCompany() {
     });
 
     function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+        // console.log(values);
+        try {
+            const response = await axios.post('https://fbla.ineshd.com/listings', values, { withCredentials: true });
+            console.log(response);
+
+            if (response.status !== 200) {
+                throw new Error('Failed to create listing');
+            }
+
+            const data = await response.data;
+            console.log('Listing created:', data);
+        } catch (error) {
+            console.error('Error creating listing:', error);
+        }
     }
 
     function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
@@ -189,9 +206,10 @@ export default function OptionsCompany() {
 
     return (
         <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth">
+            <CheckLogIn />
             <div className="mx-16 mt-8">
                 <h1 className="text-5xl font-bold flex items-center justify-between">
-                    <div>Welcome <span className="underline underline-offset-4">company.</span></div>
+                    <div>Welcome <span className="underline underline-offset-4">{name}.</span></div>
                     
                     <Button variant="secondary">
                     <Plus /> <Link href="/listing/create">Add Listing</Link>
@@ -221,23 +239,7 @@ export default function OptionsCompany() {
                                     </FormItem>
                                 )}
                             />
-
-                            <FormField
-                                control={form.control}
-                                name="email"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Email</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="conext@gmail.com" {...field} />
-                                        </FormControl>
-                                        <FormDescription>This is your email.</FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <Password />
-                            <Popover open={open} onOpenChange={setOpen}>
+                            {/* <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
@@ -285,11 +287,11 @@ export default function OptionsCompany() {
                                     </Command>
                                 </PopoverContent>
                             </Popover>
-                            <p>Change profile picture here: File upload/Remove pfp</p>
+                            <p>Change profile picture here: File upload/Remove pfp</p> */}
                             <Button type="submit" variant="secondary">
                                 Submit
                             </Button>
-                            <Button className="ml-4 bg-red-600 text-white hover:bg-red-700">
+                            <Button className="ml-4 bg-red-600 text-white hover:bg-red-700" onSubmit={listingForm.handleSubmit(onListingSubmit)}>
                                 Cancel
                             </Button>
                         </form>

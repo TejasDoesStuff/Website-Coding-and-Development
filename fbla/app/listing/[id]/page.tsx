@@ -21,7 +21,7 @@ interface Review {
 }
 
 interface Post {
-    title: string
+    name: string
     description: string
     company: string
     thumbnailImage: string
@@ -43,7 +43,9 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch(`https://fbla.ineshd.com/listings`);
+                const response = await fetch('https://fbla.ineshd.com/listings', {
+                    credentials: 'include', // Include cookies in the request
+                });
                 const posts = await response.json();
                 if (unwrappedParams.id && posts[unwrappedParams.id]) {
                     setPost(posts[unwrappedParams.id]);
@@ -69,9 +71,24 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     if (!post) {
         return <div>Post not found</div>; // Handle error if post is not found
     }
+    if (!post.expandedImages) {
+        post.expandedImages = ["https://unsplash.it/500/500?random"];
+    }
+    if (!post.requirements) {
+        post.requirements = ["No requirements"];
+    }
+    if (!post.tags) {
+        post.tags = ["No tags"];
+    }
+    if (!post.reviews) {
+        post.reviews = [{
+            user: "No reviews",
+            stars: 0
+        }];
+    }
 
     const images = post.expandedImages.map((image, index) => (
-        <Image key={index} src={image} alt={post.title} width={500} height={500} className='object-cover h-[500px] overflow-hidden px-3' />
+        <Image key={index} src={image} alt={post.name} width={500} height={500} className='object-cover h-[500px] overflow-hidden px-3' />
     ));
 
     const requirements = post.requirements.map((req, index) => (
@@ -83,8 +100,8 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     ));
 
     const reviews = post.reviews.map((review, index) => {
-        let stars = "⭐ ";
-        for (let i = 1; i < review.stars; i++) {
+        let stars = "";
+        for (let i = 0; i < review.stars; i++) {
             stars += "⭐ ";
         }
         return (
@@ -107,7 +124,7 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
             <Header />
             <div className='px-48 grid grid-cols-2 gap-16 overflow-y-auto h-full p-4'>
                 <div>
-                    <h1 className='text-3xl'>{post.title}</h1>
+                    <h1 className='text-3xl'>{post.name}</h1>
                     <div className="pt-2">
                         {tags}
                     </div>

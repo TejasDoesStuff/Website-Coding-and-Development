@@ -20,7 +20,10 @@ const sessionSecret = crypto.randomBytes(64).toString('hex');
 console.log(sessionSecret);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+    origin: 'https://connexting.ineshd.com', // Replace with your frontend URL
+    credentials: true, // Allow cookies to be sent with the request
+}));
 app.use(express.json());
 app.use(cookieParser()); // Use cookie-parser middleware
 app.use(session({
@@ -52,12 +55,12 @@ app.get('/auth/google/callback',
     (req, res) => {
         const token = req.user.oAuthConnection.accessToken;
         res.cookie('authToken', token, {
-            httpOnly: true,
-            secure: true,
-            sameSite: 'Strict',
+            httpOnly: false,
+            secure: false,
+            sameSite: 'strict',
             maxAge: 24 * 60 * 60 * 1000,
         });
-        res.redirect('http://localhost:3000');
+        res.redirect('https://connexting.ineshd.com/dashboard');
     }
 );
 
@@ -81,6 +84,7 @@ const authenticateUser = async (req, res, next) => {
             token = authHeader.split(' ')[1]; // Extract token after 'Bearer '
         }
     }
+
 
     console.log(token); // Debug log for the retrieved token
 
@@ -125,7 +129,7 @@ app.post('/listings', authenticateUser, isRecruiter, async (req, res) => {
     }
 });
 
-app.get('/listings', async (req, res) => {
+app.get('/listings', authenticateUser, async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1;
         const limit = parseInt(req.query.limit) || 10;
@@ -154,6 +158,34 @@ app.get('/listings', async (req, res) => {
         console.error(error);
         res.status(500).json({ message: 'Internal server error' });
     }
+});
+
+// get own info
+app.get('/user', authenticateUser, async (req, res) => {
+    try {
+        res.json(req.user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// edit own name
+app.patch('/user', authenticateUser, async (req, res) => {
+    try {
+        req.user.name = req.body.name;
+        await req.user.save();
+        res.json(req.user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+});
+
+// log out (delete cookies)
+app.get('/logout', (req, res) => {
+    res.clearCookie('authToken');
+    res.redirect('/');
 });
 
 app.listen(port, () => {

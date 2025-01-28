@@ -3,8 +3,8 @@ import Link from "next/link";
 
 const Header = () => {
   return (
-    <div className="relative w-screen min-h-24 bg-background p-6 text-xl flex items-center max-sm:flex-col border-b border-gray-600 dropshadow-2xl">
-      <h1 className="text-text font-bold absolute max-sm:pb-8 max-sm:relative">
+    <div className="sticky max-w-screen min-h-24 bg-background p-6 text-xl flex items-center max-sm:flex-col border-b border-gray-600 dropshadow-2xl">
+      <h1 className="text-text font-bold max-sm:pb-8 max-sm:relative">
         <Link href="/">Connext</Link>
       </h1>
       <div className="flex-grow"></div>
@@ -21,7 +21,7 @@ const Header = () => {
         </div>
       </div>
       <div className="flex-grow"></div>
-      <div className="rounded-full bg-accent aspect-square h-2/3 absolute right-0 m-10"></div>
+      <div className="rounded-full bg-accent aspect-square h-2/3 absolute right-0 m-10 max-sm:hidden"></div>
     </div>
   );
 };

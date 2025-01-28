@@ -36,21 +36,21 @@ export default function OptionsUser() {
       .min(2, { message: "Username must be at least 2 characters." }),
   });
 
-  const passwordSchema = z.object({
-    password: z
-      .string()
-      .min(6, { message: "Password must be at least 6 characters." }),
-  });
+  // const passwordSchema = z.object({
+  //   password: z
+  //     .string()
+  //     .min(6, { message: "Password must be at least 6 characters." }),
+  // });
 
-  const emailSchema = z.object({
-    email: z.string().email({ message: "Please enter a valid email address." }),
-  });
+  // const emailSchema = z.object({
+  //   email: z.string().email({ message: "Please enter a valid email address." }),
+  // });
 
-  const profilePictureSchema = z.object({
-    profilePicture: z.custom<FileList | null>(
-      (val) => val instanceof FileList || val === null
-    ),
-  });
+  // const profilePictureSchema = z.object({
+  //   profilePicture: z.custom<FileList | null>(
+  //     (val) => val instanceof FileList || val === null
+  //   ),
+  // });
 
   const gpaSchema = z.object({
     gpa: z
@@ -90,20 +90,20 @@ export default function OptionsUser() {
     defaultValues: {},
   });
 
-  const passwordMethod = useForm<z.infer<typeof passwordSchema>>({
-    resolver: zodResolver(passwordSchema),
-    defaultValues: { password: "" },
-  });
+  // const passwordMethod = useForm<z.infer<typeof passwordSchema>>({
+  //   resolver: zodResolver(passwordSchema),
+  //   defaultValues: { password: "" },
+  // });
 
-  const emailMethod = useForm<z.infer<typeof emailSchema>>({
-    resolver: zodResolver(emailSchema),
-    defaultValues: { email: "" },
-  });
+  // const emailMethod = useForm<z.infer<typeof emailSchema>>({
+  //   resolver: zodResolver(emailSchema),
+  //   defaultValues: { email: "" },
+  // });
 
-  const profilePictureMethod = useForm<z.infer<typeof profilePictureSchema>>({
-    resolver: zodResolver(profilePictureSchema),
-    defaultValues: { profilePicture: null },
-  });
+  // const profilePictureMethod = useForm<z.infer<typeof profilePictureSchema>>({
+  //   resolver: zodResolver(profilePictureSchema),
+  //   defaultValues: { profilePicture: null },
+  // });
 
   const gpaForm = useForm<z.infer<typeof gpaSchema>>({
     resolver: zodResolver(gpaSchema),
@@ -184,7 +184,7 @@ export default function OptionsUser() {
             </form>
           </FormProvider>
 
-          {/* Password Form */}
+          {/*
           <FormProvider {...passwordMethod}>
             <form
               onSubmit={passwordMethod.handleSubmit((data) =>
@@ -212,7 +212,6 @@ export default function OptionsUser() {
             </form>
           </FormProvider>
 
-          {/* Email Form */}
           <FormProvider {...emailMethod}>
             <form
               onSubmit={emailMethod.handleSubmit((data) =>
@@ -240,7 +239,6 @@ export default function OptionsUser() {
             </form>
           </FormProvider>
 
-          {/* Profile Picture Form */}
           <FormProvider {...profilePictureMethod}>
             <form
               onSubmit={profilePictureMethod.handleSubmit((data) =>
@@ -285,7 +283,7 @@ export default function OptionsUser() {
                 Update Profile Picture
               </Button>
             </form>
-          </FormProvider>
+          </FormProvider> */}
         </div>
       </div>
 

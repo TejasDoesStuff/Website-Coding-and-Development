@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -15,102 +14,41 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
-
-import { cn } from "@/lib/utils";
-
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Password from "../../dashboard/forms/Password";
-import { useLoadScript, Autocomplete } from "@react-google-maps/api";
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
 import Header from "@/app/components/Header";
+import { useLoadScript, Autocomplete } from "@react-google-maps/api";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import axios from "axios"; // Add this import
 
 const libraries = ["places"];
 
-const industries = [
-    {
-        value: "technology",
-        label: "Technology",
-    },
-    {
-        value: "finance",
-        label: "Finance",
-    },
-    {
-        value: "healthcare",
-        label: "Healthcare",
-    },
-    {
-        value: "education",
-        label: "Education",
-    },
-    {
-        value: "manufacturing",
-        label: "Manufacturing",
-    },
-    {
-        value: "retail",
-        label: "Retail",
-    },
-    {
-        value: "transportation",
-        label: "Transportation",
-    },
-    {
-        value: "real_estate",
-        label: "Real Estate",
-    },
-    {
-        value: "hospitality",
-        label: "Hospitality",
-    },
-    {
-        value: "energy",
-        label: "Energy",
-    },
-    {
-        value: "agriculture",
-        label: "Agriculture",
-    },
-    {
-        value: "entertainment",
-        label: "Entertainment",
-    },
-    {
-        value: "construction",
-        label: "Construction",
-    },
-    {
-        value: "telecommunications",
-        label: "Telecommunications",
-    },
-    {
-        value: "legal",
-        label: "Legal",
-    },
-];
+const listingFormSchema = z.object({
+    name: z.string().min(3, {
+        message: "Job name must be at least 3 characters.",
+    }),
+    description: z.string().min(3).max(300, {
+        message: "Description is at max 300 characters.",
+    }),
+    pay: z.string().regex(/^[0-9]+$/, {
+        message: "Salary must be a number",
+    }),
+    hours: z.string().regex(/^[0-9]+$/, {
+        message: "Hours must be a number",
+    }),
+    setting: z.enum(["inperson", "online"], {
+        message: "You need to select a location.",
+    }),
+    type: z.enum(["fulltime", "parttime", "internship"], {
+        message: "You need to select a type of job.",
+    })
+});
 
 export default function OptionsCompany() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
     const [setting, setSetting] = React.useState<string | null>(null);
     const [type, setType] = React.useState<string | null>(null);
-
 
     const autocompleteRef = React.useRef(null);
     const { isLoaded } = useLoadScript({
@@ -120,72 +58,35 @@ export default function OptionsCompany() {
     const handlePlaceChanged = () => {
         if (autocompleteRef.current) {
             const place = autocompleteRef.current.getPlace();
-            //   console.log("Selected Place:", place);
         }
     };
-
-
-    const formSchema = z.object({
-        title: z.string().min(2, {
-            message: "Title must be at least 3 characters.",
-        }),
-        password: z.string().min(6, {
-            message: "Password must be at least 6 characters.",
-        }),
-        email: z.string().email({
-            message: "Email must be valid",
-        }),
-    });
-
-    const listingFormSchema = z.object({
-        name: z.string().min(3, {
-            message: "Job name must be at least 3 characters.",
-        }),
-        description: z.string().min(3).max(300, {
-            message: "Description is at max 300 characters.",
-        }),
-        salary: z.string().regex(/^[0-9]+$/, {
-            message: "Salary must be a number",
-        }),
-        hours: z.string().regex(/^[0-9]+$/, {
-            message: "Hours must be a number",
-        }),
-        setting: z.enum(["inperson", "online"], {
-            message: "You need to select a location.",
-        }),
-        type: z.enum(["fulltime", "parttime", "internship"], {
-            message: "You need to select a type of job.",
-        })
-    });
-
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            password: "",
-            email: "",
-        },
-    });
 
     const listingForm = useForm<z.infer<typeof listingFormSchema>>({
         resolver: zodResolver(listingFormSchema),
         defaultValues: {
             name: "",
             description: "",
-            salary: "",
+            pay: "",
             hours: "",
             setting: "online",
             type: "fulltime",
         },
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-    }
+    async function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
+        try {
+            const response = await axios.post('https://fbla.ineshd.com/listings', values, { withCredentials: true });
+            console.log(response);
 
-    function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
-        // console.log("New Listing:", values);
-        console.log("e")
+            if (response.status !== 200) {
+                throw new Error('Failed to create listing');
+            }
+
+            const data = await response.data;
+            console.log('Listing created:', data);
+        } catch (error) {
+            console.error('Error creating listing:', error);
+        }
     }
 
     return (
@@ -196,7 +97,7 @@ export default function OptionsCompany() {
                     Create Listing
                 </h1>
             </div>
-              
+
             <div className="m-16 flex flex-col" id="listings">
                 <div className="m-6 text-md w-1/2">
                     <Form {...listingForm}>
@@ -226,7 +127,6 @@ export default function OptionsCompany() {
                                         <FormControl>
                                             <Textarea
                                                 placeholder="Write a job description"
-                                                // className="resize-none"
                                                 {...field}
                                             />
                                         </FormControl>
@@ -239,7 +139,7 @@ export default function OptionsCompany() {
                             />
                             <FormField
                                 control={listingForm.control}
-                                name="salary"
+                                name="pay"
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Salary</FormLabel>
@@ -276,7 +176,6 @@ export default function OptionsCompany() {
                                                 </FormItem>
                                             </RadioGroup>
                                         </FormControl>
-                                        {/* Conditional rendering for 'online' */}
                                         {setting === "inperson" && isLoaded && (
                                             <FormItem>
                                                 <FormLabel>Address</FormLabel>
