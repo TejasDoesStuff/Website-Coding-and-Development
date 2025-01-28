@@ -3,7 +3,7 @@ import Header from "./components/Header";
 
 const page = () => {
   return (
-    <div>
+    <div className="overflow-hidden w-screen h-screen">
       <Header />
       <div className="w-full h-auto text-center relative flex overflow-hidden">
         <div className="absolute w-1/2 aspect-square bg-gradient-to-br from-accent-brand to-red-600 top-[-256] left-[-256] -z-10 rounded-full blur-md" />

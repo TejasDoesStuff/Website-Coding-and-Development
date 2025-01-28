@@ -7,11 +7,11 @@ import OptionsCompany from "./OptionsCompany"
 export default function Holder() {
     return (
         <div className="w-screen h-[87.5vh] flex flex-row overflow-y-hidden relative">
-            {/* <SelectorUser />
-            <OptionsUser /> */}
+            <SelectorUser />
+            <OptionsUser />
 
-            <SelectorCompany />
-            <OptionsCompany />
+            {/* <SelectorCompany />
+            <OptionsCompany /> */}
         </div>
     )
 }
