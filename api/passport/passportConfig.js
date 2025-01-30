@@ -5,7 +5,7 @@ import { User } from '../models/userModel.js';
 passport.use(new GoogleStrategy({
         clientID: '722979721080-rvskmdgcqj775v89fsnssfje3eultja3.apps.googleusercontent.com',
         clientSecret: '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',
-        callbackURL: 'https://fbla.ineshd.com/auth/google/callback'
+        callbackURL: 'https://connexting.ineshd.com/api/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
         try {

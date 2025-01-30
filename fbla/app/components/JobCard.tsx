@@ -127,7 +127,8 @@ const JobCard = ({post}: { post: Post }) => {
                     <h1>{post.company}</h1>
                 </CardHeader>
                 <CardContent>
-                    <Image src={post.thumbnailImage} alt={post.name} width={500} height={500} className='w-full'/>
+                    <Image src
+                    ={post.thumbnailImage} alt={post.name} width={500} height={500} className='w-full'/>
                     <div className="flex items-center justify-between p-5">
                         <div className="flex items-center">
                             <div>
@@ -135,14 +136,14 @@ const JobCard = ({post}: { post: Post }) => {
                                 <p>${post.pay} per hour</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-1">
+                        {/* <div className="flex items-center gap-1">
                             <Button variant="outline" size="icon">
                                 <MessageSquareMore/>
                             </Button>
                             <Button variant="outline" size="icon">
                                 <Star/>
                             </Button>
-                        </div>
+                        </div> */}
                     </div>
                 </CardContent>
             </Card>

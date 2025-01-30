@@ -43,8 +43,8 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     useEffect(() => {
         const fetchPost = async () => {
             try {
-                const response = await fetch('https://fbla.ineshd.com/listings', {
-                    credentials: 'include', // Include cookies in the request
+                const response = await fetch('https://connexting.ineshd.com/api/listings', {
+                    credentials: 'include',
                 });
                 const posts = await response.json();
                 if (unwrappedParams.id && posts[unwrappedParams.id]) {
@@ -65,95 +65,87 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }, [unwrappedParams.id]);
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div className="text-center mt-10">Loading...</div>;
     }
 
     if (!post) {
-        return <div>Post not found</div>; // Handle error if post is not found
-    }
-    if (!post.expandedImages) {
-        post.expandedImages = ["https://unsplash.it/500/500?random"];
-    }
-    if (!post.requirements) {
-        post.requirements = ["No requirements"];
-    }
-    if (!post.tags) {
-        post.tags = ["No tags"];
-    }
-    if (!post.reviews) {
-        post.reviews = [{
-            user: "No reviews",
-            stars: 0
-        }];
+        return <div className="text-center mt-10">Post not found</div>;
     }
 
-    const images = post.expandedImages.map((image, index) => (
-        <Image key={index} src={image} alt={post.name} width={500} height={500} className='object-cover h-[500px] overflow-hidden px-3' />
-    ));
+    const images = post.expandedImages?.length ? post.expandedImages.map((image, index) => (
+        <Image key={index} src={image} alt={post.name} width={500} height={500} 
+               className="object-fill h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3" />
+    )) : [
+        <Image key={0} src="https://unsplash.it/500/500?random" alt={post.name} width={500} height={500}
+               className="object-cover h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3" />
+    ];
 
-    const requirements = post.requirements.map((req, index) => (
-        <li key={index}>• {req}</li>
-    ));
+    const requirements = post.requirements?.length ? post.requirements.map((req, index) => (
+        <li key={index} className="text-sm sm:text-base">• {req}</li>
+    )) : <li className="text-sm sm:text-base">• No requirements</li>;
 
-    const tags = post.tags.map((tag, index) => (
-        <Badge key={index} variant="secondary" className='text-md mx-0.5'>{tag}</Badge>
-    ));
+    const tags = post.tags?.length ? post.tags.map((tag, index) => (
+        <Badge key={index} variant="secondary" className="text-xs sm:text-md mx-0.5">{tag}</Badge>
+    )) : <Badge variant="secondary" className="text-xs sm:text-md mx-0.5">No tags</Badge>;
 
-    const reviews = post.reviews.map((review, index) => {
-        let stars = "";
-        for (let i = 0; i < review.stars; i++) {
-            stars += "⭐ ";
-        }
-        return (
-            <Card key={index}>
-                <CardHeader>
-                    <div className='flex items-center justify-between'>
-                        <CardTitle>{review.user}</CardTitle>
-                        <p>{stars}</p>
-                    </div>
-                </CardHeader>
-                <CardContent>
-                    <p>{review.text}</p>
-                </CardContent>
-            </Card>
-        );
-    });
+    const reviews = post.reviews?.length ? post.reviews.map((review, index) => (
+        <Card key={index}>
+            <CardHeader>
+                <div className="flex items-center justify-between">
+                    <CardTitle className="text-sm sm:text-md">{review.user}</CardTitle>
+                    <p className="text-xs sm:text-md">{'⭐'.repeat(review.stars)}</p>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <p className="text-sm sm:text-base">{review.text}</p>
+            </CardContent>
+        </Card>
+    )) : (
+        <Card>
+            <CardHeader>
+                <CardTitle className="text-sm sm:text-md">No reviews</CardTitle>
+            </CardHeader>
+            <CardContent>
+                <p className="text-sm sm:text-base">No reviews available</p>
+            </CardContent>
+        </Card>
+    );
 
     return (
-        <div className='overflow-x-hidden'>
+        <div className="overflow-x-hidden">
             <Header />
-            <div className='px-48 grid grid-cols-2 gap-16 overflow-y-auto h-full p-4'>
+            {/* Job Details Section */}
+            <div className="px-4 sm:px-8 md:px-16 lg:px-48 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 overflow-y-auto h-full p-4">
                 <div>
-                    <h1 className='text-3xl'>{post.name}</h1>
-                    <div className="pt-2">
-                        {tags}
-                    </div>
-                    <br />
-                    <p className="text-xl">{post.company}</p>
-                    <br />
-                    <h1 className='text-lg'>{post.description}</h1>
-                    <br />
-                    <h1 className='text-xl'>Requirements:</h1>
-                    <ul>
-                        {requirements}
-                    </ul>
-                    <br />
-                    <Button className='w-full' variant="outline">Apply</Button>
+                    <h1 className="text-xl sm:text-2xl md:text-3xl md:text-left text-center">{post.name}</h1>
+                    <div className="pt-2 flex flex-wrap gap-1 justify-center md:justify-start">{tags}</div>
+                    <p className="text-md sm:text-lg">{post.company}</p>
+                    <h1 className="text-md sm:text-lg mt-2">{post.description}</h1>
+                    <h1 className="text-lg sm:text-xl mt-4">Requirements:</h1>
+                    <ul className="text-sm sm:text-base">{requirements}</ul>
+                    {/* Apply Button */}
+                    <Button className="w-full px-4 py-2 mt-4" variant="outline">Apply</Button>
                 </div>
-                <div>
-                    <Marquee speed={100} pauseOnHover={true} className='rounded-3xl'>{images}</Marquee>
+
+                {/* Image Marquee Section */}
+                <div className="flex justify-center">
+                    {images}
+                    {/* <Marquee speed={0} pauseOnHover className="rounded-3xl">
+                        {images}
+                    </Marquee> */}
                 </div>
             </div>
-            <br />
-            <div className='px-48'>
-                <h1 className='text-xl'>Reviews:</h1>
-                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+
+            {/* Reviews Section */}
+            <div className="px-4 sm:px-8 md:px-16 lg:px-48 mt-6">
+                {/* <h1 className="text-lg sm:text-xl">Reviews:</h1>
+                <div className="mt-2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 hidden sm:block">
                     {reviews}
-                </div>
-                <br />
-                <Button className='w-full mt-1' variant="destructive" asChild>
-                    <Link href="/">Back</Link>
-                </Button>
+                </div> */}
+                {/* Back Button */}
+                <Button className="w-full" variant="destructive" asChild>
+                    <Link href="/browse">Back</Link>
+            </Button>
             </div>
         </div>
     )

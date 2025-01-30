@@ -9,7 +9,7 @@ const CheckLogIn: React.FC = () => {
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const response = await axios.get('https://fbla.ineshd.com/user', { withCredentials: true });
+                const response = await axios.get('https://connexting.ineshd.com/api/user', { withCredentials: true });
                 if (response.status === 200) {
                     setIsLoggedIn(true);
                 } else {

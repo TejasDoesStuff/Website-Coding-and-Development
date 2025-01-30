@@ -5,21 +5,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f47beed1-e601-4e9c-bad2-c9ac560b796d" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/fbla/app/components/CheckLogIn.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/api/models/listingConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/models/listingConfig.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/api/passport/passportConfig.js" beforeDir="false" afterPath="$PROJECT_DIR$/api/passport/passportConfig.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/browse/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/browse/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fbla/app/components/CheckLogIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/components/CheckLogIn.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/components/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbla/app/components/JobCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/components/JobCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/dashboard/Holder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/dashboard/Holder.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/dashboard/OptionsCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/dashboard/OptionsCompany.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/dashboard/OptionsUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/dashboard/OptionsUser.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbla/app/home/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/home/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/listing/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/listing/[id]/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/app/listing/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/listing/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbla/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/fbla/next.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/next.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/fbla/app/signup/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/app/signup/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/fbla/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/fbla/package.json" afterDir="false" />
     </list>
@@ -101,7 +97,7 @@
       <workItem from="1735368440471" duration="31000" />
       <workItem from="1737857036111" duration="181000" />
       <workItem from="1737857223612" duration="7619000" />
-      <workItem from="1738036848996" duration="8174000" />
+      <workItem from="1738036848996" duration="17643000" />
     </task>
     <servers />
   </component>

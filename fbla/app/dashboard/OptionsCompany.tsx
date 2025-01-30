@@ -114,7 +114,7 @@ export default function OptionsCompany() {
     const [name, setName] = React.useState<string | null>("Company");
 
     useEffect(() => {
-        axios.get("https://fbla.ineshd.com/user", { withCredentials: true })
+        axios.get("https://connexting.ineshd.com/api/user", { withCredentials: true })
             .then(response => {
                 setName(response.data.name);
             })
@@ -184,19 +184,19 @@ export default function OptionsCompany() {
 
     function onSubmit(values: z.infer<typeof formSchema>) {
         // console.log(values);
-        try {
-            const response = await axios.post('https://fbla.ineshd.com/listings', values, { withCredentials: true });
-            console.log(response);
-
-            if (response.status !== 200) {
-                throw new Error('Failed to create listing');
-            }
-
-            const data = await response.data;
-            console.log('Listing created:', data);
-        } catch (error) {
-            console.error('Error creating listing:', error);
-        }
+        // try {
+        //     const response = await axios.post('https://connexting.ineshd.com/api/listings', values, { withCredentials: true });
+        //     console.log(response);
+        //
+        //     if (response.status !== 200) {
+        //         throw new Error('Failed to create listing');
+        //     }
+        //
+        //     const data = await response.data;
+        //     console.log('Listing created:', data);
+        // } catch (error) {
+        //     console.error('Error creating listing:', error);
+        // }
     }
 
     function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
@@ -208,19 +208,19 @@ export default function OptionsCompany() {
         <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth">
             <CheckLogIn />
             <div className="mx-16 mt-8">
-                <h1 className="text-5xl font-bold flex items-center justify-between">
+                <h1 className="text-5xl font-bold flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                     <div>Welcome <span className="underline underline-offset-4">{name}.</span></div>
                     
                     <Button variant="secondary">
-                    <Plus /> <Link href="/listing/create">Add Listing</Link>
+                     <Link href="/listing/create" className="flex flex-row justify-center items-center gap-2"><Plus /> Add Listing</Link>
                     </Button>
                 </h1>
             </div>
-            <div className="m-16 flex flex-col" id="company">
-                <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6">
+            <div className="md:m-16 flex flex-col" id="company">
+                <h3 className="text-2xl sticky top-0 backdrop-blur border-b border-gray-500 p-6 text-center md:text-left">
                     Company Overview
                 </h3>
-                <div className="m-6 text-md w-1/2">
+                <div className="m-6 text-md md:w-1/2">
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                             <FormField
@@ -239,7 +239,7 @@ export default function OptionsCompany() {
                                     </FormItem>
                                 )}
                             />
-                            {/* <Popover open={open} onOpenChange={setOpen}>
+                            {/* <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
                                         variant="outline"
@@ -286,20 +286,16 @@ export default function OptionsCompany() {
                                         </CommandList>
                                     </Command>
                                 </PopoverContent>
-                            </Popover>
-                            <p>Change profile picture here: File upload/Remove pfp</p> */}
+                            </Popover> */}
                             <Button type="submit" variant="secondary">
                                 Submit
-                            </Button>
-                            <Button className="ml-4 bg-red-600 text-white hover:bg-red-700" onSubmit={listingForm.handleSubmit(onListingSubmit)}>
-                                Cancel
                             </Button>
                         </form>
                     </Form>
                 </div>
             </div>
-            <div className="m-16 flex flex-col" id="applications">
-                <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500">
+            <div className="md:m-16 flex flex-col" id="applications">
+                <h3 className="text-2xl sticky top-0 backdrop-blur-sm p-6 border-b border-gray-500 text-center md:text-left">
                     Applications
                 </h3>
                 <div className="m-6 text-md">

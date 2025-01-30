@@ -20,7 +20,7 @@ const Search = () => {
   return (
     <div className = "w-screen bg-background flex flex-col items-center">
       <div className="w-full p-8 flex flex-col items-center justify-center">
-        <div className = "rounded-xl w-1/3 p-2 text-2xl flex justify-center items-center">
+        <div className = "rounded-xl w-full lg:w-1/2 p-2 text-2xl flex justify-center items-center ml-6">
             <input
             type="text"
             placeholder="Search..."

@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -14,41 +15,39 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+
 import * as React from "react";
-import { Textarea } from "@/components/ui/textarea";
-import Header from "@/app/components/Header";
+import { Check, ChevronsUpDown } from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+import {
+    Command,
+    CommandEmpty,
+    CommandGroup,
+    CommandInput,
+    CommandItem,
+    CommandList,
+} from "@/components/ui/command";
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import Password from "../../dashboard/forms/Password";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import axios from "axios"; // Add this import
+import { Textarea } from "@/components/ui/textarea"
+import Header from "@/app/components/Header";
+import axios from "axios";
 
 const libraries = ["places"];
-
-const listingFormSchema = z.object({
-    name: z.string().min(3, {
-        message: "Job name must be at least 3 characters.",
-    }),
-    description: z.string().min(3).max(300, {
-        message: "Description is at max 300 characters.",
-    }),
-    pay: z.string().regex(/^[0-9]+$/, {
-        message: "Salary must be a number",
-    }),
-    hours: z.string().regex(/^[0-9]+$/, {
-        message: "Hours must be a number",
-    }),
-    setting: z.enum(["inperson", "online"], {
-        message: "You need to select a location.",
-    }),
-    type: z.enum(["fulltime", "parttime", "internship"], {
-        message: "You need to select a type of job.",
-    })
-});
 
 export default function OptionsCompany() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
-    const [setting, setSetting] = React.useState<string | null>(null);
     const [type, setType] = React.useState<string | null>(null);
+
 
     const autocompleteRef = React.useRef(null);
     const { isLoaded } = useLoadScript({
@@ -58,8 +57,34 @@ export default function OptionsCompany() {
     const handlePlaceChanged = () => {
         if (autocompleteRef.current) {
             const place = autocompleteRef.current.getPlace();
+            //   console.log("Selected Place:", place);
         }
     };
+
+    const listingFormSchema = z.object({
+        name: z.string().min(3, {
+            message: "Job name must be at least 3 characters.",
+        }),
+        description: z.string().min(3).max(500, {
+            message: "Description is at max 500 characters.",
+        }),
+        pay: z.string().regex(/^[0-9]+$/, {
+            message: "pay must be a number",
+        }),
+        hours: z.string().regex(/^[0-9]+$/, {
+            message: "Hours must be a number",
+        }),
+        setting: z.enum(["inperson", "online"], {
+            message: "You need to select a location.",
+        }),
+        type: z.enum(["fulltime", "parttime", "internship"], {
+            message: "You need to select a type of job.",
+        }),
+        address: z.string().optional(),
+        image: z.instanceof(File).optional(),
+    });
+
+
 
     const listingForm = useForm<z.infer<typeof listingFormSchema>>({
         resolver: zodResolver(listingFormSchema),
@@ -70,12 +95,16 @@ export default function OptionsCompany() {
             hours: "",
             setting: "online",
             type: "fulltime",
-        },
+            address: "",
+        }
     });
 
+
     async function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
+        // console.log("New Listing:", values);
+        // console.log("e")
         try {
-            const response = await axios.post('https://fbla.ineshd.com/listings', values, { withCredentials: true });
+            const response = await axios.post('https://connexting.ineshd.com/api/listings', values, { withCredentials: true });
             console.log(response);
 
             if (response.status !== 200) {
@@ -89,17 +118,21 @@ export default function OptionsCompany() {
         }
     }
 
+    const setting = listingForm.watch("setting");
+
     return (
-        <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth overflow-x-hidden">
-            <Header />
+        <div>
+        <Header />
+        <div className="w-full h-full flex flex-col items-center lg:items-start overflow-y-scroll scroll-smooth overflow-x-hidden">
+
             <div className="mx-16 mt-8">
-                <h1 className="text-5xl font-bold">
+                <h1 className="text-5xl font-bold text-center">
                     Create Listing
                 </h1>
             </div>
-
-            <div className="m-16 flex flex-col" id="listings">
-                <div className="m-6 text-md w-1/2">
+              
+            <div className="m-16 flex flex-col w-4/5 md:w-2/3 lg:w-1/2 mt-0" id="listings">
+                <div className="m-6 text-md w-auto">
                     <Form {...listingForm}>
                         <form
                             onSubmit={listingForm.handleSubmit(onListingSubmit)}
@@ -131,7 +164,7 @@ export default function OptionsCompany() {
                                             />
                                         </FormControl>
                                         <FormDescription>
-                                            Maximum 300 words.
+                                            Maximum 500 characters.
                                         </FormDescription>
                                         <FormMessage />
                                     </FormItem>
@@ -142,9 +175,9 @@ export default function OptionsCompany() {
                                 name="pay"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Salary</FormLabel>
+                                        <FormLabel>Hourly Pay</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Enter salary" {...field} />
+                                            <Input placeholder="Enter pay" {...field} />
                                         </FormControl>
                                         <FormMessage />
                                     </FormItem>
@@ -176,16 +209,26 @@ export default function OptionsCompany() {
                                                 </FormItem>
                                             </RadioGroup>
                                         </FormControl>
+                                        
                                         {setting === "inperson" && isLoaded && (
-                                            <FormItem>
-                                                <FormLabel>Address</FormLabel>
-                                                <FormControl>
-                                                    <Autocomplete onLoad={(ref) => (autocompleteRef.current = ref)} onPlaceChanged={handlePlaceChanged}>
-                                                        <Input placeholder="Enter address" {...field} />
-                                                    </Autocomplete>
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
+                                            <FormField
+                                                control={listingForm.control}
+                                                name="address"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Address</FormLabel>
+                                                        <FormControl>
+                                                            <Autocomplete 
+                                                                onLoad={(ref) => (autocompleteRef.current = ref)} 
+                                                                onPlaceChanged={handlePlaceChanged}
+                                                            >
+                                                                <Input placeholder="Enter address" {...field} />
+                                                            </Autocomplete>
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
                                         )}
                                         <FormMessage />
                                     </FormItem>
@@ -232,7 +275,7 @@ export default function OptionsCompany() {
                                 name="hours"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Hours</FormLabel>
+                                        <FormLabel>Hours per Week</FormLabel>
                                         <FormControl>
                                             <Input placeholder="Enter hours" {...field} />
                                         </FormControl>
@@ -247,6 +290,7 @@ export default function OptionsCompany() {
                     </Form>
                 </div>
             </div>
+        </div>
         </div>
     );
 }

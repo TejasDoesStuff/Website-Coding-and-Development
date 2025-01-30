@@ -36,22 +36,6 @@ export default function OptionsUser() {
       .min(2, { message: "Username must be at least 2 characters." }),
   });
 
-  // const passwordSchema = z.object({
-  //   password: z
-  //     .string()
-  //     .min(6, { message: "Password must be at least 6 characters." }),
-  // });
-
-  // const emailSchema = z.object({
-  //   email: z.string().email({ message: "Please enter a valid email address." }),
-  // });
-
-  // const profilePictureSchema = z.object({
-  //   profilePicture: z.custom<FileList | null>(
-  //     (val) => val instanceof FileList || val === null
-  //   ),
-  // });
-
   const gpaSchema = z.object({
     gpa: z
       .string()
@@ -90,21 +74,6 @@ export default function OptionsUser() {
     defaultValues: {},
   });
 
-  // const passwordMethod = useForm<z.infer<typeof passwordSchema>>({
-  //   resolver: zodResolver(passwordSchema),
-  //   defaultValues: { password: "" },
-  // });
-
-  // const emailMethod = useForm<z.infer<typeof emailSchema>>({
-  //   resolver: zodResolver(emailSchema),
-  //   defaultValues: { email: "" },
-  // });
-
-  // const profilePictureMethod = useForm<z.infer<typeof profilePictureSchema>>({
-  //   resolver: zodResolver(profilePictureSchema),
-  //   defaultValues: { profilePicture: null },
-  // });
-
   const gpaForm = useForm<z.infer<typeof gpaSchema>>({
     resolver: zodResolver(gpaSchema),
     defaultValues: { gpa: "" },
@@ -122,7 +91,7 @@ export default function OptionsUser() {
 
   const resumeUploadForm = useForm<z.infer<typeof resumeSchema>>({
     resolver: zodResolver(resumeSchema),
-    defaultValues: { resume: null },
+    defaultValues: { resume: undefined },
   });
 
   function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -184,106 +153,7 @@ export default function OptionsUser() {
             </form>
           </FormProvider>
 
-          {/*
-          <FormProvider {...passwordMethod}>
-            <form
-              onSubmit={passwordMethod.handleSubmit((data) =>
-                handleSubmit("Password", data)
-              )}
-              className="space-y-4 my-4"
-            >
-              <FormField
-                control={passwordMethod.control}
-                name="password"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input type="password" placeholder="*******" {...field} />
-                    </FormControl>
-                    <FormDescription>This is your password.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="secondary" className="my-6">
-                Update Password
-              </Button>
-            </form>
-          </FormProvider>
 
-          <FormProvider {...emailMethod}>
-            <form
-              onSubmit={emailMethod.handleSubmit((data) =>
-                handleSubmit("Email", data)
-              )}
-              className="space-y-4 my-4"
-            >
-              <FormField
-                control={emailMethod.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="example@domain.com" {...field} />
-                    </FormControl>
-                    <FormDescription>This is your email.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="secondary" className="">
-                Update Email
-              </Button>
-            </form>
-          </FormProvider>
-
-          <FormProvider {...profilePictureMethod}>
-            <form
-              onSubmit={profilePictureMethod.handleSubmit((data) =>
-                handleSubmit("Profile Picture", data)
-              )}
-              className="space-y-4 my-4"
-            >
-              <FormItem>
-                <div className="flex flex-col items-start py-4">
-                  <FormLabel className="my-2">Profile Picture</FormLabel>
-                  <div className="relative">
-                    {preview ? (
-                      <img
-                        src={preview}
-                        alt="Profile Preview"
-                        className="w-32 h-32 object-cover rounded-full border"
-                      />
-                    ) : (
-                      <div className="w-32 h-32 bg-gray-200 flex items-center justify-center rounded-full border">
-                        <span className="text-gray-500">No Image</span>
-                      </div>
-                    )}
-                    <label
-                      htmlFor="profile-picture-upload"
-                      className="absolute bottom-2 right-2 bg-blue-500 text-white p-2 rounded-full cursor-pointer hover:bg-blue-600 transition"
-                    >
-                      <Edit className="w-4 h-4" />
-                    </label>
-                  </div>
-                </div>
-                <Input
-                  id="profile-picture-upload"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
-                  className="hidden"
-                />
-                <FormDescription>Upload your profile picture.</FormDescription>
-                <FormMessage />
-              </FormItem>
-              <Button type="submit" variant="secondary">
-                Update Profile Picture
-              </Button>
-            </form>
-          </FormProvider> */}
         </div>
       </div>
 
@@ -302,21 +172,31 @@ export default function OptionsUser() {
               className="space-y-4"
             >
               <FormField
-                control={resumeUploadForm.control}
-                name="resume"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Resume</FormLabel>
-                    <FormControl>
-                      <Input type="file" accept="application/pdf" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Upload your resume (PDF only).
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+  control={resumeUploadForm.control}
+  name="resume"
+  render={({ field: { onChange, onBlur, ref, ...rest } }) => (
+    <FormItem>
+      <FormLabel>Resume</FormLabel>
+      <FormControl>
+        <Input 
+          type="file" 
+          accept="application/pdf" 
+          onChange={(event) => {
+            const file = event.target.files?.[0];
+            if (file) {
+              onChange(file);
+            }
+          }} 
+          onBlur={onBlur}
+          ref={ref}
+        />
+      </FormControl>
+      <FormDescription>Upload your resume (PDF only).</FormDescription>
+      <FormMessage />
+    </FormItem>
+  )}
+/>
+
               <Button type="submit" variant="secondary">
                 Upload Resume
               </Button>
