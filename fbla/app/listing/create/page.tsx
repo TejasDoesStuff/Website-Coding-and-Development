@@ -39,80 +39,19 @@ import Password from "../../dashboard/forms/Password";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { Textarea } from "@/components/ui/textarea"
 import Header from "@/app/components/Header";
+import axios from "axios";
+import { compressImage } from "@/lib/utils/imageCompression";
+import Head from 'next/head'
 
-const libraries = ["places"];
-
-const industries = [
-    {
-        value: "technology",
-        label: "Technology",
-    },
-    {
-        value: "finance",
-        label: "Finance",
-    },
-    {
-        value: "healthcare",
-        label: "Healthcare",
-    },
-    {
-        value: "education",
-        label: "Education",
-    },
-    {
-        value: "manufacturing",
-        label: "Manufacturing",
-    },
-    {
-        value: "retail",
-        label: "Retail",
-    },
-    {
-        value: "transportation",
-        label: "Transportation",
-    },
-    {
-        value: "real_estate",
-        label: "Real Estate",
-    },
-    {
-        value: "hospitality",
-        label: "Hospitality",
-    },
-    {
-        value: "energy",
-        label: "Energy",
-    },
-    {
-        value: "agriculture",
-        label: "Agriculture",
-    },
-    {
-        value: "entertainment",
-        label: "Entertainment",
-    },
-    {
-        value: "construction",
-        label: "Construction",
-    },
-    {
-        value: "telecommunications",
-        label: "Telecommunications",
-    },
-    {
-        value: "legal",
-        label: "Legal",
-    },
-];
+const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ["places"];
 
 export default function OptionsCompany() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
-    const [setting, setSetting] = React.useState<string | null>(null);
     const [type, setType] = React.useState<string | null>(null);
 
 
-    const autocompleteRef = React.useRef(null);
+    const autocompleteRef = React.useRef<google.maps.places.Autocomplete | null>(null);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // Replace with your API key
         libraries,
@@ -124,28 +63,15 @@ export default function OptionsCompany() {
         }
     };
 
-
-    const formSchema = z.object({
-        title: z.string().min(2, {
-            message: "Title must be at least 3 characters.",
-        }),
-        password: z.string().min(6, {
-            message: "Password must be at least 6 characters.",
-        }),
-        email: z.string().email({
-            message: "Email must be valid",
-        }),
-    });
-
     const listingFormSchema = z.object({
         name: z.string().min(3, {
             message: "Job name must be at least 3 characters.",
         }),
-        description: z.string().min(3).max(300, {
-            message: "Description is at max 300 characters.",
+        description: z.string().min(3).max(500, {
+            message: "Description is at max 500 characters.",
         }),
-        salary: z.string().regex(/^[0-9]+$/, {
-            message: "Salary must be a number",
+        pay: z.string().regex(/^[0-9]+$/, {
+            message: "pay must be a number",
         }),
         hours: z.string().regex(/^[0-9]+$/, {
             message: "Hours must be a number",
@@ -155,199 +81,283 @@ export default function OptionsCompany() {
         }),
         type: z.enum(["fulltime", "parttime", "internship"], {
             message: "You need to select a type of job.",
-        })
+        }),
+        address: z.string().optional(),
+        image: z.instanceof(File).optional(),
     });
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-            password: "",
-            email: "",
-        },
-    });
+
 
     const listingForm = useForm<z.infer<typeof listingFormSchema>>({
         resolver: zodResolver(listingFormSchema),
         defaultValues: {
             name: "",
             description: "",
-            salary: "",
+            pay: "",
             hours: "",
             setting: "online",
             type: "fulltime",
-        },
+            address: "",
+        }
     });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
+
+    async function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
+        try {
+            // If there's an image, compress and upload it first
+            let imageUrl = null;
+            if (values.image) {
+                // Compress the image before uploading
+                const compressedImage = await compressImage(values.image);
+                
+                const formData = new FormData();
+                formData.append('file', compressedImage);
+                formData.append('type', 'listing');
+
+                const uploadResponse = await axios.post(
+                    'https://connexting.ineshd.com/api/upload',
+                    formData,
+                    { 
+                        withCredentials: true,
+                        headers: { 
+                            'Content-Type': 'multipart/form-data'
+                        }
+                    }
+                );
+
+                if (uploadResponse.status === 200) {
+                    imageUrl = uploadResponse.data.url;
+                }
+            }
+
+            // Create the listing with the image URL
+            const listingData = {
+                ...values,
+                photos: imageUrl ? [imageUrl] : [], // Ensure photos is always an array
+                pay: values.pay // Use pay instead of salary
+            };
+
+            const response = await axios.post(
+                'https://connexting.ineshd.com/api/listings',
+                listingData,
+                { 
+                    withCredentials: true,
+                    headers: { 
+                        'Content-Type': 'application/json'
+                    }
+                }
+            );
+
+            if (response.status !== 200) {
+                throw new Error('Failed to create listing');
+            }
+
+            console.log('Listing created:', response.data);
+            window.location.href = '/dashboard';
+        } catch (error) {
+            console.error('Error creating listing:', error);
+        }
     }
 
-    function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
-        // console.log("New Listing:", values);
-        console.log("e")
-    }
+    const setting = listingForm.watch("setting");
 
     return (
-        <div className="w-full h-full flex flex-col right-0 overflow-y-scroll scroll-smooth overflow-x-hidden">
-            <Header />
-            <div className="mx-16 mt-8">
-                <h1 className="text-5xl font-bold">
-                    Create Listing
-                </h1>
-            </div>
-              
-            <div className="m-16 flex flex-col" id="listings">
-                <div className="m-6 text-md w-1/2">
-                    <Form {...listingForm}>
-                        <form
-                            onSubmit={listingForm.handleSubmit(onListingSubmit)}
-                            className="space-y-4"
-                        >
-                            <FormField
-                                control={listingForm.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Job Title</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Enter job name" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={listingForm.control}
-                                name="description"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Job Description</FormLabel>
-                                        <FormControl>
-                                            <Textarea
-                                                placeholder="Write a job description"
-                                                // className="resize-none"
-                                                {...field}
-                                            />
-                                        </FormControl>
-                                        <FormDescription>
-                                            Maximum 300 words.
-                                        </FormDescription>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={listingForm.control}
-                                name="salary"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Salary</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Enter salary" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={listingForm.control}
-                                name="setting"
-                                render={({ field }) => (
-                                    <FormItem className="">
-                                        <FormLabel>Setting</FormLabel>
-                                        <FormControl>
-                                            <RadioGroup
-                                                onValueChange={field.onChange}
-                                                value={field.value}
-                                                className="flex flex-col "
-                                            >
-                                                <FormItem className="flex items-center space-x-3 space-y-0 my-2">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="inperson" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal my-0">In-person</FormLabel>
-                                                </FormItem>
-                                                <FormItem className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="online" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal my-0">Online</FormLabel>
-                                                </FormItem>
-                                            </RadioGroup>
-                                        </FormControl>
-                                        {/* Conditional rendering for 'online' */}
-                                        {setting === "inperson" && isLoaded && (
+        <>
+            <Head>
+                <title>Connext - Create New Listing</title>
+                <meta name="description" content="Create a new job listing for high school students" />
+            </Head>
+            <div className="flex flex-col min-h-screen">
+                <Header />
+                <div className="w-full h-full flex flex-col items-center lg:items-start overflow-y-scroll scroll-smooth overflow-x-hidden">
+
+                    <div className="mx-16 mt-8">
+                        <h1 className="text-5xl font-bold text-center">
+                            Create Listing
+                        </h1>
+                    </div>
+                      
+                    <div className="m-16 flex flex-col w-4/5 md:w-2/3 lg:w-1/2 mt-0" id="listings">
+                        <div className="m-6 text-md w-auto">
+                            <Form {...listingForm}>
+                                <form
+                                    onSubmit={listingForm.handleSubmit(onListingSubmit)}
+                                    className="space-y-4"
+                                >
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="name"
+                                        render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Address</FormLabel>
+                                                <FormLabel>Job Title</FormLabel>
                                                 <FormControl>
-                                                    <Autocomplete onLoad={(ref) => (autocompleteRef.current = ref)} onPlaceChanged={handlePlaceChanged}>
-                                                        <Input placeholder="Enter address" {...field} />
-                                                    </Autocomplete>
+                                                    <Input placeholder="Enter job name" {...field} />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={listingForm.control}
-                                name="type"
-                                render={({ field }) => (
-                                    <FormItem className="">
-                                        <FormLabel>Job Type</FormLabel>
-                                        <FormControl>
-                                            <RadioGroup
-                                                onValueChange={field.onChange}
-                                                value={field.value}
-                                                className="flex flex-col "
-                                            >
-                                                <FormItem className="flex items-center space-x-3 space-y-0 mt-2">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="fulltime" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">Full Time</FormLabel>
-                                                </FormItem>
-                                                <FormItem className="flex items-center space-x-3 space-y-0 my-2">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="parttime" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">Part Time</FormLabel>
-                                                </FormItem>
-                                                <FormItem className="flex items-center space-x-3 space-y-0">
-                                                    <FormControl>
-                                                        <RadioGroupItem value="internship" />
-                                                    </FormControl>
-                                                    <FormLabel className="font-normal">Internship</FormLabel>
-                                                </FormItem>
-                                            </RadioGroup>
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={listingForm.control}
-                                name="hours"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Hours</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Enter hours" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <Button type="submit" variant="secondary">
-                                Create Listing
-                            </Button>
-                        </form>
-                    </Form>
+                                    />
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="description"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Job Description</FormLabel>
+                                                <FormControl>
+                                                    <Textarea
+                                                        placeholder="Write a job description"
+                                                        {...field}
+                                                    />
+                                                </FormControl>
+                                                <FormDescription>
+                                                    Maximum 500 characters.
+                                                </FormDescription>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="pay"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Hourly Pay</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Enter pay" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="setting"
+                                        render={({ field }) => (
+                                            <FormItem className="">
+                                                <FormLabel>Setting</FormLabel>
+                                                <FormControl>
+                                                    <RadioGroup
+                                                        onValueChange={field.onChange}
+                                                        value={field.value}
+                                                        className="flex flex-col "
+                                                    >
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 my-2">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="inperson" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal my-0">In-person</FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="online" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal my-0">Online</FormLabel>
+                                                        </FormItem>
+                                                    </RadioGroup>
+                                                </FormControl>
+                                                
+                                                {setting === "inperson" && isLoaded && (
+                                                    <FormField
+                                                        control={listingForm.control}
+                                                        name="address"
+                                                        render={({ field }) => (
+                                                            <FormItem>
+                                                                <FormLabel>Address</FormLabel>
+                                                                <FormControl>
+                                                                    <Autocomplete 
+                                                                        onLoad={(ref: google.maps.places.Autocomplete) => (autocompleteRef.current = ref)} 
+                                                                        onPlaceChanged={handlePlaceChanged}
+                                                                    >
+                                                                        <Input placeholder="Enter address" {...field} />
+                                                                    </Autocomplete>
+                                                                </FormControl>
+                                                                <FormMessage />
+                                                            </FormItem>
+                                                        )}
+                                                    />
+                                                )}
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="type"
+                                        render={({ field }) => (
+                                            <FormItem className="">
+                                                <FormLabel>Job Type</FormLabel>
+                                                <FormControl>
+                                                    <RadioGroup
+                                                        onValueChange={field.onChange}
+                                                        value={field.value}
+                                                        className="flex flex-col "
+                                                    >
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 mt-2">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="fulltime" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">Full Time</FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0 my-2">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="parttime" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">Part Time</FormLabel>
+                                                        </FormItem>
+                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                            <FormControl>
+                                                                <RadioGroupItem value="internship" />
+                                                            </FormControl>
+                                                            <FormLabel className="font-normal">Internship</FormLabel>
+                                                        </FormItem>
+                                                    </RadioGroup>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="hours"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Hours per Week</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Enter hours" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={listingForm.control}
+                                        name="image"
+                                        render={({ field: { onChange, ...field } }) => (
+                                            <FormItem>
+                                                <FormLabel>Upload Image</FormLabel>
+                                                <FormControl>
+                                                    <Input 
+                                                        type="file" 
+                                                        accept="image/*"
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            onChange(file || null);
+                                                        }} 
+                                                    />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <Button type="submit" variant="secondary">
+                                        Create Listing
+                                    </Button>
+                                </form>
+                            </Form>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }

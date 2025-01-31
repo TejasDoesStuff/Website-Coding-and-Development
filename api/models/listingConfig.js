@@ -41,11 +41,16 @@ const listingSchema = new mongoose.Schema({
         type: [String],
         required: false,
     },
-    desc: {
+    description: {
         type: String,
         required: true,
     },
+    company: {
+        type: String,
+        required: false,
+    },
     applications: [applicationSchema],
+
 });
 
 const Listing = mongoose.model("Listing", listingSchema);
