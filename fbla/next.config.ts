@@ -2,7 +2,11 @@ import { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['cdn.discordapp.com', 'unsplash.it', 'connexting.ineshd.com'],
+    domains: [
+      'cdn.discordapp.com', 
+      'unsplash.it', 
+      'connexting.ineshd.com'
+    ],
   },
 };
 

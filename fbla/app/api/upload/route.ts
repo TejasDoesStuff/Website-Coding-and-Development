@@ -1,9 +1,23 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { writeFile } from 'fs/promises';
+import { writeFile, mkdir } from 'fs/promises';
 import path from 'path';
 import { authenticateUser } from '@/lib/auth';
 
-const UPLOAD_DIR = path.join(process.cwd(), 'public/uploads');
+// Define upload directories
+const UPLOAD_BASE = path.join(process.cwd(), 'public');
+const LISTINGS_UPLOAD_DIR = path.join(UPLOAD_BASE, 'images/uploads/listings');
+const DEFAULT_LISTING_IMAGE = '/images/defaults/listing-default.jpg';
+
+// Ensure upload directories exist
+async function ensureDirectoryExists(dir: string) {
+  try {
+    await mkdir(dir, { recursive: true });
+  } catch (error) {
+    if ((error as any).code !== 'EEXIST') {
+      throw error;
+    }
+  }
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,16 +28,26 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get('file') as File;
+    const type = formData.get('type') as string;
     
     if (!file) {
       return NextResponse.json({ message: 'No file provided' }, { status: 400 });
     }
 
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      return NextResponse.json({ message: 'File must be an image' }, { status: 400 });
+    }
+
+    // Determine upload directory based on type
+    let uploadDir = LISTINGS_UPLOAD_DIR;
+    await ensureDirectoryExists(uploadDir);
+
     // Generate unique filename
     const timestamp = Date.now();
     const extension = path.extname(file.name);
     const filename = `${timestamp}${extension}`;
-    const filepath = path.join(UPLOAD_DIR, filename);
+    const filepath = path.join(uploadDir, filename);
 
     // Convert file to buffer and save
     const bytes = await file.arrayBuffer();
@@ -31,7 +55,7 @@ export async function POST(request: NextRequest) {
     await writeFile(filepath, buffer);
 
     // Return the relative URL
-    const imageUrl = `/uploads/${filename}`;
+    const imageUrl = `/images/uploads/listings/${filename}`;
     return NextResponse.json({ url: imageUrl });
   } catch (error) {
     console.error('Error uploading file:', error);

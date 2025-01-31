@@ -1,5 +1,14 @@
 import React from "react";
 import Header from "./components/Header";
+import { ArrowRight, Minus } from "lucide-react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "—Connext→",
+  description: "Tesla STEM's platform for your future.",
+};
+
+
 
 const page = () => {
   return (
@@ -10,8 +19,10 @@ const page = () => {
         <div className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-secondary-brand to-yellow-900 bottom-[-200] right-[-225] -z-10 rounded-full blur-md" />
         <div className="pt-16 w-full p-10 flex flex-row gap-8 justify-center items-center">
           <div className="w-auto md:w-1/2 h-full flex flex-col justify-center items-center">
-            <h1 className="text-5xl md:text-7xl font-bold text-center mt-[-4rem] mb-4 md:m-10 p-[5px] rounded-sm backdrop-blur-lg">
+            <h1 className="text-5xl md:text-7xl font-bold text-center mt-[-4rem] mb-4 md:m-10 p-[5px] rounded-sm backdrop-blur-lg flex justify-center items-center">
+              <Minus size={64} />
               Connext
+              <ArrowRight size={64} />
             </h1>
             <h2 className="text-2xl md:text-5xl font-bold text-center max-md:text-2xl max-md:p-5 p-12 rounded-full bg-gradient-to-r from-blue-500 to-primary-brand drop-shadow-lg hover:scale-[101%] mx-4 transition-all text-white w-[95vw] xl:w-auto">
               Where High Schoolers Expand Their Horizons

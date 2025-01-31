@@ -10,6 +10,12 @@ import {Button} from '@/components/ui/button'
 import {MessageSquareMore, Star} from 'lucide-react'
 import {Badge} from "@/components/ui/badge"
 import Link from 'next/link'
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 
 interface Review {
@@ -23,32 +29,48 @@ interface Post {
     name: string
     description: string
     company: string
-    thumbnailImage: string
-    expandedImages: Array<string>
+    recruiter: {
+        name: string
+        _id: string
+    }
+    photos?: string[]
+    thumbnailImage?: string
+    expandedImages?: string[]
     hours: string
     pay: string
     duration: string
     requirements: Array<string>
     tags: Array<string>
     reviews: Array<Review>
+    location: string
 }
 
 const JobCard = ({post}: { post: Post }) => {
     const link = `/listing/${post.id}`
-    const images = []
-    for (let i = 0; post.expandedImages != null && i < post.expandedImages.length; i++) {
-        images.push(
-            <Image key={i} src={post.expandedImages[i]} alt={post.name} width={500} height={500}
-                   className='h-full overflow-hidden px-3'/>
-        )
-    }
-    if (post.expandedImages == null || post.expandedImages.length < 0) {
-        // placeholder image from unsplash
-        images.push(
-            <Image key={0} src="https://unsplash.it/500/500?random" alt={post.name} width={500} height={500}
-                   className='h-full overflow-hidden px-3'/>
-        )
-    }
+    const defaultImage = '/images/defaults/listing-default.jpg'
+    
+    const thumbnailImage = post.photos?.[0] || defaultImage;
+    
+    const images = post.photos?.map((image, i) => (
+        <Image 
+            key={i} 
+            src={image} 
+            alt={post.name} 
+            width={500} 
+            height={500}
+            className='h-full overflow-hidden px-3'
+        />
+    )) || [
+        <Image 
+            key="default" 
+            src={defaultImage} 
+            alt={post.name} 
+            width={500} 
+            height={500}
+            className='h-full overflow-hidden px-3'
+        />
+    ]
+
     const requirements = []
     for (let i = 0; post.requirements != null && i < post.requirements.length; i++) {
         requirements.push(
@@ -111,24 +133,36 @@ const JobCard = ({post}: { post: Post }) => {
         )
     }
 
-    if (post.thumbnailImage == null) {
-        post.thumbnailImage = "https://unsplash.it/500/500?random"
-    }
     return (
         <div className={"w-80"}>
-            <Card>
+            <Card className="cursor-pointer" onClick={() => (document.location.href = link)}>
                 <CardHeader className='text-left'>
-                    {/* <Button variant="link" >{post.name}</Button> */}
-                    {/* <Link className={buttonVariants({ variant: "link" })}>{post.name}</Link> */}
-                    {/* <Button className='text-left'> */}
-                    <Link href={link} className='text-2xl hover:underline text-left'>{post.name}</Link>
-                    {/* </Button> */}
-
-                    <h1>{post.company}</h1>
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Link 
+                                    href={link} 
+                                    className='text-2xl hover:underline text-left truncate block'
+                                >
+                                    {post.name}
+                                </Link>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>{post.name}</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    <h1>{post.recruiter?.name || 'Unknown Recruiter'}</h1>
                 </CardHeader>
                 <CardContent>
-                    <Image src
-                    ={post.thumbnailImage} alt={post.name} width={500} height={500} className='w-full'/>
+                    <div className="relative w-full pt-[75%]">
+                        <Image 
+                            src={thumbnailImage} 
+                            alt={post.name} 
+                            fill
+                            className='absolute top-0 left-0 object-cover'
+                        />
+                    </div>
                     <div className="flex items-center justify-between p-5">
                         <div className="flex items-center">
                             <div>
@@ -136,18 +170,9 @@ const JobCard = ({post}: { post: Post }) => {
                                 <p>${post.pay} per hour</p>
                             </div>
                         </div>
-                        {/* <div className="flex items-center gap-1">
-                            <Button variant="outline" size="icon">
-                                <MessageSquareMore/>
-                            </Button>
-                            <Button variant="outline" size="icon">
-                                <Star/>
-                            </Button>
-                        </div> */}
                     </div>
                 </CardContent>
             </Card>
-
         </div>
     )
 }

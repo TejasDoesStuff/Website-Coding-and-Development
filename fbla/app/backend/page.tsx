@@ -10,33 +10,51 @@ import { Button } from "@/components/ui/button"
 
 const ADMIN_PASSWORD = process.env.NEXT_PUBLIC_ADMIN_PASSWORD || "admin123" // In production, use environment variable
 
+interface PaginationData {
+    currentPage: number;
+    totalPages: number;
+    totalListings: number;
+    hasMore: boolean;
+}
+
 const Backend = () => {
     const [posts, setPosts] = useState([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [filter, setFilter] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [pagination, setPagination] = useState<PaginationData>({
+        currentPage: 1,
+        totalPages: 1,
+        totalListings: 0,
+        hasMore: false
+    });
+
+    const fetchData = async (page = 1) => {
+        try {
+            const response = await axios.get(
+                `https://connexting.ineshd.com/api/listings/backend?page=${page}&limit=10&filter=${filter}`,
+                { withCredentials: true }
+            );
+            setPosts(response.data.listings);
+            setPagination(response.data.pagination);
+            setLoading(false);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
         if (isAuthenticated) {
-            fetchData();
+            fetchData(1); // Reset to first page when filter changes
         }
     }, [isAuthenticated, filter]);
 
-    async function fetchData() {
-        try {
-            const response = await axios.get("https://connexting.ineshd.com/api/listings", {
-                withCredentials: true,
-            });
-            // Filter posts based on selected filter value
-            const filteredPosts = Object.fromEntries(
-                Object.entries(response.data).filter(([_, post]) => post.status === filter)
-            );
-            setPosts(filteredPosts);
-        } catch (error) {
-            console.error('Error fetching posts:', error);
-        }
-    }
+    const handlePageChange = (newPage: number) => {
+        fetchData(newPage);
+    };
 
     const handlePasswordSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -50,21 +68,16 @@ const Backend = () => {
 
     const handlePostAction = async (id: string, action: 'accept' | 'reject') => {
         try {
-            const response = await axios.patch(`https://connexting.ineshd.com/api/listings/${id}/status`, {
-                status: action === 'accept' ? 1 : -1
-            }, {
-                withCredentials: true
-            });
-            
-            if (response.status === 200) {
-                setPosts(prev => {
-                    const newPosts = {...prev};
-                    delete newPosts[id];
-                    return newPosts;
-                });
-            }
+            const status = action === 'accept' ? 1 : -1;
+            const postId = posts.find(post => post._id === id)?._id; // MongoDB stores the ID in the _id field
+            await axios.patch(
+                `https://connexting.ineshd.com/api/listings/${postId}/status`,
+                { status },
+                { withCredentials: true }
+            );
+            fetchData(pagination.currentPage); // Refresh current page
         } catch (error) {
-            console.error('Error updating post status:', error);
+            console.error('Error updating post:', error);
         }
     };
 
@@ -111,22 +124,25 @@ const Backend = () => {
                     </Button>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {Object.entries(posts).map(([id, post]) => (
-                        <div key={id} className="flex flex-col justify-center items-center">
-                            <JobCard post={post}/>
+                    {Object.entries(posts).map(([_, post]) => (
+                        <div key={post._id} className="flex flex-col justify-center items-center">
+                            <JobCard post={{
+                                ...post,
+                                id: post._id  // Ensure the id is correctly passed
+                            }}/>
                             <div className="flex flex-row w-full gap-1 mt-1 justify-center">
-                                {filter !== 1 && ( // Show accept button if not in accepted view
+                                {filter !== 1 && (
                                     <Button 
-                                        onClick={() => handlePostAction(id, 'accept')}
-                                        className="w-1/2 bg-green-500 hover:bg-green-600 text-white"
+                                        onClick={() => handlePostAction(post._id, 'accept')}
+                                        className="w-1/2 bg-green-500 hover:bg-green-600 text-white mt-2"
                                     >
                                         <Check />
                                     </Button>
                                 )}
-                                {filter !== -1 && ( // Show reject button if not in rejected view
+                                {filter !== -1 && (
                                     <Button 
-                                        onClick={() => handlePostAction(id, 'reject')}
-                                        className="w-1/2 bg-red-500 hover:bg-red-600 text-white"
+                                        onClick={() => handlePostAction(post._id, 'reject')}
+                                        className="w-1/2 bg-red-500 hover:bg-red-600 text-white mt-2"
                                     >
                                         <X />
                                     </Button>
@@ -134,6 +150,23 @@ const Backend = () => {
                             </div>
                         </div>
                     ))}
+                </div>
+                <div className="flex justify-center gap-2 mt-4">
+                    <Button
+                        onClick={() => handlePageChange(pagination.currentPage - 1)}
+                        disabled={pagination.currentPage === 1}
+                    >
+                        Previous
+                    </Button>
+                    <span className="py-2">
+                        Page {pagination.currentPage} of {pagination.totalPages}
+                    </span>
+                    <Button
+                        onClick={() => handlePageChange(pagination.currentPage + 1)}
+                        disabled={!pagination.hasMore}
+                    >
+                        Next
+                    </Button>
                 </div>
             </div>
         </div>

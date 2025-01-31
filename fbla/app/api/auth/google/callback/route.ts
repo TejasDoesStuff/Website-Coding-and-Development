@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { OAuth2Client } from 'google-auth-library';
 import { User } from '@/lib/models/userModel';
+import { connectDB } from '@/lib/db';
 
 const client = new OAuth2Client({
   clientId: '722979721080-rvskmdgcqj775v89fsnssfje3eultja3.apps.googleusercontent.com',
@@ -10,6 +11,9 @@ const client = new OAuth2Client({
 
 export async function GET(request: NextRequest) {
   try {
+    // Ensure DB connection is established first
+    await connectDB();
+
     const code = request.nextUrl.searchParams.get('code');
     if (!code) {
       return NextResponse.redirect(new URL('/', request.url));
@@ -18,7 +22,7 @@ export async function GET(request: NextRequest) {
     const { tokens } = await client.getToken(code);
     const ticket = await client.verifyIdToken({
       idToken: tokens.id_token!,
-      audience: client.clientId
+      audience: client._clientId
     });
     const payload = ticket.getPayload()!;
 
@@ -28,8 +32,9 @@ export async function GET(request: NextRequest) {
       user = new User({
         accountId: payload.sub,
         name: payload.name,
-        profileImzage: payload.picture,
-        role: 'recruiter',
+        email: payload.email,
+        profileImage: payload.picture,
+        role: 'none',
         oAuthConnection: {
           id: payload.sub,
           accessToken: tokens.access_token,
@@ -38,12 +43,21 @@ export async function GET(request: NextRequest) {
       });
       await user.save();
     } else {
+      if (!user.email && payload.email) {
+        user.email = payload.email;
+      }
       user.oAuthConnection.accessToken = tokens.access_token;
       user.oAuthConnection.refreshToken = tokens.refresh_token;
       await user.save();
     }
 
-    const response = NextResponse.redirect(new URL('https://connexting.ineshd.com/browse', request.url));
+    const response = NextResponse.redirect(
+      new URL(
+        user.role === 'none' ? 'https://connexting.ineshd.com/auth/role-select' : 'https://connexting.ineshd.com/browse',
+        request.url
+      )
+    );
+    
     response.cookies.set('authToken', tokens.access_token!, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
@@ -54,6 +68,7 @@ export async function GET(request: NextRequest) {
     return response;
   } catch (error) {
     console.error('OAuth callback error:', error);
-    return NextResponse.redirect(new URL('https://connexting.ineshd.com/browse', request.url));
+    // Return a more user-friendly error page
+    return NextResponse.redirect(new URL('/auth/error', request.url));
   }
 } 

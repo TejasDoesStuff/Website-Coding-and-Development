@@ -39,7 +39,7 @@ export default function Holder() {
         fetchData();
     }, []);
     return (
-        <div className="w-screen h-[87.5vh] flex flex-row overflow-y-hidden relative">
+        <div className="w-screen flex-1 flex flex-row overflow-y-hidden relative">
             <CheckLogIn/>
             {user?.role === "recruiter" ? (
                 <>

@@ -22,6 +22,14 @@ export async function PATCH(
         console.log(status)
         const { id } = await context.params;
 
+        // Add validation for the ID parameter
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return NextResponse.json(
+                { message: 'Invalid listing ID format' }, 
+                { status: 400 }
+            );
+        }
+
         const listing = await Listing.findByIdAndUpdate(
             id,
             { status },

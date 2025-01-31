@@ -9,7 +9,8 @@ interface IOAuthConnection {
 export interface IUser extends Document {
   accountId: number;
   name: string;
-  role: 'student' | 'recruiter';
+  email: string;
+  role: 'none' | 'student' | 'recruiter';
   oAuthConnection: IOAuthConnection;
   createdAt: Date;
   tokens: string[];
@@ -25,7 +26,12 @@ const oAuthConnectionSchema = new Schema<IOAuthConnection>({
 const userSchema = new Schema<IUser>({
   accountId: { type: Number, required: true, unique: true },
   name: { type: String, required: true },
-  role: { type: String, enum: ['student', 'recruiter'], required: true },
+  email: { type: String, required: true },
+  role: { 
+    type: String, 
+    enum: ['none', 'student', 'recruiter'],
+    default: 'none'
+  },
   oAuthConnection: { type: oAuthConnectionSchema, required: true },
   createdAt: { type: Date, default: Date.now },
   tokens: [String],

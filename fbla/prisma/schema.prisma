@@ -1,0 +1,8 @@
+model User {
+  role      Role?    @default(TENANT)
+}
+
+enum Role {
+  LANDLORD
+  TENANT
+} 
