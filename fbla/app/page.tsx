@@ -15,8 +15,9 @@ const page = () => {
     <div className="flex flex-col h-screen">
       <Header />
       <div className="w-auto flex-1 text-center relative flex overflow-hidden">
-        <div className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-accent-brand to-red-600 top-[-256] left-[-256] -z-10 rounded-full blur-md" />
-        <div className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-secondary-brand to-yellow-900 bottom-[-200] right-[-225] -z-10 rounded-full blur-md" />
+        <div className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-accent-brand to-red-600 top-[-256px] left-[-256px] -z-10 rounded-full blur-md" />
+        <div className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-secondary-brand to-yellow-900 bottom-[-200px] right-[-225px] -z-10 rounded-full blur-md" />
+
         <div className="pt-16 w-full p-10 flex flex-row gap-8 justify-center items-center">
           <div className="w-auto md:w-1/2 h-full flex flex-col justify-center items-center">
             <h1 className="text-5xl md:text-7xl font-bold text-center mt-[-4rem] mb-4 md:m-10 p-[5px] rounded-sm backdrop-blur-lg flex justify-center items-center">

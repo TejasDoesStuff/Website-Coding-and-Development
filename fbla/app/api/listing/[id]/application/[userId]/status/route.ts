@@ -3,19 +3,25 @@ import { Listing } from '@/lib/models/listingModel';
 import { authenticateUser } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 
+interface User {
+    _id: string;
+    id: string;
+    role: string;
+}
+
 export async function PATCH(
     request: NextRequest,
-    context: { params: { id: string, userId: string } }
+    context: { params: Promise<{ id: string, userId: string }> }
 ) {
     try {
         await connectDB();
 
-        const user = await authenticateUser(request);
+        const user = await authenticateUser(request) as User;
         if (!user || user.role !== 'recruiter') {
             return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
         }
 
-        const { id, userId } = context.params;
+        const { id, userId } = await context.params;
         const { status } = await request.json();
 
         if (![1, -1].includes(status)) {
@@ -23,15 +29,15 @@ export async function PATCH(
         }
 
         const listing = await Listing.findOneAndUpdate(
-            { 
+            {
                 _id: id,
                 recruiter: user._id,
                 'applications.user': userId
             },
-            { 
-                $set: { 
-                    'applications.$.status': status 
-                } 
+            {
+                $set: {
+                    'applications.$.status': status
+                }
             },
             { new: true }
         );
@@ -45,4 +51,4 @@ export async function PATCH(
         console.error('Error updating application status:', error);
         return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
     }
-} 
+}

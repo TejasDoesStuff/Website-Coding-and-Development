@@ -17,25 +17,9 @@ import {
 import { Input } from "@/components/ui/input";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Password from "../../dashboard/forms/Password";
 import { useLoadScript, Autocomplete } from "@react-google-maps/api";
 import { Textarea } from "@/components/ui/textarea"
 import Header from "@/app/components/Header";
@@ -43,23 +27,20 @@ import axios from "axios";
 import { compressImage } from "@/lib/utils/imageCompression";
 import Head from 'next/head'
 
-const libraries: ("places" | "drawing" | "geometry" | "localContext" | "visualization")[] = ["places"];
+const libraries: ("places" | "drawing" | "geometry" | "visualization")[] = ["places"];
 
 export default function OptionsCompany() {
-    const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState("");
-    const [type, setType] = React.useState<string | null>(null);
 
 
     const autocompleteRef = React.useRef<google.maps.places.Autocomplete | null>(null);
     const { isLoaded } = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // Replace with your API key
-        libraries,
+        libraries: libraries,
     });
     const handlePlaceChanged = () => {
         if (autocompleteRef.current) {
-            const place = autocompleteRef.current.getPlace();
-            //   console.log("Selected Place:", place);
+            autocompleteRef.current.getPlace();
+//   console.log("Selected Place:", place);
         }
     };
 

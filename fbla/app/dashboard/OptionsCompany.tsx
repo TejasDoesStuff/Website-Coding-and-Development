@@ -60,69 +60,6 @@ import {
 
 const libraries = ["places"];
 
-const industries = [
-    {
-        value: "technology",
-        label: "Technology",
-    },
-    {
-        value: "finance",
-        label: "Finance",
-    },
-    {
-        value: "healthcare",
-        label: "Healthcare",
-    },
-    {
-        value: "education",
-        label: "Education",
-    },
-    {
-        value: "manufacturing",
-        label: "Manufacturing",
-    },
-    {
-        value: "retail",
-        label: "Retail",
-    },
-    {
-        value: "transportation",
-        label: "Transportation",
-    },
-    {
-        value: "real_estate",
-        label: "Real Estate",
-    },
-    {
-        value: "hospitality",
-        label: "Hospitality",
-    },
-    {
-        value: "energy",
-        label: "Energy",
-    },
-    {
-        value: "agriculture",
-        label: "Agriculture",
-    },
-    {
-        value: "entertainment",
-        label: "Entertainment",
-    },
-    {
-        value: "construction",
-        label: "Construction",
-    },
-    {
-        value: "telecommunications",
-        label: "Telecommunications",
-    },
-    {
-        value: "legal",
-        label: "Legal",
-    },
-];
-
 interface Application {
     listingId: string;
     listingName: string;
@@ -160,7 +97,6 @@ export default function OptionsCompany() {
     const [open, setOpen] = React.useState(false);
     const [value, setValue] = React.useState("");
     const [setting, setSetting] = React.useState<string | null>(null);
-    // const [type, setType] = React.useState<string | null>(null);
     const [name, setName] = React.useState<string | null>("Company");
     const [applications, setApplications] = useState<Application[]>([]);
     const [listings, setListings] = useState<Listing[]>([]);
@@ -209,10 +145,6 @@ export default function OptionsCompany() {
     }, []);
 
     const autocompleteRef = React.useRef(null);
-    const { isLoaded } = useLoadScript({
-        googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // Replace with your API key
-        libraries,
-    });
     const handlePlaceChanged = () => {
         if (autocompleteRef.current) {
             const place = autocompleteRef.current.getPlace();
@@ -411,54 +343,6 @@ export default function OptionsCompany() {
                                     </FormItem>
                                 )}
                             />
-                            {/* <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button
-                                        variant="outline"
-                                        role="combobox"
-                                        aria-expanded={open}
-                                        className="w-[200px] justify-between"
-                                    >
-                                        {value
-                                            ? industries.find((industry) => industry.value === value)
-                                                ?.label
-                                            : "Select industry..."}
-                                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                    </Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-[200px] p-0">
-                                    <Command>
-                                        <CommandInput placeholder="Search industry..." />
-                                        <CommandList>
-                                            <CommandEmpty>No industry found.</CommandEmpty>
-                                            <CommandGroup>
-                                                {industries.map((industry) => (
-                                                    <CommandItem
-                                                        key={industry.value}
-                                                        value={industry.value}
-                                                        onSelect={(currentValue) => {
-                                                            setValue(
-                                                                currentValue === value ? "" : currentValue
-                                                            );
-                                                            setOpen(false);
-                                                        }}
-                                                    >
-                                                        <Check
-                                                            className={cn(
-                                                                "mr-2 h-4 w-4",
-                                                                value === industry.value
-                                                                    ? "opacity-100"
-                                                                    : "opacity-0"
-                                                            )}
-                                                        />
-                                                        {industry.label}
-                                                    </CommandItem>
-                                                ))}
-                                            </CommandGroup>
-                                        </CommandList>
-                                    </Command>
-                                </PopoverContent>
-                            </Popover> */}
                             <Button type="submit" variant="secondary">
                                 Submit
                             </Button>
@@ -591,9 +475,9 @@ export default function OptionsCompany() {
                                                                     <AlertDialogCancel>Cancel</AlertDialogCancel>
                                                                     <AlertDialogAction
                                                                         onClick={() => handleAcceptApplication(application.listingId, application.applicant.id)}
-                                                                        className="bg-primary hover:bg-primary/90"
+                                                                        className="bg-primary hover:bg-primary/90 text-text"
                                                                     >
-                                                                        Accept Application
+                                                                        Accept
                                                                     </AlertDialogAction>
                                                                 </AlertDialogFooter>
                                                             </AlertDialogContent>

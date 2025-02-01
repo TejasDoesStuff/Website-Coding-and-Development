@@ -6,7 +6,6 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "migrate-listings": "node scripts/migrate-listings-status.js",
     "setup-uploads": "ts-node scripts/setup-uploads.ts"
   },
