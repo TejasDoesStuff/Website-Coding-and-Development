@@ -5,24 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="541a5e65-0cfc-4298-b50b-895737ff239d" name="Changes" comment="submission">
-      <change beforePath="$PROJECT_DIR$/app/api/auth/google/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/google/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/auth/logout/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/logout/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/listings/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/[id]/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/listings/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/api/user/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/user/route.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/backend/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/backend/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/CheckLogIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/CheckLogIn.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Header.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/dashboard/Holder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/Holder.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dashboard/OptionsCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/OptionsCompany.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/dashboard/OptionsUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/OptionsUser.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/lib/models/userModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/userModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listing/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/listing/[id]/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/listing/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/listing/create/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/db.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/db.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/models/userModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/lib/models/userModel.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scripts/migrate-listings-status.js" beforeDir="false" afterPath="$PROJECT_DIR$/scripts/migrate-listings-status.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -74,7 +60,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="npm.dev">
+  <component name="RunManager" selected="npm.start">
     <configuration name="build" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -129,7 +115,7 @@
       <workItem from="1738319448242" duration="1669000" />
       <workItem from="1738321540879" duration="1029000" />
       <workItem from="1738366222910" duration="7132000" />
-      <workItem from="1738391782509" duration="5133000" />
+      <workItem from="1738391782509" duration="6095000" />
     </task>
     <task id="LOCAL-00001" summary="functional">
       <option name="closed" value="true" />
