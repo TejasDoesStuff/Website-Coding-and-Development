@@ -1,22 +1,23 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { connectDB } from '@/lib/db';
-import { authenticateUser } from '@/lib/auth';
-import { Listing } from '@/lib/models/listingModel';
+import {NextRequest, NextResponse} from 'next/server';
+import {connectDB} from '@/lib/db';
+import {authenticateUser} from '@/lib/auth';
+import {Listing} from '@/lib/models/listingModel';
 
+// This route retrieves all listings created by the authenticated recruiter.
 export async function GET(request: NextRequest) {
     try {
         await connectDB();
 
         const user = await authenticateUser(request);
         if (!user) {
-            return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
+            return NextResponse.json({message: 'Not authenticated'}, {status: 401});
         }
 
         if (user.role !== 'recruiter') {
-            return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
+            return NextResponse.json({message: 'Unauthorized'}, {status: 403});
         }
 
-        const listings = await Listing.find({ recruiter: user._id, status: 1 })
+        const listings = await Listing.find({recruiter: user._id, status: 1})
             .populate('recruiter', 'name email')
             .lean();
 
@@ -40,12 +41,12 @@ export async function GET(request: NextRequest) {
             reviews: []
         }));
 
-        return NextResponse.json({ listings: transformedListings });
+        return NextResponse.json({listings: transformedListings});
     } catch (error) {
         console.error('Error fetching listings:', error);
         return NextResponse.json(
-            { message: 'Internal server error' },
-            { status: 500 }
+            {message: 'Internal server error'},
+            {status: 500}
         );
     }
 } 

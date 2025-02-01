@@ -6,9 +6,59 @@
   <component name="ChangeListManager">
     <list default="true" id="541a5e65-0cfc-4298-b50b-895737ff239d" name="Changes" comment="submission">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/User.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/any-server-page/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/any-server-page/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/auth/google/callback/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/google/callback/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/auth/google/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/google/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/auth/logout/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/auth/logout/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listing/[id]/application/[userId]/status/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listing/[id]/application/[userId]/status/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listing/[id]/apply/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listing/[id]/apply/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/[id]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/[id]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/[id]/status/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/[id]/status/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/applications/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/applications/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/backend/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/backend/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/search/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/search/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/listings/self/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/listings/self/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/upload/image.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/upload/image.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/upload/resume.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/upload/resume.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/upload/resume/[userId]/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/upload/resume/[userId]/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/upload/resume/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/upload/resume/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/upload/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/upload/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/user/applications/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/user/applications/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/user/role/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/user/role/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/api/user/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/api/user/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/applications/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/applications/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/auth/role-select/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/auth/role-select/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/backend/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/backend/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/browse/Deck.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/browse/Deck.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/browse/Search.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/browse/Search.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/browse/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/browse/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/classes/User.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/classes/User.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/CheckLogIn.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/CheckLogIn.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/DarkMode.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/DarkMode.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/DashboardJobCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/DashboardJobCard.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/JobCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/JobCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/components/Loading.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/components/Loading.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/dashboard/Holder.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/Holder.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/OptionsCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/OptionsCompany.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/OptionsUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/OptionsUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/SelectorCompany.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/SelectorCompany.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/SelectorUser.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/SelectorUser.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/forms/Password.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/forms/Password.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/forms/company/CompanyInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/forms/company/CompanyInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/forms/user/UserInfo.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/forms/user/UserInfo.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/dashboard/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/app/globals.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/lib/models/userModel.ts" beforeDir="false" afterPath="$PROJECT_DIR$/app/lib/models/userModel.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/listing/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/listing/[id]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/listing/create/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/listing/create/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/profile/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/profile/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/settings/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/settings/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/signup/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/signup/page.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +110,7 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RunManager" selected="npm.start">
+  <component name="RunManager" selected="npm.dev">
     <configuration name="build" type="js.build_tools.npm" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />

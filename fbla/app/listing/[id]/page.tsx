@@ -1,21 +1,13 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
-import { useRouter } from "next/navigation";
-import { Metadata } from "next";
+import React, {useEffect, useState} from 'react'
+import {useRouter} from "next/navigation";
 import Head from 'next/head'
-import {
-    Card,
-    CardTitle,
-    CardContent,
-    CardHeader,
-} from "@/components/ui/card"
+import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card"
 import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import Marquee from "react-fast-marquee";
-import { Badge } from "@/components/ui/badge"
+import {Button} from '@/components/ui/button'
+import {Badge} from "@/components/ui/badge"
 import Header from '../../components/Header'
-import Link from 'next/link'
 import {
     Dialog,
     DialogContent,
@@ -24,7 +16,7 @@ import {
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Textarea } from "@/components/ui/textarea"
+import {Textarea} from "@/components/ui/textarea"
 
 interface Review {
     user: string
@@ -40,7 +32,7 @@ interface Post {
     thumbnailImage: string
     expandedImages: Array<string>
     hours: string
-    pay: string 
+    pay: string
     duration: string
     requirements: Array<string>
     tags: Array<string>
@@ -59,7 +51,7 @@ interface ApplicationFormProps {
     onError: (message: string) => void;
 }
 
-const ApplicationForm = ({ listingId, onSuccess, onError }: ApplicationFormProps) => {
+const ApplicationForm = ({listingId, onSuccess, onError}: ApplicationFormProps) => {
     const [message, setMessage] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -74,7 +66,7 @@ const ApplicationForm = ({ listingId, onSuccess, onError }: ApplicationFormProps
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ message }),
+                body: JSON.stringify({message}),
             });
 
             const data = await response.json();
@@ -103,8 +95,8 @@ const ApplicationForm = ({ listingId, onSuccess, onError }: ApplicationFormProps
                     className="min-h-[150px]"
                 />
             </div>
-            <Button 
-                type="submit" 
+            <Button
+                type="submit"
                 disabled={isSubmitting}
                 className="w-full text-text"
                 variant="ghost"
@@ -115,7 +107,7 @@ const ApplicationForm = ({ listingId, onSuccess, onError }: ApplicationFormProps
     );
 };
 
-const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
+const JobPage = ({params}: { params: Promise<{ id: string }> }) => {
     const router = useRouter();
     const [post, setPost] = useState<Post | null>(null);
     const [loading, setLoading] = useState(true);
@@ -129,7 +121,7 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
                 const response = await fetch(`https://connexting.ineshd.com/api/listings/${unwrappedParams.id}`, {
                     credentials: 'include',
                 });
-                
+
                 if (!response.ok) {
                     throw new Error('Post not found');
                 }
@@ -157,22 +149,22 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
     }
 
     const images = post.expandedImages?.length ? post.expandedImages.map((image, index) => (
-        <Image 
-            key={index} 
-            src={image} 
-            alt={post.name} 
-            width={500} 
-            height={500} 
-            className="object-cover h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3" 
+        <Image
+            key={index}
+            src={image}
+            alt={post.name}
+            width={500}
+            height={500}
+            className="object-cover h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3"
         />
     )) : [
-        <Image 
-            key="default" 
-            src={defaultImage} 
-            alt={post.name} 
-            width={500} 
+        <Image
+            key="default"
+            src={defaultImage}
+            alt={post.name}
+            width={500}
             height={500}
-            className="object-contain h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3" 
+            className="object-contain h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3"
         />
     ];
 
@@ -211,21 +203,23 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
         <>
             <Head>
                 <title>Connext - Job Details</title>
-                <meta name="description" content="Explore job opportunities for high school students" />
+                <meta name="description" content="Explore job opportunities for high school students"/>
             </Head>
             <div className="overflow-x-hidden">
-                <Header />
+                <Header/>
                 {/* Job Details Section */}
-                <div className="px-4 sm:px-8 md:px-16 lg:px-48 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 overflow-y-auto h-full p-4 mt-[10VH]">
+                <div
+                    className="px-4 sm:px-8 md:px-16 lg:px-48 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 overflow-y-auto h-full p-4 mt-[10VH]">
                     <div className='flex flex-col justify-center'>
                         <h1 className="text-xl sm:text-2xl md:text-3xl md:text-left text-center">{post.name}</h1>
                         <p className="text-md sm:text-lg text-center md:text-left">{post.recruiter?.name || 'Unknown Recruiter'}</p>
-                        <h1 className="text-md sm:text-lg mt-2 pt-10" dangerouslySetInnerHTML={{ __html: post.description.replace(/\n/g, '<br />') }} />
+                        <h1 className="text-md sm:text-lg mt-2 pt-10"
+                            dangerouslySetInnerHTML={{__html: post.description.replace(/\n/g, '<br />')}}/>
                         <h1 className="text-lg sm:text-xl mt-4">Information:</h1>
                         <ul className="text-sm sm:text-base">{post.hours} hours per week</ul>
                         <ul className="text-sm sm:text-base">${post.pay} per hour</ul>
 
-                        
+
                         {/* Buttons container */}
                         <div className="flex flex-col md:flex-row gap-4 mt-4">
                             {/* Only show Apply button for students */}
@@ -243,7 +237,7 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
                                                 Submit your application for this position at {post.company}
                                             </DialogDescription>
                                         </DialogHeader>
-                                        <ApplicationForm 
+                                        <ApplicationForm
                                             listingId={unwrappedParams.id}
                                             onSuccess={() => {
                                                 alert('Application submitted successfully!');
@@ -259,7 +253,7 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
 
                             {/* Contact Recruiter Button */}
                             {post.recruiter?.email && (
-                                <Button 
+                                <Button
                                     className="flex-1"
                                     variant="secondary"
                                     onClick={() => window.location.href = `mailto:${post.recruiter.email}`}

@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useState, useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import Link from "next/link";
-import { Minus, ArrowRight } from "lucide-react";
+import {ArrowRight, Minus} from "lucide-react";
 import axios from "axios";
 
 interface User {
@@ -17,7 +17,7 @@ const Header = () => {
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const response = await axios.get('https://connexting.ineshd.com/api/user', { withCredentials: true });
+                const response = await axios.get('https://connexting.ineshd.com/api/user', {withCredentials: true});
                 if (response.status === 200) {
                     setIsLoggedIn(true);
                     setUser(response.data);
@@ -40,7 +40,7 @@ const Header = () => {
         console.log('Logout link clicked'); // Debugging log
 
         try {
-            const response = await axios.get('/api/auth/logout', { withCredentials: true });
+            const response = await axios.get('/api/auth/logout', {withCredentials: true});
             if (response.status === 200) {
                 // Handle successful logout, e.g., redirect to home
                 window.location.href = '/';
@@ -56,12 +56,13 @@ const Header = () => {
     };
 
     return (
-        <div className="sticky top-0 z-50 w-full bg-accent p-6 text-xl flex items-center border-b border-gray-600 shadow-lg">
+        <div
+            className="sticky top-0 z-50 w-full bg-accent p-6 text-xl flex items-center border-b border-gray-600 shadow-lg">
             <h1 className="absolute text-text font-bold flex flex-col">
                 <div className="flex items-center">
-                    <Minus size={20} />
+                    <Minus size={20}/>
                     <Link href="/">Connext</Link>
-                    <ArrowRight size={20} />
+                    <ArrowRight size={20}/>
                 </div>
                 {getRoleDisplay() && (
                     <span className="text-sm font-normal text-muted-foreground">
@@ -93,10 +94,13 @@ const Header = () => {
           ${isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}
         `}
             >
-                <Link href="/browse" className="text-foreground py-3 w-full text-center border-b border-gray-700" onClick={() => setIsOpen(false)}>Browse</Link>
-                <Link href="/dashboard" className="text-foreground py-3 w-full text-center border-b border-gray-700" onClick={() => setIsOpen(false)}>Dashboard</Link>
+                <Link href="/browse" className="text-foreground py-3 w-full text-center border-b border-gray-700"
+                      onClick={() => setIsOpen(false)}>Browse</Link>
+                <Link href="/dashboard" className="text-foreground py-3 w-full text-center border-b border-gray-700"
+                      onClick={() => setIsOpen(false)}>Dashboard</Link>
                 {isLoggedIn ?
-                    <Link href="/" className="text-foreground py-3 w-full text-center" onClick={handleLogoutClick}>Log Out</Link>
+                    <Link href="/" className="text-foreground py-3 w-full text-center" onClick={handleLogoutClick}>Log
+                        Out</Link>
                     :
                     <Link href="/signup" className="text-foreground py-3 w-full text-center">Log In/Sign Up</Link>
                 }

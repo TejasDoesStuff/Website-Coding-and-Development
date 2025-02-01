@@ -10,11 +10,11 @@ const Dashboard = () => {
         <>
             <Head>
                 <title>Connext - Dashboard</title>
-                <meta name="description" content="Manage your job listings and applications" />
+                <meta name="description" content="Manage your job listings and applications"/>
             </Head>
             <div className="overflow-x-hidden flex flex-col h-screen min-h-screen max-h-screen">
-                <Header />
-                <Holder />
+                <Header/>
+                <Holder/>
             </div>
         </>
     )

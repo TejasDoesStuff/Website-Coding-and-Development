@@ -8,6 +8,7 @@ class User {
     preferences: string[];
     qualifications: string[];
     favoriteListings: number[];
+
     public constructor(name: string, description: string, pfp: string, email: string, age: number, school: string, preferences: string[], qualifications: string[], favoriteListings: number[]) {
         this.name = name;
         this.description = description;

@@ -46,7 +46,7 @@ export default function Holder() {
     }, []);
 
     if (loading) {
-        return <Loading />;
+        return <Loading/>;
     }
 
     return (
@@ -54,13 +54,13 @@ export default function Holder() {
             <CheckLogIn/>
             {user?.role === "recruiter" ? (
                 <>
-                    <SelectorCompany />
-                    <OptionsCompany />
+                    <SelectorCompany/>
+                    <OptionsCompany/>
                 </>
             ) : (
                 <>
-                    <SelectorUser />
-                    <OptionsUser />
+                    <SelectorUser/>
+                    <OptionsUser/>
                 </>
             )}
         </div>

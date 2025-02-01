@@ -9,7 +9,7 @@ const Applications = () => {
         <>
             <Head>
                 <title>Connext - Your Applications</title>
-                <meta name="description" content="Track and manage your job applications" />
+                <meta name="description" content="Track and manage your job applications"/>
             </Head>
             <div className="flex flex-col min-h-screen">
                 {/* ... existing component content ... */}

@@ -1,48 +1,20 @@
 "use client";
 
 import React, {useEffect, useState} from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider } from "react-hook-form";
-import { z } from "zod";
-import { Edit, Check, ChevronsUpDown } from "lucide-react";
-import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Button } from "@/components/ui/button";
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
-import {
-    Popover,
-    PopoverContent,
-    PopoverTrigger,
-} from "@/components/ui/popover";
-import Password from "./forms/Password";
-import { useLoadScript, Autocomplete } from "@react-google-maps/api";
-import { Plus } from "lucide-react"
+import {zodResolver} from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import {z} from "zod";
+import {Plus} from "lucide-react";
+import {Button} from "@/components/ui/button";
+import {Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage,} from "@/components/ui/form";
+import {Input} from "@/components/ui/input";
 import Link from "next/link";
 import axios from "axios";
 import CheckLogIn from "@/app/components/CheckLogIn";
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { format } from 'date-fns'
-import { useRouter } from "next/navigation";
-import JobCard from "@/app/components/JobCard";
+import {ScrollArea} from "@/components/ui/scroll-area"
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar"
+import {format} from 'date-fns'
+import {useRouter} from "next/navigation";
 import DashboardJobCard from "@/app/components/DashboardJobCard";
 import {
     AlertDialog,
@@ -55,7 +27,6 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
 
 
 const libraries = ["places"];
@@ -103,7 +74,7 @@ export default function OptionsCompany() {
     const router = useRouter();
 
     useEffect(() => {
-        axios.get("https://connexting.ineshd.com/api/user", { withCredentials: true })
+        axios.get("https://connexting.ineshd.com/api/user", {withCredentials: true})
             .then(response => {
                 setName(response.data.name);
             })
@@ -117,7 +88,7 @@ export default function OptionsCompany() {
             try {
                 const response = await axios.get(
                     'https://connexting.ineshd.com/api/listings/applications',
-                    { withCredentials: true }
+                    {withCredentials: true}
                 );
                 setApplications(response.data.applications);
             } catch (error) {
@@ -133,7 +104,7 @@ export default function OptionsCompany() {
             try {
                 const response = await axios.get(
                     'https://connexting.ineshd.com/api/listings/self',
-                    { withCredentials: true }
+                    {withCredentials: true}
                 );
                 setListings(response.data.listings);
             } catch (error) {
@@ -203,8 +174,8 @@ export default function OptionsCompany() {
         try {
             const response = await axios.patch(
                 'https://connexting.ineshd.com/api/user',
-                { name: values.title },
-                { withCredentials: true }
+                {name: values.title},
+                {withCredentials: true}
             );
             // Update the displayed name after successful update
             setName(response.data.name);
@@ -228,7 +199,7 @@ export default function OptionsCompany() {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ status: 1 }),
+                body: JSON.stringify({status: 1}),
             });
 
             if (!response.ok) {
@@ -236,9 +207,9 @@ export default function OptionsCompany() {
             }
 
             // Update the local state to reflect the change
-            setApplications(applications.map(app => 
+            setApplications(applications.map(app =>
                 app.listingId === listingId && app.applicant.id === userId
-                    ? { ...app, status: 1 }
+                    ? {...app, status: 1}
                     : app
             ));
         } catch (error) {
@@ -255,7 +226,7 @@ export default function OptionsCompany() {
                     'Content-Type': 'application/json',
                 },
                 credentials: 'include',
-                body: JSON.stringify({ status: -1 }),
+                body: JSON.stringify({status: -1}),
             });
 
             if (!response.ok) {
@@ -263,9 +234,9 @@ export default function OptionsCompany() {
             }
 
             // Update the local state to reflect the change
-            setApplications(applications.map(app => 
+            setApplications(applications.map(app =>
                 app.listingId === listingId && app.applicant.id === userId
-                    ? { ...app, status: -1 }
+                    ? {...app, status: -1}
                     : app
             ));
         } catch (error) {
@@ -297,7 +268,7 @@ export default function OptionsCompany() {
         try {
             const response = await axios.delete(
                 'https://connexting.ineshd.com/api/user',
-                { withCredentials: true }
+                {withCredentials: true}
             );
             if (response.status === 200) {
                 window.location.href = '/';
@@ -310,13 +281,14 @@ export default function OptionsCompany() {
 
     return (
         <div className="w-full h-full flex flex-col right-0 flex-1 overflow-y-scroll scroll-smooth">
-            <CheckLogIn />
+            <CheckLogIn/>
             <div className="mx-16 mt-8">
                 <h1 className="text-5xl font-bold flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
                     <div>Welcome <span className="underline underline-offset-4">{name}.</span></div>
-                    
+
                     <Button variant="secondary">
-                     <Link href="/listing/create" className="flex flex-row justify-center items-center gap-2"><Plus /> Add Listing</Link>
+                        <Link href="/listing/create"
+                              className="flex flex-row justify-center items-center gap-2"><Plus/> Add Listing</Link>
                     </Button>
                 </h1>
             </div>
@@ -330,7 +302,7 @@ export default function OptionsCompany() {
                             <FormField
                                 control={form.control}
                                 name="title"
-                                render={({ field }) => (
+                                render={({field}) => (
                                     <FormItem>
                                         <FormLabel>Company Name</FormLabel>
                                         <FormControl>
@@ -339,7 +311,7 @@ export default function OptionsCompany() {
                                         <FormDescription>
                                             This is your company's name.
                                         </FormDescription>
-                                        <FormMessage />
+                                        <FormMessage/>
                                     </FormItem>
                                 )}
                             />
@@ -386,10 +358,10 @@ export default function OptionsCompany() {
                     ) : (
                         <div className="grid gap-4">
                             {listings.map((listing) => (
-                                <DashboardJobCard 
-                                    key={listing.id} 
-                                    post={listing} 
-                                    onDelete={handleDeleteListing} 
+                                <DashboardJobCard
+                                    key={listing.id}
+                                    post={listing}
+                                    onDelete={handleDeleteListing}
                                 />
                             ))}
                         </div>
@@ -406,15 +378,17 @@ export default function OptionsCompany() {
                     ) : (
                         <div className="space-y-6">
                             {applications.map((application, index) => (
-                                <div key={index} className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4 p-4 border rounded-lg">
+                                <div key={index}
+                                     className="flex flex-col md:flex-row md:items-start space-y-4 md:space-y-0 md:space-x-4 p-4 border rounded-lg">
                                     <Avatar>
-                                        <AvatarImage src={application.applicant.profileImage} />
+                                        <AvatarImage src={application.applicant.profileImage}/>
                                         <AvatarFallback>
                                             {application.applicant.name.charAt(0).toUpperCase()}
                                         </AvatarFallback>
                                     </Avatar>
                                     <div className="flex-1 space-y-2">
-                                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2">
+                                        <div
+                                            className="flex flex-col md:flex-row md:items-center justify-between gap-2">
                                             <h4 className="font-semibold">{application.applicant.name}</h4>
                                             <time className="text-sm text-muted-foreground">
                                                 {format(new Date(application.appliedAt), 'PPp')}
@@ -426,33 +400,34 @@ export default function OptionsCompany() {
                                         <div className="rounded-md bg-muted p-3">
                                             <p className="text-sm">{application.message}</p>
                                         </div>
-                                        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                                        <div
+                                            className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                                             <div className="text-sm">
                                                 Status: {
-                                                    application.status === 1 ? 'Accepted' :
+                                                application.status === 1 ? 'Accepted' :
                                                     application.status === -1 ? 'Rejected' :
-                                                    'Pending'
-                                                }
+                                                        'Pending'
+                                            }
                                             </div>
                                             <div className="flex flex-wrap gap-2 w-full md:w-auto">
-                                                <Button 
-                                                    variant="outline" 
+                                                <Button
+                                                    variant="outline"
                                                     size="sm"
                                                     className="flex-1 md:flex-none"
                                                     onClick={() => router.push(`/listing/${application.listingId}`)}
                                                 >
                                                     View Listing
                                                 </Button>
-                                                <Button 
-                                                    variant="outline" 
+                                                <Button
+                                                    variant="outline"
                                                     size="sm"
                                                     className="flex-1 md:flex-none"
                                                     onClick={() => window.location.href = `mailto:${application.applicant.email}`}
                                                 >
                                                     Contact Applicant
                                                 </Button>
-                                                <Button 
-                                                    variant="outline" 
+                                                <Button
+                                                    variant="outline"
                                                     size="sm"
                                                     className="flex-1 md:flex-none"
                                                     onClick={async () => {
@@ -470,7 +445,7 @@ export default function OptionsCompany() {
                                                     <div className="flex gap-2 w-full md:w-auto">
                                                         <AlertDialog>
                                                             <AlertDialogTrigger asChild>
-                                                                <Button 
+                                                                <Button
                                                                     variant="default"
                                                                     size="sm"
                                                                     className="flex-1 md:flex-none text-text"
@@ -480,9 +455,12 @@ export default function OptionsCompany() {
                                                             </AlertDialogTrigger>
                                                             <AlertDialogContent>
                                                                 <AlertDialogHeader>
-                                                                    <AlertDialogTitle>Accept Application</AlertDialogTitle>
+                                                                    <AlertDialogTitle>Accept
+                                                                        Application</AlertDialogTitle>
                                                                     <AlertDialogDescription>
-                                                                        Are you sure you want to accept {application.applicant.name}'s application for "{application.listingName}"? 
+                                                                        Are you sure you want to
+                                                                        accept {application.applicant.name}'s
+                                                                        application for "{application.listingName}"?
                                                                         This will notify the applicant.
                                                                     </AlertDialogDescription>
                                                                 </AlertDialogHeader>
@@ -500,7 +478,7 @@ export default function OptionsCompany() {
 
                                                         <AlertDialog>
                                                             <AlertDialogTrigger asChild>
-                                                                <Button 
+                                                                <Button
                                                                     variant="destructive"
                                                                     size="sm"
                                                                     className="flex-1 md:flex-none"
@@ -510,10 +488,14 @@ export default function OptionsCompany() {
                                                             </AlertDialogTrigger>
                                                             <AlertDialogContent>
                                                                 <AlertDialogHeader>
-                                                                    <AlertDialogTitle>Reject Application</AlertDialogTitle>
+                                                                    <AlertDialogTitle>Reject
+                                                                        Application</AlertDialogTitle>
                                                                     <AlertDialogDescription>
-                                                                        Are you sure you want to reject {application.applicant.name}'s application for "{application.listingName}"? 
-                                                                        This action cannot be undone and will notify the applicant.
+                                                                        Are you sure you want to
+                                                                        reject {application.applicant.name}'s
+                                                                        application for "{application.listingName}"?
+                                                                        This action cannot be undone and will notify the
+                                                                        applicant.
                                                                     </AlertDialogDescription>
                                                                 </AlertDialogHeader>
                                                                 <AlertDialogFooter>

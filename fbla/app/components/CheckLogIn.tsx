@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 
 const CheckLogIn: React.FC = () => {
@@ -9,7 +9,7 @@ const CheckLogIn: React.FC = () => {
     useEffect(() => {
         const checkLoginStatus = async () => {
             try {
-                const response = await axios.get('https://connexting.ineshd.com/api/user', { withCredentials: true });
+                const response = await axios.get('https://connexting.ineshd.com/api/user', {withCredentials: true});
                 console.log('Login check response:', response);
                 if (response.status === 200) {
                     setIsLoggedIn(true);

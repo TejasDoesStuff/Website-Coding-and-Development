@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { authenticateUser } from '@/lib/auth';
-import { Listing } from '@/lib/models/listingModel';
-import { connectDB } from '@/lib/db';
+import {NextRequest, NextResponse} from 'next/server';
+import {authenticateUser} from '@/lib/auth';
+import {Listing} from '@/lib/models/listingModel';
+import {connectDB} from '@/lib/db';
 
 interface Listing {
     _id: string;
@@ -19,6 +19,7 @@ interface Listing {
     tags?: string[];
 }
 
+// This route handles GET requests for a specific listing by ID.
 export async function GET(
     request: NextRequest,
     context: { params: Promise<{ id: string }> }
@@ -28,10 +29,10 @@ export async function GET(
 
         const user = await authenticateUser(request);
         if (!user) {
-            return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
+            return NextResponse.json({message: 'Not authenticated'}, {status: 401});
         }
 
-        const { id } = await context.params;
+        const {id} = await context.params;
 
         const listing = await Listing.findById(id)
             .populate('recruiter', 'name email')
@@ -39,7 +40,7 @@ export async function GET(
             .exec() as unknown as Listing; // Ensure the query is executed and returns a single object
 
         if (!listing) {
-            return NextResponse.json({ message: 'Listing not found' }, { status: 404 });
+            return NextResponse.json({message: 'Listing not found'}, {status: 404});
         }
 
         // Transform the listing data to match the expected Post interface
@@ -67,6 +68,6 @@ export async function GET(
         return NextResponse.json(transformedListing);
     } catch (error) {
         console.error('Error fetching listing:', error);
-        return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+        return NextResponse.json({message: 'Internal server error'}, {status: 500});
     }
 }
