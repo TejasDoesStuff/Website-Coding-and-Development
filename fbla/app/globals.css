@@ -99,3 +99,12 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
+
+nextjs-portal {
+  display: none;
+}
+
+body {
+  padding: 0 !important;
+  overflow: auto !important;
+}

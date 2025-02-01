@@ -10,6 +10,8 @@ import CheckLogIn from "@/app/components/CheckLogIn";
 import React, {useEffect, useState} from 'react'
 import axios from "axios";
 
+import Loading from "../components/Loading"
+
 async function fetchUserInfo() {
     const response = await axios.get("https://connexting.ineshd.com/api/user", {
         withCredentials: true, // Include cookies in the request
@@ -38,6 +40,12 @@ export default function Holder() {
 
         fetchData();
     }, []);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            <Loading />
+        }, 1000)
+        return () => clearTimeout(timer)
+    }, [])
     return (
         <div className="w-screen flex-1 flex flex-row overflow-y-hidden relative">
             <CheckLogIn/>

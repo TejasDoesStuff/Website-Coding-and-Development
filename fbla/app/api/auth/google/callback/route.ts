@@ -57,12 +57,14 @@ export async function GET(request: NextRequest) {
         request.url
       )
     );
-    
+
     response.cookies.set('authToken', tokens.access_token!, {
       httpOnly: false,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+      path: '/',
+      domain: 'connexting.ineshd.com',
+      maxAge: 24 * 60 * 60,
     });
 
     return response;

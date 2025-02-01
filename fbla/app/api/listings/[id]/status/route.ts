@@ -4,10 +4,9 @@ import { Listing } from '@/lib/models/listingModel';
 import { authenticateUser } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 
-
 export async function PATCH(
     request: NextRequest,
-    context: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
         // Connect to MongoDB first
@@ -25,7 +24,7 @@ export async function PATCH(
         // Add validation for the ID parameter
         if (!mongoose.Types.ObjectId.isValid(id)) {
             return NextResponse.json(
-                { message: 'Invalid listing ID format' }, 
+                { message: 'Invalid listing ID format' },
                 { status: 400 }
             );
         }
@@ -45,4 +44,4 @@ export async function PATCH(
         console.error(error);
         return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
     }
-} 
+}

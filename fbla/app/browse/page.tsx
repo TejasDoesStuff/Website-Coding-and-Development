@@ -1,20 +1,20 @@
 "use client"
 
-import React, {useEffect, useState} from 'react'
-import Header from '../components/Header'
-import Search from './Search'
+import React, { useEffect, useState, Suspense } from 'react';
+import Header from '../components/Header';
+import Search from './Search';
 import JobCard from "@/app/components/JobCard";
 import axios from 'axios';
 import CheckLogIn from "@/app/components/CheckLogIn";
 import { Button } from '@/components/ui/button';
-import { useSearchParams, useRouter } from 'next/navigation'
-import Head from 'next/head'
+import { useSearchParams, useRouter } from 'next/navigation';
+import Head from 'next/head';
 
 interface PaginationData {
-  currentPage: number;
-  totalPages: number;
-  totalListings: number;
-  hasMore: boolean;
+    currentPage: number;
+    totalPages: number;
+    totalListings: number;
+    hasMore: boolean;
 }
 
 const BrowsePage = () => {
@@ -41,7 +41,7 @@ const BrowsePage = () => {
                 minHours,
                 maxHours
             });
-            
+
             if (searchQuery) {
                 queryParams.set('q', searchQuery);
             }
@@ -63,7 +63,7 @@ const BrowsePage = () => {
         // Always generate and set a new seed when component mounts
         const newSeed = Math.floor(Math.random() * 1000000).toString();
         document.cookie = `browseSeed=${newSeed};path=/;max-age=3600`; // Cookie expires in 1 hour
-        
+
         fetchPosts(1);
     }, [
         searchParams.get('q'),
@@ -103,7 +103,7 @@ const BrowsePage = () => {
                                         <JobCard key={id} post={post}/>
                                     ))}
                                 </div>
-                                
+
                                 {/* Pagination Controls */}
                                 <div className="flex gap-2 mb-8">
                                     <Button
@@ -133,4 +133,10 @@ const BrowsePage = () => {
     );
 };
 
-export default BrowsePage;
+const BrowsePageWrapper = () => (
+    <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
+        <BrowsePage />
+    </Suspense>
+);
+
+export default BrowsePageWrapper;

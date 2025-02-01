@@ -3,14 +3,20 @@ import { Listing } from '@/lib/models/listingModel';
 import { authenticateUser } from '@/lib/auth';
 import { connectDB } from '@/lib/db';
 
+interface User {
+    _id: string;
+    id: string;
+    role: string;
+}
+
 export async function POST(
     request: NextRequest,
-    context: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
         await connectDB();
 
-        const user = await authenticateUser(request);
+        const user = await authenticateUser(request) as User;
         if (!user) {
             return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
         }
@@ -19,7 +25,7 @@ export async function POST(
             return NextResponse.json({ message: 'Only students can apply for listings' }, { status: 403 });
         }
 
-        const { id } = context.params;
+        const { id } = await context.params;
         const { message } = await request.json();
 
         if (!message || typeof message !== 'string') {
@@ -54,4 +60,4 @@ export async function POST(
         console.error('Error submitting application:', error);
         return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
     }
-} 
+}

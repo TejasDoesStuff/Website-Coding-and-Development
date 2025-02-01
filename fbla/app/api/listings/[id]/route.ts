@@ -3,9 +3,25 @@ import { authenticateUser } from '@/lib/auth';
 import { Listing } from '@/lib/models/listingModel';
 import { connectDB } from '@/lib/db';
 
+interface Listing {
+    _id: string;
+    name: string;
+    description: string;
+    recruiter?: {
+        name: string;
+        email: string;
+        _id: string;
+    };
+    photos?: string[];
+    hours: number;
+    pay: number;
+    qualifications?: string[];
+    tags?: string[];
+}
+
 export async function GET(
     request: NextRequest,
-    context: { params: { id: string } }
+    context: { params: Promise<{ id: string }> }
 ) {
     try {
         await connectDB();
@@ -15,11 +31,12 @@ export async function GET(
             return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
         }
 
-        const { id } = context.params;
+        const { id } = await context.params;
 
         const listing = await Listing.findById(id)
             .populate('recruiter', 'name email')
-            .lean();
+            .lean()
+            .exec() as unknown as Listing; // Ensure the query is executed and returns a single object
 
         if (!listing) {
             return NextResponse.json({ message: 'Listing not found' }, { status: 404 });
@@ -53,42 +70,3 @@ export async function GET(
         return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
     }
 }
-
-export async function DELETE(
-    request: NextRequest,
-    { params }: { params: { id: string } }
-) {
-    try {
-        await connectDB();
-
-        const user = await authenticateUser(request);
-        if (!user) {
-            return NextResponse.json({ message: 'Not authenticated' }, { status: 401 });
-        }
-
-        if (user.role !== 'recruiter') {
-            return NextResponse.json({ message: 'Unauthorized' }, { status: 403 });
-        }
-
-        // Find the listing and check if it belongs to the user
-        const listing = await Listing.findOne({ _id: params.id, recruiter: user._id });
-        
-        if (!listing) {
-            return NextResponse.json(
-                { message: 'Listing not found or unauthorized' },
-                { status: 404 }
-            );
-        }
-
-        // Delete the listing
-        await Listing.findByIdAndDelete(params.id);
-
-        return NextResponse.json({ message: 'Listing deleted successfully' });
-    } catch (error) {
-        console.error('Error deleting listing:', error);
-        return NextResponse.json(
-            { message: 'Internal server error' },
-            { status: 500 }
-        );
-    }
-} 
