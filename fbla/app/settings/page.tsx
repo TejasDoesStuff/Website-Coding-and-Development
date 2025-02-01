@@ -9,7 +9,7 @@ const Settings = () => {
         <>
             <Head>
                 <title>Connext - Settings</title>
-                <meta name="description" content="Customize your Connext experience" />
+                <meta name="description" content="Customize your Connext experience"/>
             </Head>
             <div className="flex flex-col min-h-screen">
                 {/* ... existing component content ... */}

@@ -1,21 +1,10 @@
 import React from 'react'
-import {
-    Card,
-    CardTitle,
-    CardContent,
-    CardHeader,
-} from "@/components/ui/card"
+import {Card, CardContent, CardHeader, CardTitle,} from "@/components/ui/card"
 import Image from 'next/image'
-import {Button} from '@/components/ui/button'
-import {MessageSquareMore, Star} from 'lucide-react'
+import {Star} from 'lucide-react'
 import {Badge} from "@/components/ui/badge"
 import Link from 'next/link'
-import {
-    Tooltip,
-    TooltipContent,
-    TooltipProvider,
-    TooltipTrigger,
-} from "@/components/ui/tooltip"
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,} from "@/components/ui/tooltip"
 
 
 interface Review {
@@ -48,24 +37,24 @@ interface Post {
 const JobCard = ({post}: { post: Post }) => {
     const link = `/listing/${post.id}`
     const defaultImage = '/images/defaults/listing-default.jpg'
-    
+
     const thumbnailImage = post.photos?.[0] || defaultImage;
-    
+
     const images = post.photos?.map((image, i) => (
-        <Image 
-            key={i} 
-            src={image} 
-            alt={post.name} 
-            width={500} 
+        <Image
+            key={i}
+            src={image}
+            alt={post.name}
+            width={500}
             height={500}
             className='h-full overflow-hidden px-3'
         />
     )) || [
-        <Image 
-            key="default" 
-            src={defaultImage} 
-            alt={post.name} 
-            width={500} 
+        <Image
+            key="default"
+            src={defaultImage}
+            alt={post.name}
+            width={500}
             height={500}
             className='h-full overflow-hidden px-3'
         />
@@ -140,8 +129,8 @@ const JobCard = ({post}: { post: Post }) => {
                     <TooltipProvider>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                                <Link 
-                                    href={link} 
+                                <Link
+                                    href={link}
                                     className='text-2xl hover:underline text-left truncate block'
                                 >
                                     {post.name}
@@ -156,9 +145,9 @@ const JobCard = ({post}: { post: Post }) => {
                 </CardHeader>
                 <CardContent>
                     <div className="relative w-full pt-[75%]">
-                        <Image 
-                            src={thumbnailImage} 
-                            alt={post.name} 
+                        <Image
+                            src={thumbnailImage}
+                            alt={post.name}
                             fill
                             className='absolute top-0 left-0 object-cover'
                         />

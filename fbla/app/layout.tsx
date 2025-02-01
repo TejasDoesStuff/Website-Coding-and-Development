@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type {Metadata} from "next";
+import {Geist, Geist_Mono} from "next/font/google";
 // import { ThemeProvider } from "../components/theme-provider"
 import "./globals.css";
 
@@ -20,24 +20,24 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-    children,
-}: Readonly<{
+                                       children,
+                                   }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (
         <html lang="en">
-            <body
-                className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-            >
-                          {/* <ThemeProvider
+        <body
+            className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        >
+        {/* <ThemeProvider
             attribute="class"
             defaultTheme="system"
             enableSystem
             disableTransitionOnChange
           > */}
-                {children}
-                {/* </ThemeProvider> */}
-            </body>
+        {children}
+        {/* </ThemeProvider> */}
+        </body>
         </html>
     );
 }

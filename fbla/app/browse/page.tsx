@@ -1,13 +1,13 @@
 "use client"
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import Header from '../components/Header';
 import Search from './Search';
 import JobCard from "@/app/components/JobCard";
 import axios from 'axios';
 import CheckLogIn from "@/app/components/CheckLogIn";
-import { Button } from '@/components/ui/button';
-import { useSearchParams, useRouter } from 'next/navigation';
+import {Button} from '@/components/ui/button';
+import {useRouter, useSearchParams} from 'next/navigation';
 import Head from 'next/head';
 
 interface PaginationData {
@@ -17,6 +17,7 @@ interface PaginationData {
     hasMore: boolean;
 }
 
+// This component represents the main browsing page for job listings.
 const BrowsePage = () => {
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -29,6 +30,7 @@ const BrowsePage = () => {
         hasMore: false
     });
 
+    // Fetch posts based on the current page and search parameters.
     const fetchPosts = async (page: number) => {
         try {
             const searchQuery = searchParams.get('q');
@@ -48,7 +50,7 @@ const BrowsePage = () => {
 
             const response = await axios.get(
                 `${baseUrl}?${queryParams.toString()}`,
-                { withCredentials: true }
+                {withCredentials: true}
             );
             setPosts(response.data.listings);
             setPagination(response.data.pagination);
@@ -84,7 +86,7 @@ const BrowsePage = () => {
         <>
             <Head>
                 <title>Connext - Browse Opportunities</title>
-                <meta name="description" content="Browse job opportunities and internships for high school students" />
+                <meta name="description" content="Browse job opportunities and internships for high school students"/>
             </Head>
             <div className="flex flex-col min-h-screen">
                 <div className="overflow-x-hidden">
@@ -98,7 +100,8 @@ const BrowsePage = () => {
                             </div>
                         ) : (
                             <>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-8">
+                                <div
+                                    className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-12 mb-8">
                                     {Object.entries(posts).map(([id, post]) => (
                                         <JobCard key={id} post={post}/>
                                     ))}
@@ -135,7 +138,7 @@ const BrowsePage = () => {
 
 const BrowsePageWrapper = () => (
     <Suspense fallback={<div className="text-center mt-10">Loading...</div>}>
-        <BrowsePage />
+        <BrowsePage/>
     </Suspense>
 );
 

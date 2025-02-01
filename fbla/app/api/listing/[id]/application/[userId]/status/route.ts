@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { Listing } from '@/lib/models/listingModel';
-import { authenticateUser } from '@/lib/auth';
-import { connectDB } from '@/lib/db';
+import {NextRequest, NextResponse} from 'next/server';
+import {Listing} from '@/lib/models/listingModel';
+import {authenticateUser} from '@/lib/auth';
+import {connectDB} from '@/lib/db';
 
 interface User {
     _id: string;
@@ -18,14 +18,14 @@ export async function PATCH(
 
         const user = await authenticateUser(request) as User;
         if (!user || user.role !== 'recruiter') {
-            return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
+            return NextResponse.json({message: 'Unauthorized'}, {status: 401});
         }
 
-        const { id, userId } = await context.params;
-        const { status } = await request.json();
+        const {id, userId} = await context.params;
+        const {status} = await request.json();
 
         if (![1, -1].includes(status)) {
-            return NextResponse.json({ message: 'Invalid status' }, { status: 400 });
+            return NextResponse.json({message: 'Invalid status'}, {status: 400});
         }
 
         const listing = await Listing.findOneAndUpdate(
@@ -39,16 +39,16 @@ export async function PATCH(
                     'applications.$.status': status
                 }
             },
-            { new: true }
+            {new: true}
         );
 
         if (!listing) {
-            return NextResponse.json({ message: 'Listing or application not found' }, { status: 404 });
+            return NextResponse.json({message: 'Listing or application not found'}, {status: 404});
         }
 
-        return NextResponse.json({ message: 'Application status updated successfully' });
+        return NextResponse.json({message: 'Application status updated successfully'});
     } catch (error) {
         console.error('Error updating application status:', error);
-        return NextResponse.json({ message: 'Internal server error' }, { status: 500 });
+        return NextResponse.json({message: 'Internal server error'}, {status: 500});
     }
 }

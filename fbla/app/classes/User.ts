@@ -24,24 +24,31 @@ class User {
     public getName() {
         return this.name;
     }
+
     public getDescription() {
         return this.description;
     }
+
     public getPfp() {
         return this.pfp;
     }
+
     public getEmail() {
         return this.email;
     }
+
     public getAge() {
         return this.age;
     }
+
     public getSchool() {
         return this.school;
     }
+
     public getPreferences() {
         return this.preferences;
     }
+
     public getFavoriteListings() {
         return this.favoriteListings;
     }
