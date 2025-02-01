@@ -279,32 +279,6 @@ export default function OptionsCompany() {
         }
     };
 
-    // Add a function to handle resume downloads
-    const handleResumeDownload = async (userId: string) => {
-        try {
-            const response = await axios.get(`/api/upload/resume/${userId}`, {
-                responseType: 'blob'
-            });
-            
-            // Create a URL for the blob
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            
-            // Create a link and click it to download the file
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'applicant_resume.pdf');
-            document.body.appendChild(link);
-            link.click();
-            
-            // Clean up
-            link.parentNode?.removeChild(link);
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error('Error downloading resume:', error);
-            // Handle error appropriately
-        }
-    };
-
     return (
         <div className="w-full h-full flex flex-col right-0 flex-1 overflow-y-scroll scroll-smooth">
             <CheckLogIn/>
@@ -456,9 +430,16 @@ export default function OptionsCompany() {
                                                     variant="outline"
                                                     size="sm"
                                                     className="flex-1 md:flex-none"
-                                                    onClick={() => handleResumeDownload(application.applicant.id)}
+                                                    onClick={async () => {
+                                                        const response = await fetch(`https://connexting.ineshd.com/resumes/${application.applicant.id}.pdf`);
+                                                        if (response.ok) {
+                                                            window.open(`https://connexting.ineshd.com/resumes/${application.applicant.id}.pdf`, '_blank');
+                                                        } else {
+                                                            alert('User has not uploaded a resume yet.');
+                                                        }
+                                                    }}
                                                 >
-                                                    Download Resume
+                                                    View Resume
                                                 </Button>
                                                 {application.status === 0 && (
                                                     <div className="flex gap-2 w-full md:w-auto">

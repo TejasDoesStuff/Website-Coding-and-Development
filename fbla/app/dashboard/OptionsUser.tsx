@@ -74,28 +74,8 @@ export default function OptionsUser() {
     // Function to fetch the resume URL
     const fetchResumeUrl = async () => {
         if (!userId) return;
-        try {
-            const response = await axios.get(`/api/upload/resume/${userId}`, {
-                responseType: 'blob'
-            });
-            
-            // Create a URL for the blob
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            
-            // Create a link and click it to download the file
-            const link = document.createElement('a');
-            link.href = url;
-            link.setAttribute('download', 'resume.pdf');
-            document.body.appendChild(link);
-            link.click();
-            
-            // Clean up
-            link.parentNode?.removeChild(link);
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error('Error downloading resume:', error);
-            // Handle error appropriately
-        }
+        const response = await axios.get(`/api/upload/resume/${userId}`);
+        setResumeUrl(response.data.url);
     };
 
     // Call fetchResumeUrl after the component mounts and userId changes
@@ -333,14 +313,15 @@ export default function OptionsUser() {
                         </form>
                     </FormProvider>
 
-                    {userId && (
-                        <Button 
-                            onClick={fetchResumeUrl}
-                            variant="outline"
-                            className="mt-4"
-                        >
-                            Download Resume
-                        </Button>
+                    {/* Display the resume link if it exists */}
+                    {resumeUrl && (
+                        <div className="mt-4">
+                            <h4 className="text-lg font-semibold">Your Resume:</h4>
+                            <a href={resumeUrl} target="_blank" rel="noopener noreferrer"
+                               className="text-blue-600 underline">
+                                Download Resume
+                            </a>
+                        </div>
                     )}
                 </div>
             </div>
