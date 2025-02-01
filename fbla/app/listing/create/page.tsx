@@ -67,8 +67,6 @@ export default function OptionsCompany() {
         image: z.instanceof(File).optional(),
     });
 
-
-
     const listingForm = useForm<z.infer<typeof listingFormSchema>>({
         resolver: zodResolver(listingFormSchema),
         defaultValues: {
@@ -81,7 +79,6 @@ export default function OptionsCompany() {
             address: "",
         }
     });
-
 
     async function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
         try {
@@ -327,6 +324,9 @@ export default function OptionsCompany() {
                                                     />
                                                 </FormControl>
                                                 <FormMessage />
+                                                <FormDescription>
+                                                    Must be a valid image file.
+                                                </FormDescription>
                                             </FormItem>
                                         )}
                                     />

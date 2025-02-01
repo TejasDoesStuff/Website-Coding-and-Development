@@ -36,6 +36,7 @@ interface Post {
     name: string
     description: string
     company: string
+    location: string
     thumbnailImage: string
     expandedImages: Array<string>
     hours: string
@@ -162,7 +163,7 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
             alt={post.name} 
             width={500} 
             height={500} 
-            className="object-contain h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3" 
+            className="object-cover h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden px-3" 
         />
     )) : [
         <Image 
@@ -215,14 +216,15 @@ const JobPage = ({ params }: { params: Promise<{ id: string }> }) => {
             <div className="overflow-x-hidden">
                 <Header />
                 {/* Job Details Section */}
-                <div className="px-4 sm:px-8 md:px-16 lg:px-48 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 overflow-y-auto h-full p-4">
-                    <div>
+                <div className="px-4 sm:px-8 md:px-16 lg:px-48 grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-16 overflow-y-auto h-full p-4 mt-[10VH]">
+                    <div className='flex flex-col justify-center'>
                         <h1 className="text-xl sm:text-2xl md:text-3xl md:text-left text-center">{post.name}</h1>
-                        <div className="pt-2 flex flex-wrap gap-1 justify-center md:justify-start">{tags}</div>
                         <p className="text-md sm:text-lg text-center md:text-left">{post.recruiter?.name || 'Unknown Recruiter'}</p>
-                        <h1 className="text-md sm:text-lg mt-2">{post.description}</h1>
-                        <h1 className="text-lg sm:text-xl mt-4">Requirements:</h1>
-                        <ul className="text-sm sm:text-base">{requirements}</ul>
+                        <h1 className="text-md sm:text-lg mt-2 pt-10" dangerouslySetInnerHTML={{ __html: post.description.replace(/\n/g, '<br />') }} />
+                        <h1 className="text-lg sm:text-xl mt-4">Information:</h1>
+                        <ul className="text-sm sm:text-base">{post.hours} hours per week</ul>
+                        <ul className="text-sm sm:text-base">${post.pay} per hour</ul>
+
                         
                         {/* Buttons container */}
                         <div className="flex flex-col md:flex-row gap-4 mt-4">

@@ -60,16 +60,21 @@ interface Application {
 
 export default function OptionsUser() {
   const [name, setName] = useState<string | null>("username");
+  const [userId, setUserId] = useState<string | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [applications, setApplications] = useState<Application[]>([]);
   const [editingMessage, setEditingMessage] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [resumeUrl, setResumeUrl] = useState<string | null>(null);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertMessage, setAlertMessage] = useState('');
   const router = useRouter();
 
   useEffect(() => {
     axios.get("https://connexting.ineshd.com/api/user", { withCredentials: true })
       .then(response => {
         setName(response.data.name);
+        setUserId(response.data._id);
       })
       .catch(error => {
         setName("username");
@@ -92,35 +97,25 @@ export default function OptionsUser() {
     fetchApplications();
   }, []);
 
+  // Function to fetch the resume URL
+  const fetchResumeUrl = async () => {
+    if (!userId) return;
+    const response = await axios.get(`/api/upload/resume/${userId}`);
+    setResumeUrl(response.data.url);
+  };
+
+  // Call fetchResumeUrl after the component mounts and userId changes
+  useEffect(() => {
+    if (userId) {
+      fetchResumeUrl();
+    }
+  }, [userId]);
+
   // Form schemas
   const usernameSchema = z.object({
     username: z
       .string()
       .min(2, { message: "Username must be at least 2 characters." }),
-  });
-
-  const gpaSchema = z.object({
-    gpa: z
-      .string()
-      .regex(
-        /^\d(\.\d{1,2})?$/,
-        "GPA must be a valid number with up to two decimal places"
-      )
-      .optional(),
-  });
-
-  const courseworkSchema = z.object({
-    coursework: z
-      .string()
-      .min(5, "Coursework should be at least 5 characters")
-      .optional(),
-  });
-
-  const experienceSchema = z.object({
-    experience: z
-      .string()
-      .min(10, "Experience description should be at least 10 characters")
-      .optional(),
   });
 
   const resumeSchema = z.object({
@@ -135,21 +130,6 @@ export default function OptionsUser() {
   const usernameMethod = useForm<z.infer<typeof usernameSchema>>({
     resolver: zodResolver(usernameSchema),
     defaultValues: {},
-  });
-
-  const gpaForm = useForm<z.infer<typeof gpaSchema>>({
-    resolver: zodResolver(gpaSchema),
-    defaultValues: { gpa: "" },
-  });
-
-  const courseworkForm = useForm<z.infer<typeof courseworkSchema>>({
-    resolver: zodResolver(courseworkSchema),
-    defaultValues: { coursework: "" },
-  });
-
-  const experienceForm = useForm<z.infer<typeof experienceSchema>>({
-    resolver: zodResolver(experienceSchema),
-    defaultValues: { experience: "" },
   });
 
   const resumeUploadForm = useForm<z.infer<typeof resumeSchema>>({
@@ -180,6 +160,28 @@ export default function OptionsUser() {
       } catch (error) {
         console.error('Error updating username:', error);
         // You may want to show an error message to the user here
+      }
+    } else if (formName === "Resume") {
+      try {
+        const formData = new FormData();
+        formData.append('file', data.resume);
+
+        const response = await axios.post(
+          'https://connexting.ineshd.com/api/upload/resume',
+          formData,
+          { withCredentials: true }
+        );
+
+        // Fetch the resume URL after successful upload
+        if (response.status === 200) {
+          fetchResumeUrl(); // Update the resume URL state
+          setAlertMessage(response.data.message); // Set the success message
+          setAlertOpen(true); // Open the alert dialog
+        }
+      } catch (error) {
+        console.error('Error uploading resume:', error);
+        setAlertMessage('Failed to upload resume.');
+        setAlertOpen(true);
       }
     } else {
       // Handle other form submissions
@@ -307,120 +309,45 @@ export default function OptionsUser() {
               className="space-y-4"
             >
               <FormField
-  control={resumeUploadForm.control}
-  name="resume"
-  render={({ field: { onChange, onBlur, ref, ...rest } }) => (
-    <FormItem>
-      <FormLabel>Resume</FormLabel>
-      <FormControl>
-        <Input 
-          type="file" 
-          accept="application/pdf" 
-          onChange={(event) => {
-            const file = event.target.files?.[0];
-            if (file) {
-              onChange(file);
-            }
-          }} 
-          onBlur={onBlur}
-          ref={ref}
-        />
-      </FormControl>
-      <FormDescription>Upload your resume (PDF only).</FormDescription>
-      <FormMessage />
-    </FormItem>
-  )}
-/>
-
+                control={resumeUploadForm.control}
+                name="resume"
+                render={({ field: { onChange, onBlur, ref, ...rest } }) => (
+                  <FormItem>
+                    <FormLabel>Resume</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="file" 
+                        accept="application/pdf" 
+                        onChange={(event) => {
+                          const file = event.target.files?.[0];
+                          if (file) {
+                            onChange(file);
+                          }
+                        }} 
+                        onBlur={onBlur}
+                        ref={ref}
+                      />
+                    </FormControl>
+                    <FormDescription>Upload your resume (PDF only).</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <Button type="submit" variant="secondary">
                 Upload Resume
               </Button>
             </form>
           </FormProvider>
 
-          {/* GPA Form */}
-          <FormProvider {...gpaForm}>
-            <form
-              onSubmit={gpaForm.handleSubmit((data) =>
-                handleSubmit("GPA", data)
-              )}
-              className="space-y-4"
-            >
-              <FormField
-                control={gpaForm.control}
-                name="gpa"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>GPA</FormLabel>
-                    <FormControl>
-                      <Input placeholder="4.0" {...field} />
-                    </FormControl>
-                    <FormDescription>Your current GPA.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="secondary">
-                Save GPA
-              </Button>
-            </form>
-          </FormProvider>
-
-          {/* Coursework Form */}
-          <FormProvider {...courseworkForm}>
-            <form
-              onSubmit={courseworkForm.handleSubmit((data) =>
-                handleSubmit("Coursework", data)
-              )}
-              className="space-y-4"
-            >
-              <FormField
-                control={courseworkForm.control}
-                name="coursework"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Coursework</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Coursework" {...field} />
-                    </FormControl>
-                    <FormDescription>Relevant coursework.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="secondary">
-                Save Coursework
-              </Button>
-            </form>
-          </FormProvider>
-
-          {/* Experience Form */}
-          <FormProvider {...experienceForm}>
-            <form
-              onSubmit={experienceForm.handleSubmit((data) =>
-                handleSubmit("Experience", data)
-              )}
-              className="space-y-4"
-            >
-              <FormField
-                control={experienceForm.control}
-                name="experience"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Experience</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Experience" {...field} />
-                    </FormControl>
-                    <FormDescription>Work experience.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" variant="secondary">
-                Save Experience
-              </Button>
-            </form>
-          </FormProvider>
+          {/* Display the resume link if it exists */}
+          {resumeUrl && (
+            <div className="mt-4">
+              <h4 className="text-lg font-semibold">Your Resume:</h4>
+              <a href={resumeUrl} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
+                Download Resume
+              </a>
+            </div>
+          )}
         </div>
       </div>
 
@@ -483,6 +410,14 @@ export default function OptionsUser() {
             )}
         </ScrollArea>
       </div>
+
+      {/* Alert Dialog for confirmation */}
+      <AlertDialog open={alertOpen} onOpenChange={setAlertOpen}>
+        <AlertDialogContent>
+          <AlertDialogTitle>Successfully uploaded resume!</AlertDialogTitle>
+          <AlertDialogCancel onClick={() => setAlertOpen(false)}>Close</AlertDialogCancel>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

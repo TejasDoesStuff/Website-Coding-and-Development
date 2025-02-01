@@ -152,7 +152,7 @@ const Backend = () => {
                     ))}
                 </div>
                 <div className="flex justify-center gap-2 mt-4">
-                    <Button
+                    <Button className="bg-secondary text-text"
                         onClick={() => handlePageChange(pagination.currentPage - 1)}
                         disabled={pagination.currentPage === 1}
                     >
@@ -161,7 +161,7 @@ const Backend = () => {
                     <span className="py-2">
                         Page {pagination.currentPage} of {pagination.totalPages}
                     </span>
-                    <Button
+                    <Button className="bg-secondary text-text"
                         onClick={() => handlePageChange(pagination.currentPage + 1)}
                         disabled={!pagination.hasMore}
                     >

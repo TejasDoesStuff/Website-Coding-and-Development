@@ -28,6 +28,8 @@ interface User {
 
 export default function Holder() {
     const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+
     useEffect(() => {
         async function fetchData() {
             try {
@@ -35,17 +37,18 @@ export default function Holder() {
                 setUser(user);
             } catch (error) {
                 console.error('Error fetching posts:', error);
+            } finally {
+                setLoading(false);
             }
         }
 
         fetchData();
     }, []);
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            <Loading />
-        }, 1000)
-        return () => clearTimeout(timer)
-    }, [])
+
+    if (loading) {
+        return <Loading />;
+    }
+
     return (
         <div className="w-screen flex-1 flex flex-row overflow-y-hidden relative">
             <CheckLogIn/>

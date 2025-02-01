@@ -349,8 +349,8 @@ export default function OptionsCompany() {
                         </form>
                     </Form>
                 </div>
-                <div className="mt-8 border-t pt-8">
-                    <h4 className="text-lg font-semibold text-destructive mb-4">Danger Zone</h4>
+                <div className="mt-8 border-t pt-8 flex flex-col justify-center items-center md:items-start">
+                    <h4 className="text-lg font-semibold text-destructive mb-4 text-center">Danger Zone</h4>
                     <AlertDialog>
                         <AlertDialogTrigger asChild>
                             <Button variant="destructive">Delete Account</Button>
@@ -451,6 +451,21 @@ export default function OptionsCompany() {
                                                 >
                                                     Contact Applicant
                                                 </Button>
+                                                <Button 
+                                                    variant="outline" 
+                                                    size="sm"
+                                                    className="flex-1 md:flex-none"
+                                                    onClick={async () => {
+                                                        const response = await fetch(`https://connexting.ineshd.com/resumes/${application.applicant.id}.pdf`);
+                                                        if (response.ok) {
+                                                            window.open(`https://connexting.ineshd.com/resumes/${application.applicant.id}.pdf`, '_blank');
+                                                        } else {
+                                                            alert('User has not uploaded a resume yet.');
+                                                        }
+                                                    }}
+                                                >
+                                                    View Resume
+                                                </Button>
                                                 {application.status === 0 && (
                                                     <div className="flex gap-2 w-full md:w-auto">
                                                         <AlertDialog>
@@ -458,7 +473,7 @@ export default function OptionsCompany() {
                                                                 <Button 
                                                                     variant="default"
                                                                     size="sm"
-                                                                    className="flex-1 md:flex-none"
+                                                                    className="flex-1 md:flex-none text-text"
                                                                 >
                                                                     Accept
                                                                 </Button>

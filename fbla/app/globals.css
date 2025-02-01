@@ -7,9 +7,9 @@
   :root {
     --brand-text: #000000; /* 21:1 */
     --brand-background: #ffffff; /* 21:1 */
-    --brand-primary: #33b7e8; /* 9.19:1 */
-    --brand-secondary: #f6e63a; /* 16.38:1 */
-    --brand-accent: #ff7a6b; /* 8.29:1 */
+    --brand-primary: #29AFC7; /* 9.19:1 */
+    --brand-secondary: #29B369; /* 16.38:1 */
+    --brand-accent: #41AF9B; /* 8.29:1 */
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
@@ -55,9 +55,9 @@
     /* Dark Mode */
     --brand-text: #ffffff; /* 16.88:1 */
     --brand-background: #000000; /* 16.88:1 */
-    --brand-primary: #2ec7ff; /* 9.72:1 */
-    --brand-secondary: #ffed27; /* 15.66:1 */
-    --brand-accent: #fb8f83; /* 8.48:1 */
+    --brand-primary: #29AFC7; /* 9.72:1 */
+    --brand-secondary: #29B369; /* 15.66:1 */
+    --brand-accent: #41AF9B; /* 8.48:1 */
     --background: 240 10% 3.9%;
     --foreground: 0 0% 98%;
     --card: 240 10% 3.9%;
@@ -100,11 +100,16 @@
     background: #555;
 }
 
-nextjs-portal {
+/* use to avoid error visibility */
+/* nextjs-portal {
   display: none;
 }
 
 body {
   padding: 0 !important;
   overflow: auto !important;
+} */
+
+body {
+  scroll-behavior: smooth;
 }

@@ -40,7 +40,7 @@ const Header = () => {
   };
 
   return (
-    <div className="sticky top-0 z-50 w-full bg-background p-6 text-xl flex items-center border-b border-gray-600 shadow-lg">
+    <div className="sticky top-0 z-50 w-full bg-accent p-6 text-xl flex items-center border-b border-gray-600 shadow-lg">
       <h1 className="absolute text-text font-bold flex flex-col">
         <div className="flex items-center">
           <Minus size={20} />
@@ -54,7 +54,7 @@ const Header = () => {
         )}
       </h1>
 
-      <div className="hidden sm:flex flex-grow justify-center gap-16 text-md">
+      <div className="hidden sm:flex flex-grow justify-center gap-16 text-md ">
         <Link href="/browse" className="text-foreground">Browse</Link>
         <Link href="/dashboard" className="text-foreground">Dashboard</Link>
         {/* if user is logged out make it sign in? */}
@@ -62,8 +62,6 @@ const Header = () => {
           <Link href="/api/auth/logout" className="text-text absolute right-5">Log Out</Link>
           :
           <Link href="/signup" className="text-text absolute right-5">Log In/Sign Up</Link>
-
-
         }
         {/* <Link href="/api/auth/logout" className="text-text absolute right-5 rotate-180"><LogOut /></Link> */}
       </div>
@@ -83,7 +81,11 @@ const Header = () => {
       >
         <Link href="/browse" className="text-foreground py-3 w-full text-center border-b border-gray-700" onClick={() => setIsOpen(false)}>Browse</Link>
         <Link href="/dashboard" className="text-foreground py-3 w-full text-center border-b border-gray-700" onClick={() => setIsOpen(false)}>Dashboard</Link>
-        <Link href="/api/auth/logout" className="text-foreground py-3 w-full text-center">Log Out</Link>
+        {isLoggedIn ?
+          <Link href="/api/auth/logout" className="text-foreground py-3 w-full text-center">Log Out</Link>
+          :
+          <Link href="/signup" className="text-foreground py-3 w-full text-center">Log In/Sign Up</Link>
+        }
       </div>
     </div>
   );
