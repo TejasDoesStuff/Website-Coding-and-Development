@@ -21,9 +21,7 @@ import Head from 'next/head'
 
 const libraries: ("places" | "drawing" | "geometry" | "visualization")[] = ["places"];
 
-export default function OptionsCompany() {
-
-
+export default function CreateListing() {
     const autocompleteRef = React.useRef<google.maps.places.Autocomplete | null>(null);
     const {isLoaded} = useLoadScript({
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY, // Replace with your API key
@@ -32,10 +30,13 @@ export default function OptionsCompany() {
     const handlePlaceChanged = () => {
         if (autocompleteRef.current) {
             autocompleteRef.current.getPlace();
-//   console.log("Selected Place:", place);
         }
     };
 
+    /*
+    * Form schema for the listing form
+    * Contains validation rules for each field
+    */
     const listingFormSchema = z.object({
         name: z.string().min(3, {
             message: "Job name must be at least 3 characters.",
@@ -59,6 +60,10 @@ export default function OptionsCompany() {
         image: z.instanceof(File).optional(),
     });
 
+    /*
+    * React hook form for the listing form
+    * Uses the schema to validate the form
+    */
     const listingForm = useForm<z.infer<typeof listingFormSchema>>({
         resolver: zodResolver(listingFormSchema),
         defaultValues: {
@@ -72,6 +77,10 @@ export default function OptionsCompany() {
         }
     });
 
+    /*
+    * Function to handle the submission of the listing form
+    * Takes the form values as an input and sends it to backend
+    */
     async function onListingSubmit(values: z.infer<typeof listingFormSchema>) {
         try {
             // If there's an image, compress and upload it first

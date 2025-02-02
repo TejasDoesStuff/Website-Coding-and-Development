@@ -21,7 +21,7 @@ const page = () => {
                                className="absolute w-full h-full -z-50 opacity-20 blur-sm object-cover"></Image>
                         <div
                             className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-accent-brand to-green-600 top-[-256px] left-[-256px] -z-10 rounded-full blur-md"/>
-                        <div
+                        <div    
                             className="absolute md:w-1/2 aspect-square bg-gradient-to-br from-secondary-brand to-green-900 bottom-[-200px] right-[-256px] -z-10 rounded-full blur-md"/>
                         <div className="pt-16 w-full p-10 flex flex-row gap-8 justify-center items-center">
                             <div className="w-auto md:w-1/2 h-full flex flex-col justify-center items-center">
